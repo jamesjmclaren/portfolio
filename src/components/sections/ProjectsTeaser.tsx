@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, Lock } from "lucide-react";
 import Section from "../Section";
 import ScrollReveal from "../ScrollReveal";
-import { projects } from "@/data/projects";
+import { projectMeta as projects } from "@/data/projects";
 
 export default function ProjectsTeaser() {
   return (

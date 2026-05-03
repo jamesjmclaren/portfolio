@@ -5,13 +5,22 @@ import Nav from "@/components/Nav";
 import Section from "@/components/Section";
 import ScrollReveal from "@/components/ScrollReveal";
 import ProjectHero from "@/components/project/ProjectHero";
-import FeatureList from "@/components/project/FeatureList";
-import CodeShowcase from "@/components/project/CodeShowcase";
 import StackBadges from "@/components/project/StackBadges";
-import { getProject, projects } from "@/data/projects";
+import BrowserFrame from "@/components/project/BrowserFrame";
+import Scene from "@/components/project/Scene";
+import { getProject, projectMeta, type Scene as SceneT } from "@/data/projects";
+import { westScenes } from "@/projects/west/scenes";
+import { prempodScenes } from "@/projects/prempod/scenes";
+import { burgerlistScenes } from "@/projects/burgerlist/scenes";
+
+const scenesBySlug: Record<string, SceneT[]> = {
+  "west-investments": westScenes,
+  prempod: prempodScenes,
+  burgerlist: burgerlistScenes,
+};
 
 export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  return projectMeta.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -37,7 +46,8 @@ export default async function ProjectPage({
   const project = getProject(slug);
   if (!project) notFound();
 
-  const others = projects.filter((p) => p.slug !== slug);
+  const scenes = scenesBySlug[slug] ?? [];
+  const others = projectMeta.filter((p) => p.slug !== slug);
   const next = others[0];
 
   return (
@@ -54,17 +64,24 @@ export default async function ProjectPage({
           </ScrollReveal>
         </Section>
 
-        <Section eyebrow="Features" title="What it does.">
-          <FeatureList features={project.features} />
-        </Section>
-
-        <Section
-          eyebrow="The code"
-          title="How it's built."
-          intro="Real excerpts from the repo — syntax-highlighted and unedited (just trimmed for fit)."
-        >
-          <CodeShowcase snippets={project.codeSnippets} />
-        </Section>
+        {scenes.map((s) => (
+          <Scene
+            key={s.number}
+            number={s.number}
+            eyebrow={s.eyebrow}
+            title={s.title}
+            blurb={s.blurb}
+            features={s.features}
+          >
+            <BrowserFrame
+              url={s.url}
+              behindLogin={s.behindLogin}
+              height={s.height ?? "640px"}
+            >
+              <s.Component />
+            </BrowserFrame>
+          </Scene>
+        ))}
 
         <Section eyebrow="Stack" title="What it runs on.">
           <ScrollReveal>

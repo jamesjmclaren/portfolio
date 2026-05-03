@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink, Github, Lock } from "lucide-react";
-import { Project } from "@/data/projects";
+import { ProjectMeta } from "@/data/projects";
 
-export default function ProjectHero({ project }: { project: Project }) {
+export default function ProjectHero({ project }: { project: ProjectMeta }) {
   return (
     <section className="relative min-h-[80vh] flex flex-col justify-center px-6 md:px-10 pt-24 pb-16">
       <div
