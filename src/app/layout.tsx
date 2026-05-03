@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "James McLaren — Portfolio",
   description:
-    "Engineering manager and product builder. Personal projects, work history, and the code behind the products — built with Claude.",
+    "Quality engineering leader and product builder. 13+ years across digital asset custody, connected TV and consulting. Personal projects, work history, and the code behind the products — built with Claude.",
   openGraph: {
     title: "James McLaren — Portfolio",
     description: "Personal projects, work history, and the code behind the products.",

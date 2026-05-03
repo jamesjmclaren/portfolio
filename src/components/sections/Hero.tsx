@@ -13,7 +13,7 @@ export default function Hero() {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="text-xs font-medium uppercase tracking-[0.2em] text-accent mb-6"
         >
-          Engineering manager · product builder · London
+          Quality engineering leader · technical PM · Edinburgh
         </motion.p>
 
         <motion.h1
@@ -24,9 +24,9 @@ export default function Hero() {
         >
           James McLaren.
           <br />
-          <span className="text-text-secondary">Building products that ship,</span>
+          <span className="text-text-secondary">13+ years shipping products,</span>
           <br />
-          <span className="text-accent">with Claude in the loop.</span>
+          <span className="text-accent">building with Claude.</span>
         </motion.h1>
 
         <motion.p

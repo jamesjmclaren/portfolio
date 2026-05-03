@@ -24,23 +24,34 @@ const groups: { title: string; items: string[] }[] = [
     title: "Infrastructure",
     items: [
       "Vercel",
+      "AWS",
       "Supabase / Postgres",
       "Cloudinary",
       "Stripe",
-      "Clerk",
-      "Vercel Blob",
+      "Clerk / NextAuth",
       "GitHub Actions",
     ],
   },
   {
-    title: "Practices",
+    title: "QA & delivery",
     items: [
-      "Product engineering",
-      "Engineering management",
+      "Test automation strategy",
+      "API testing",
+      "Release management",
+      "SCRUM team leadership",
       "Cross-functional delivery",
-      "API design",
-      "Auth & permissions",
-      "Design systems",
+      "Technical project management",
+    ],
+  },
+  {
+    title: "Domains",
+    items: [
+      "MPC & threshold cryptography",
+      "Smart contracts",
+      "Blockchain (ETH, BTC, SOL, TRON, XRP)",
+      "Exchange integrations",
+      "Connected TV / IPTV",
+      "Fintech & digital asset custody",
     ],
   },
 ];
@@ -77,7 +88,7 @@ export default function Skills() {
         </div>
       </ScrollReveal>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {groups.map((g, i) => (
           <ScrollReveal key={g.title} delay={i * 0.05}>
             <div className="rounded-2xl border border-border bg-surface p-6 h-full">
