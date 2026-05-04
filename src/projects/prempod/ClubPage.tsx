@@ -10,7 +10,7 @@ import {
   Video,
   Sparkles,
 } from "lucide-react";
-import { arsenalChannels, fixtures } from "./data";
+import { arsenalChannels, fixtures, arsenalCrest } from "./data";
 
 const platformIcon = {
   youtube: Youtube,
@@ -26,19 +26,18 @@ const platformColor = {
   tiktok: "text-pink-400",
 };
 
-function formatSubs(n: number) {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 1000) return `${(n / 1000).toFixed(0)}k`;
-  return String(n);
+function formatSubs(n: number | null) {
+  if (n === null) return "Spotify show";
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M subs`;
+  if (n >= 1000) return `${(n / 1000).toFixed(0)}k subs`;
+  return `${n} subs`;
 }
 
 export default function PrempodClubPage() {
-  const live = fixtures.find((f) => f.status === "live");
   const upcoming = fixtures.find((f) => f.status === "upcoming");
 
   return (
     <div className="min-h-full bg-[#0b0d12] text-slate-100 font-sans">
-      {/* Header */}
       <header className="border-b border-slate-800 bg-gradient-to-b from-red-950/40 to-transparent">
         <div className="mx-auto max-w-6xl px-6 py-6">
           <div className="flex items-center gap-2 text-xs text-slate-400 mb-3">
@@ -47,13 +46,20 @@ export default function PrempodClubPage() {
             <span className="text-slate-200">Arsenal</span>
           </div>
           <div className="flex items-start gap-4">
-            <div className="size-16 rounded-2xl bg-red-600 flex items-center justify-center font-bold text-2xl shrink-0">
-              AFC
+            <div className="size-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 p-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={arsenalCrest}
+                alt="Arsenal"
+                loading="eager"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-3xl font-bold tracking-tight">Arsenal</h1>
               <p className="text-sm text-slate-400 mt-1">
-                Premier League · 5 channels tracked · 3.5M subscribers combined
+                Premier League · {arsenalChannels.length} channels tracked ·
+                7M+ combined subscribers
               </p>
               <div className="flex items-center gap-2 mt-3">
                 <button className="rounded-lg bg-red-600 hover:bg-red-500 text-white text-sm font-medium px-3 py-1.5 flex items-center gap-1.5">
@@ -82,16 +88,15 @@ export default function PrempodClubPage() {
                 </p>
                 <p className="text-sm text-slate-300 leading-relaxed">
                   Arsenal Football Club, founded in 1886, is one of the most
-                  decorated clubs in English football. Currently managed by Mikel
-                  Arteta, the Gunners are mid-rebuild and back in the title race —
-                  expect podcasts heavy on tactical analysis, transfer rumour
-                  rebuttals, and post-derby reactions.
+                  decorated clubs in English football. Currently managed by
+                  Mikel Arteta, the Gunners are mid-rebuild and back in the
+                  title race — expect podcasts heavy on tactical analysis,
+                  transfer rumour rebuttals, and post-derby reactions.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Channels */}
           <div className="flex items-center justify-between mt-2 mb-2">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
               Channels & podcasts
@@ -121,10 +126,25 @@ export default function PrempodClubPage() {
                   className="rounded-xl border border-slate-800 bg-slate-900/30 hover:bg-slate-900/60 p-4 transition-colors"
                 >
                   <div className="flex items-start gap-3">
-                    <div
-                      className={`size-12 rounded-xl bg-gradient-to-br ${c.bg} flex items-center justify-center font-bold text-sm shrink-0`}
-                    >
-                      {c.initials}
+                    <div className="size-12 rounded-xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center shrink-0">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={c.logoUrl}
+                        alt={c.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.display = "none";
+                          const sib = e.currentTarget.nextElementSibling;
+                          if (sib) (sib as HTMLElement).style.display = "flex";
+                        }}
+                      />
+                      <div
+                        className="hidden w-full h-full items-center justify-center text-xs font-bold text-slate-300"
+                        aria-hidden
+                      >
+                        {c.name.slice(0, 2).toUpperCase()}
+                      </div>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center flex-wrap gap-2 mb-0.5">
@@ -147,16 +167,22 @@ export default function PrempodClubPage() {
                         )}
                       </div>
                       <p className="text-xs text-slate-400 mb-2">
-                        {c.blurb} · {formatSubs(c.subscribers)} subs
+                        {c.description} · {formatSubs(c.subscribers)}
                       </p>
-                      <div className="rounded-lg bg-slate-950/60 border border-slate-800 p-2.5 text-sm">
+                      <a
+                        href={c.externalUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="block rounded-lg bg-slate-950/60 border border-slate-800 hover:bg-slate-950 p-2.5 text-sm transition-colors"
+                      >
                         <p className="text-slate-200 truncate">
                           ▶ {c.latestVideoTitle}
                         </p>
                         <p className="text-[10px] text-slate-500 mt-0.5">
-                          {c.latestVideoAge}
+                          {c.latestVideoAge} · open on{" "}
+                          {c.platform === "youtube" ? "YouTube" : "Spotify"}
                         </p>
-                      </div>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -166,28 +192,21 @@ export default function PrempodClubPage() {
         </main>
 
         <aside className="space-y-4">
-          {/* Live fixture */}
-          {(live || upcoming) && (
+          {upcoming && (
             <div className="rounded-xl border border-slate-800 bg-slate-900/40 overflow-hidden">
-              <div className="px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
+              <div className="px-4 py-2.5 border-b border-slate-800">
                 <span className="text-[10px] uppercase tracking-wider text-slate-400">
                   Next fixture
                 </span>
-                {live && (
-                  <span className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-red-400">
-                    <span className="size-1.5 rounded-full bg-red-500 animate-pulse" />
-                    Live elsewhere
-                  </span>
-                )}
               </div>
               <div className="p-4 space-y-3">
                 <p className="text-xs text-slate-400">
-                  {upcoming?.competition} · {upcoming?.date}
+                  {upcoming.competition} · {upcoming.date}
                 </p>
                 <div className="flex items-center justify-between gap-3">
-                  <Team name={upcoming!.home} bg={upcoming!.homeBg} />
+                  <Team name={upcoming.home} crest={upcoming.homeCrest} />
                   <span className="text-xs text-slate-500 font-mono">VS</span>
-                  <Team name={upcoming!.away} bg={upcoming!.awayBg} />
+                  <Team name={upcoming.away} crest={upcoming.awayCrest} />
                 </div>
                 <button className="w-full text-xs rounded-lg bg-slate-800 hover:bg-slate-700 py-2 font-medium">
                   Pre-match podcasts (8)
@@ -196,7 +215,6 @@ export default function PrempodClubPage() {
             </div>
           )}
 
-          {/* Recent fixtures */}
           <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
             <h3 className="text-[10px] uppercase tracking-wider text-slate-400 mb-3">
               Today across the league
@@ -205,28 +223,30 @@ export default function PrempodClubPage() {
               {fixtures.map((f, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between text-sm"
+                  className="flex items-center justify-between text-sm gap-2"
                 >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <div
-                      className={`size-5 rounded ${f.homeBg} flex items-center justify-center text-[8px] font-bold shrink-0`}
-                    >
-                      {f.home.slice(0, 3).toUpperCase()}
-                    </div>
-                    <span className="truncate">{f.home}</span>
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={f.homeCrest}
+                      alt={f.home}
+                      className="size-5 object-contain shrink-0"
+                    />
+                    <span className="truncate text-xs">{f.home}</span>
                   </div>
-                  <span className="text-xs font-mono text-slate-400 px-2">
+                  <span className="text-xs font-mono text-slate-400 px-2 shrink-0">
                     {f.status === "finished" || f.status === "live"
                       ? `${f.homeScore}–${f.awayScore}`
                       : "vs"}
                   </span>
-                  <div className="flex items-center gap-2 min-w-0 justify-end">
-                    <span className="truncate">{f.away}</span>
-                    <div
-                      className={`size-5 rounded ${f.awayBg} flex items-center justify-center text-[8px] font-bold shrink-0`}
-                    >
-                      {f.away.slice(0, 3).toUpperCase()}
-                    </div>
+                  <div className="flex items-center gap-2 min-w-0 flex-1 justify-end">
+                    <span className="truncate text-xs text-right">{f.away}</span>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={f.awayCrest}
+                      alt={f.away}
+                      className="size-5 object-contain shrink-0"
+                    />
                   </div>
                 </div>
               ))}
@@ -238,11 +258,12 @@ export default function PrempodClubPage() {
   );
 }
 
-function Team({ name, bg }: { name: string; bg: string }) {
+function Team({ name, crest }: { name: string; crest: string }) {
   return (
     <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0">
-      <div className={`size-12 rounded-lg ${bg} flex items-center justify-center font-bold text-xs`}>
-        {name.slice(0, 3).toUpperCase()}
+      <div className="size-12 rounded-lg bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center p-1.5">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={crest} alt={name} className="w-full h-full object-contain" />
       </div>
       <span className="text-xs text-center truncate w-full">{name}</span>
     </div>

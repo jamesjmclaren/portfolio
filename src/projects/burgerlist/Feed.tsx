@@ -55,12 +55,14 @@ export default function BurgerlistFeed() {
               </div>
             </div>
 
-            <div
-              className={`relative aspect-[16/9] bg-gradient-to-br ${b.bg} flex items-center justify-center`}
-            >
-              <span className="font-mono text-3xl font-bold text-white/80">
-                {b.initials}
-              </span>
+            <div className="relative aspect-[16/9] bg-stone-200 overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={b.imageUrl}
+                alt={b.name}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
               <div className="absolute top-3 right-3 bg-white/90 backdrop-blur rounded-lg px-2.5 py-1 flex items-center gap-1">
                 <Star className="size-3.5 fill-amber-500 text-amber-500" />
                 <span className="font-bold text-sm">{b.rating}</span>

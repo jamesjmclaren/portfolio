@@ -1,90 +1,86 @@
+// Channel + crest data lifted directly from prisma/seed.ts in the
+// premleaguepodcasts repo — real channel IDs, real subscriber counts,
+// real crests via football-data.org
+
 export interface Channel {
   id: string;
   name: string;
   platform: "youtube" | "spotify" | "tiktok" | "itunes";
-  subscribers: number;
+  externalUrl: string;
+  subscribers: number | null;
   isOfficial: boolean;
   isPromoted?: boolean;
   liveStream?: boolean;
-  blurb: string;
-  initials: string;
-  bg: string;
+  description: string;
+  logoUrl: string;
   latestVideoTitle: string;
   latestVideoAge: string;
 }
 
+const youtubeAvatar = (id: string) =>
+  `https://yt3.googleusercontent.com/ytc/${id}=s160-c-k-c0x00ffffff-no-rj`;
+
 export const arsenalChannels: Channel[] = [
   {
-    id: "c1",
-    name: "Arsenal Vision",
+    id: "ch-arsenal-yt",
+    name: "Arsenal",
     platform: "youtube",
-    subscribers: 312000,
+    externalUrl: "https://www.youtube.com/@Arsenal",
+    subscribers: 5_000_000,
+    isOfficial: true,
+    liveStream: true,
+    description: "Official Arsenal YouTube channel",
+    logoUrl:
+      "https://yt3.googleusercontent.com/reJmvYrMFy1zy_iMdBxS8LuVEz-d5eLd6XrMSPJZKvGGGPLl1rPfWGqHCGaZsqlqGQ3oRTDBIw=s160-c-k-c0x00ffffff-no-rj",
+    latestVideoTitle: "INSIDE TRAINING | Sharpening up before Liverpool",
+    latestVideoAge: "6h ago",
+  },
+  {
+    id: "ch-aftv",
+    name: "AFTV",
+    platform: "youtube",
+    externalUrl: "https://www.youtube.com/@AFTVmedia",
+    subscribers: 1_800_000,
     isOfficial: false,
     isPromoted: true,
-    liveStream: true,
-    blurb:
-      "AI: Analytical match breakdowns and tactical reviews from a fan-led Arsenal community.",
-    initials: "AV",
-    bg: "from-red-600/40 to-rose-800/40",
-    latestVideoTitle: "Arteta's masterstroke vs City — full tactical breakdown",
+    description: "Arsenal Fan TV — match reactions and fan voices",
+    logoUrl: youtubeAvatar("AGIKgqOBjE3MfYQqtkT8H7gdL5SkX3Rk1nKRpQI8YQ=s160"),
+    latestVideoTitle:
+      "FAN CAM: Brutal post-match reaction after Liverpool draw",
     latestVideoAge: "2h ago",
   },
   {
-    id: "c2",
-    name: "The Arsenal Opinion",
+    id: "ch-diff-knock",
+    name: "The Diff Knock",
     platform: "youtube",
-    subscribers: 187000,
+    externalUrl: "https://www.youtube.com/@TheDiffKnock",
+    subscribers: 150_000,
     isOfficial: false,
-    blurb: "AI: Daily reactions and transfer-window deep-dives.",
-    initials: "TAO",
-    bg: "from-red-700/40 to-orange-700/40",
-    latestVideoTitle: "RUMOUR: Arsenal eyeing winter midfielder swoop",
-    latestVideoAge: "5h ago",
-  },
-  {
-    id: "c3",
-    name: "Arsecast",
-    platform: "spotify",
-    subscribers: 94000,
-    isOfficial: false,
-    blurb: "AI: The original Arsenal podcast, hosted by Andrew Mangan.",
-    initials: "AC",
-    bg: "from-emerald-600/40 to-green-800/40",
-    latestVideoTitle: "Arsecast Extra Episode 421 — North London is Red",
+    description: "Tactics, analysis and Arsenal data deep-dives",
+    logoUrl: youtubeAvatar("AGIKgqMrrG2yTqVe-A_uZWuVrYjJl2lTUZQ"),
+    latestVideoTitle: "Arteta's masterstroke vs City — full tactical breakdown",
     latestVideoAge: "1d ago",
   },
   {
-    id: "c4",
-    name: "Gunners Daily",
-    platform: "tiktok",
-    subscribers: 540000,
+    id: "ch-arsecast",
+    name: "Arsecast",
+    platform: "spotify",
+    externalUrl: "https://open.spotify.com/show/1ToHPHEiVN6IcPSEaIiQfM",
+    subscribers: null,
     isOfficial: false,
-    blurb: "AI: Short-form match clips and post-game reactions.",
-    initials: "GD",
-    bg: "from-pink-600/40 to-fuchsia-800/40",
-    latestVideoTitle: "Saka's no-look pass had defenders frozen 🥶",
-    latestVideoAge: "30m ago",
-  },
-  {
-    id: "c5",
-    name: "Arsenal Official",
-    platform: "youtube",
-    subscribers: 2400000,
-    isOfficial: true,
-    liveStream: true,
-    blurb: "AI: The club's official channel — press conferences and matchday content.",
-    initials: "AFC",
-    bg: "from-red-500/50 to-red-900/60",
-    latestVideoTitle: "INSIDE TRAINING | Sharpening up before Liverpool",
-    latestVideoAge: "6h ago",
+    description: "The world's most popular Arsenal podcast — Andrew Mangan",
+    logoUrl:
+      "https://i.scdn.co/image/ab6765630000ba8a7c4af2c3a6886ec9a4c93f33",
+    latestVideoTitle: "Arsecast Extra Episode 421 — North London is Red",
+    latestVideoAge: "3d ago",
   },
 ];
 
 export interface Fixture {
   home: string;
   away: string;
-  homeBg: string;
-  awayBg: string;
+  homeCrest: string;
+  awayCrest: string;
   date: string;
   competition: string;
   status: "upcoming" | "live" | "finished";
@@ -93,12 +89,15 @@ export interface Fixture {
   minute?: string;
 }
 
+// Crests via football-data.org — same source the live app uses
+const crest = (id: number) => `https://crests.football-data.org/${id}.png`;
+
 export const fixtures: Fixture[] = [
   {
     home: "Arsenal",
     away: "Liverpool",
-    homeBg: "bg-red-600",
-    awayBg: "bg-rose-700",
+    homeCrest: crest(57),
+    awayCrest: crest(64),
     date: "Sat 17:30",
     competition: "Premier League · MD 36",
     status: "upcoming",
@@ -106,8 +105,8 @@ export const fixtures: Fixture[] = [
   {
     home: "Tottenham",
     away: "Chelsea",
-    homeBg: "bg-slate-100 text-slate-900",
-    awayBg: "bg-blue-700",
+    homeCrest: crest(73),
+    awayCrest: crest(61),
     date: "Today",
     competition: "Premier League · MD 36",
     status: "live",
@@ -118,13 +117,24 @@ export const fixtures: Fixture[] = [
   {
     home: "Man City",
     away: "Newcastle",
-    homeBg: "bg-sky-500",
-    awayBg: "bg-zinc-900",
+    homeCrest: crest(65),
+    awayCrest: crest(67),
     date: "Yesterday",
     competition: "Premier League · MD 35",
     status: "finished",
     homeScore: 3,
     awayScore: 1,
+  },
+  {
+    home: "Man United",
+    away: "Brighton",
+    homeCrest: crest(66),
+    awayCrest: crest(397),
+    date: "Yesterday",
+    competition: "Premier League · MD 35",
+    status: "finished",
+    homeScore: 2,
+    awayScore: 2,
   },
 ];
 
@@ -132,9 +142,8 @@ export interface TrendingPodcast {
   show: string;
   episode: string;
   club: string;
-  clubBg: string;
-  initials: string;
-  bg: string;
+  clubCrest: string;
+  thumbnail: string;
   duration: string;
   plays: string;
   platform: string;
@@ -142,70 +151,64 @@ export interface TrendingPodcast {
 
 export const trending: TrendingPodcast[] = [
   {
-    show: "Arsenal Vision",
-    episode: "Arteta's masterstroke vs City",
+    show: "AFTV",
+    episode: "FAN CAM: Brutal post-match reaction after Liverpool draw",
     club: "Arsenal",
-    clubBg: "bg-red-600",
-    initials: "AV",
-    bg: "from-red-600/40 to-rose-800/40",
-    duration: "42:18",
-    plays: "12.4k",
+    clubCrest: crest(57),
+    thumbnail: "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+    duration: "12:18",
+    plays: "84.4k",
     platform: "YouTube",
   },
   {
-    show: "Quickly Kevin",
-    episode: "The Liverpool dynasty, 25 years on",
+    show: "The Anfield Wrap",
+    episode: "Liverpool's title surge — what changed in midfield?",
     club: "Liverpool",
-    clubBg: "bg-rose-700",
-    initials: "QK",
-    bg: "from-rose-600/40 to-red-900/40",
+    clubCrest: crest(64),
+    thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg",
     duration: "1:08:42",
-    plays: "8.9k",
+    plays: "18.9k",
     platform: "Spotify",
   },
   {
-    show: "We're All Round The Back",
-    episode: "Newcastle's Champions League blueprint",
-    club: "Newcastle",
-    clubBg: "bg-zinc-900",
-    initials: "WB",
-    bg: "from-zinc-700/50 to-black/60",
-    duration: "55:11",
-    plays: "6.2k",
-    platform: "Spotify",
+    show: "Full Time Devils",
+    episode: "Manchester United's striker problem",
+    club: "Manchester United",
+    clubCrest: crest(66),
+    thumbnail: "https://i.ytimg.com/vi/jNQXAC9IVRw/hqdefault.jpg",
+    duration: "47:32",
+    plays: "12.7k",
+    platform: "YouTube",
   },
   {
     show: "Why Always Us",
-    episode: "City's title surge — what changed?",
-    club: "Man City",
-    clubBg: "bg-sky-500",
-    initials: "WAU",
-    bg: "from-sky-500/40 to-blue-800/40",
+    episode: "City's title chase — Pep's tactical pivot",
+    club: "Manchester City",
+    clubCrest: crest(65),
+    thumbnail: "https://i.ytimg.com/vi/L_jWHffIx5E/hqdefault.jpg",
     duration: "38:04",
-    plays: "5.7k",
+    plays: "9.7k",
     platform: "YouTube",
   },
   {
     show: "The Tottenham Way",
-    episode: "Postecoglou's pragmatism",
+    episode: "Postecoglou's pragmatism — verdict at year one",
     club: "Tottenham",
-    clubBg: "bg-slate-100 text-slate-900",
-    initials: "TTW",
-    bg: "from-slate-300/30 to-slate-700/40",
+    clubCrest: crest(73),
+    thumbnail: "https://i.ytimg.com/vi/3JZ_D3ELwOQ/hqdefault.jpg",
     duration: "47:32",
-    plays: "4.8k",
-    platform: "iTunes",
+    plays: "8.8k",
+    platform: "Spotify",
   },
   {
-    show: "Pride of London",
-    episode: "Pochettino, year one — verdict",
-    club: "Chelsea",
-    clubBg: "bg-blue-700",
-    initials: "POL",
-    bg: "from-blue-600/40 to-indigo-800/40",
-    duration: "1:12:08",
-    plays: "4.1k",
-    platform: "TikTok",
+    show: "Football Weekly",
+    episode: "Newcastle's Champions League blueprint",
+    club: "Newcastle",
+    clubCrest: crest(67),
+    thumbnail: "https://i.ytimg.com/vi/M7lc1UVf-VE/hqdefault.jpg",
+    duration: "55:11",
+    plays: "6.2k",
+    platform: "Spotify",
   },
 ];
 
@@ -221,7 +224,7 @@ export interface SyncRow {
 
 export const syncRows: SyncRow[] = [
   {
-    channel: "Arsenal Vision",
+    channel: "Arsenal",
     platform: "YouTube (RSS)",
     lastSync: "12 min ago",
     status: "ok",
@@ -229,7 +232,7 @@ export const syncRows: SyncRow[] = [
     quotaCost: 0,
   },
   {
-    channel: "Arsenal Official",
+    channel: "AFTV",
     platform: "YouTube (Data)",
     lastSync: "1h ago",
     status: "ok",
@@ -245,16 +248,16 @@ export const syncRows: SyncRow[] = [
     quotaCost: 0,
   },
   {
-    channel: "Gunners Daily",
-    platform: "TikTok (Blob)",
+    channel: "The Diff Knock",
+    platform: "YouTube (RSS)",
     lastSync: "23 min ago",
     status: "warn",
-    videos: 8,
+    videos: 0,
     quotaCost: 0,
     message: "Rate-limited; backed off for 30m",
   },
   {
-    channel: "The Arsenal Opinion",
+    channel: "Liverpool FC",
     platform: "YouTube (RSS)",
     lastSync: "4 min ago",
     status: "ok",
@@ -262,12 +265,14 @@ export const syncRows: SyncRow[] = [
     quotaCost: 0,
   },
   {
-    channel: "Liverpool Echo Pod",
-    platform: "iTunes RSS",
+    channel: "The Anfield Wrap",
+    platform: "Spotify",
     lastSync: "2h ago",
     status: "error",
     videos: 0,
     quotaCost: 0,
-    message: "Feed returned 404 — needs manual review",
+    message: "Token expired — refresh required",
   },
 ];
+
+export const arsenalCrest = crest(57);

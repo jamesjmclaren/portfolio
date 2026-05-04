@@ -65,8 +65,14 @@ export default function WestAnalytics() {
         <div className="p-6 grid lg:grid-cols-[280px_1fr] gap-6">
           {/* Card image + meta */}
           <div className="space-y-4">
-            <div className="aspect-[3/4] rounded-2xl bg-gradient-to-br from-orange-500/40 to-red-700/40 border border-[#2a2a2a] flex items-center justify-center font-mono text-3xl font-bold text-[#f5f0e8]/90">
-              CHR
+            <div className="aspect-[3/4] rounded-2xl bg-[#0c0c0c] border border-[#2a2a2a] overflow-hidden flex items-center justify-center p-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://images.pokemontcg.io/base1/4_hires.png"
+                alt="Charizard Base Set 4/102"
+                loading="lazy"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="rounded-2xl border border-[#2a2a2a] bg-[#111] p-4 space-y-2 text-sm">
               <Row label="Set" value="Base Set" />

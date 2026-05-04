@@ -44,10 +44,14 @@ export default function BurgerlistListDetail() {
                 key={e.id}
                 className="bg-white rounded-2xl border border-stone-200 overflow-hidden flex"
               >
-                <div
-                  className={`w-32 shrink-0 bg-gradient-to-br ${e.bg} flex items-center justify-center font-mono font-bold text-white/80 text-xl relative`}
-                >
-                  {e.initials}
+                <div className="w-32 shrink-0 bg-stone-200 relative overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={e.imageUrl}
+                    alt={e.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
                   <div className="absolute top-2 left-2 bg-white/90 backdrop-blur size-6 rounded-full flex items-center justify-center text-[10px] font-black text-stone-900">
                     {i + 1}
                   </div>

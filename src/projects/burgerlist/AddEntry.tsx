@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Star, Upload, X, ShieldCheck, Loader2, MapPin } from "lucide-react";
+import { addEntryHeroImage } from "./data";
 
 type ModerationState = "idle" | "scanning" | "approved" | "rejected";
 
@@ -51,8 +52,14 @@ export default function BurgerlistAddEntry() {
                 </button>
               ) : (
                 <div className="relative">
-                  <div className="aspect-[16/10] rounded-xl bg-gradient-to-br from-amber-700/60 to-yellow-900/70 flex items-center justify-center font-mono text-3xl font-bold text-white/90">
-                    BB
+                  <div className="aspect-[16/10] rounded-xl bg-stone-200 overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={addEntryHeroImage}
+                      alt="Smashed double cheese"
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <button
                     onClick={() => {

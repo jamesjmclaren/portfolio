@@ -7,9 +7,27 @@ import WestSidebar from "./Sidebar";
 const STEPS = ["Find card", "Condition", "Cost basis", "Confirm"];
 
 const mockResults = [
-  { name: "Charizard", set: "Base Set", num: "4/102", rarity: "Holo Rare", initials: "CHR", bg: "from-orange-500/40 to-red-600/40" },
-  { name: "Charizard ex", set: "Obsidian Flames", num: "199/197", rarity: "Special Illustration", initials: "CHX", bg: "from-orange-600/40 to-red-700/40" },
-  { name: "Charizard VMAX", set: "Darkness Ablaze", num: "020/189", rarity: "Ultra Rare", initials: "CVM", bg: "from-amber-500/40 to-orange-700/40" },
+  {
+    name: "Charizard",
+    set: "Base Set",
+    num: "4/102",
+    rarity: "Holo Rare",
+    img: "https://images.pokemontcg.io/base1/4_hires.png",
+  },
+  {
+    name: "Charizard VMAX",
+    set: "Champions Path",
+    num: "079/073",
+    rarity: "Secret Rare",
+    img: "https://images.pokemontcg.io/swsh35/79_hires.png",
+  },
+  {
+    name: "Charizard ex",
+    set: "151",
+    num: "199/165",
+    rarity: "Special Illustration",
+    img: "https://images.pokemontcg.io/sv3pt5/199_hires.png",
+  },
 ];
 
 export default function WestAddAsset() {
@@ -89,10 +107,14 @@ export default function WestAddAsset() {
                           : "border-[#2a2a2a] bg-[#1a1a1a] hover:bg-[#1e1e1e]"
                       }`}
                     >
-                      <div
-                        className={`size-12 rounded-lg bg-gradient-to-br ${r.bg} flex items-center justify-center font-mono text-[10px] font-bold`}
-                      >
-                        {r.initials}
+                      <div className="size-12 rounded-lg bg-[#0c0c0c] overflow-hidden flex items-center justify-center shrink-0 p-1">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={r.img}
+                          alt={r.name}
+                          loading="lazy"
+                          className="w-full h-full object-contain"
+                        />
                       </div>
                       <div className="text-left flex-1 min-w-0">
                         <p className="font-medium text-sm">{r.name}</p>
@@ -208,10 +230,14 @@ export default function WestAddAsset() {
             {step === 3 && (
               <>
                 <div className="flex items-center gap-4 mb-5 p-4 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a]">
-                  <div
-                    className={`size-16 rounded-lg bg-gradient-to-br ${card.bg} flex items-center justify-center font-mono text-sm font-bold`}
-                  >
-                    {card.initials}
+                  <div className="size-16 rounded-lg bg-[#0c0c0c] overflow-hidden flex items-center justify-center shrink-0 p-1">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={card.img}
+                      alt={card.name}
+                      loading="lazy"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium">

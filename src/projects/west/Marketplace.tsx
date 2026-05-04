@@ -67,10 +67,14 @@ export default function WestMarketplace() {
                   key={l.id}
                   className="rounded-2xl border border-[#2a2a2a] bg-[#111] overflow-hidden hover:border-[#3a3a3a] hover:bg-[#17171c] transition-colors group cursor-pointer"
                 >
-                  <div
-                    className={`aspect-[4/3] bg-gradient-to-br ${l.imageBg} flex items-center justify-center font-mono text-2xl font-bold text-[#f5f0e8]/90`}
-                  >
-                    {l.initials}
+                  <div className="aspect-[4/3] bg-[#0c0c0c] p-3 flex items-center justify-center overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={l.imageUrl}
+                      alt={l.title}
+                      loading="lazy"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div className="p-4">
                     <div className="flex items-start justify-between gap-2 mb-1">

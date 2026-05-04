@@ -1,3 +1,6 @@
+// Data mirrored from the live west.investments homepage demo
+// (real stats, real Pokémon TCG card image URLs)
+
 export interface ChartPoint {
   date: string;
   total: number;
@@ -7,30 +10,39 @@ export interface ChartPoint {
   costBasis: number;
 }
 
+export const stats = {
+  totalValue: 54100,
+  totalInvested: 27400,
+  totalProfit: 26700,
+  profitPercent: 97.3,
+  totalAssets: 34,
+  graded: 28500,
+  raw: 14600,
+  sealed: 11000,
+};
+
 function generateChartData(): ChartPoint[] {
-  const points: ChartPoint[] = [];
-  const days = 90;
-  const now = new Date("2026-05-01");
-  let raw = 4200;
-  let graded = 6800;
-  let sealed = 3100;
-  const cost = 9800;
-  for (let i = days; i >= 0; i--) {
+  const points = 8;
+  const out: ChartPoint[] = [];
+  const now = new Date("2026-04-01");
+  for (let i = points - 1; i >= 0; i--) {
     const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    raw += (Math.random() - 0.45) * 80;
-    graded += (Math.random() - 0.42) * 110;
-    sealed += (Math.random() - 0.44) * 60;
-    points.push({
+    d.setMonth(d.getMonth() - i);
+    const t = 1 - i / (points - 1);
+    const scale = 0.6 + 0.4 * t;
+    const sealed = Math.round(stats.sealed * scale);
+    const raw = Math.round(stats.raw * scale);
+    const graded = Math.round(stats.graded * scale);
+    out.push({
       date: d.toISOString().slice(0, 10),
-      raw: Math.max(0, raw),
-      graded: Math.max(0, graded),
-      sealed: Math.max(0, sealed),
-      total: raw + graded + sealed,
-      costBasis: cost,
+      sealed,
+      raw,
+      graded,
+      total: sealed + raw + graded,
+      costBasis: stats.totalInvested,
     });
   }
-  return points;
+  return out;
 }
 
 export const chartData = generateChartData();
@@ -46,90 +58,85 @@ export interface MockAsset {
   quantity: number;
   purchasePrice: number;
   currentPrice: number;
-  imageBg: string;
-  imageInitials: string;
+  imageUrl: string;
 }
 
+// Real card images via the Pokémon TCG public API — same source the live app uses
 export const mockAssets: MockAsset[] = [
   {
     id: "1",
-    name: "Charizard",
-    setName: "Base Set",
-    cardNumber: "4/102",
+    name: "Lugia",
+    setName: "Neo Genesis",
+    cardNumber: "9/111",
     rarity: "Holo Rare",
     type: "graded",
     grade: "PSA 9",
     quantity: 1,
-    purchasePrice: 2400,
-    currentPrice: 3850,
-    imageBg: "from-orange-500/40 to-red-600/40",
-    imageInitials: "CHR",
+    purchasePrice: 2200,
+    currentPrice: 4800,
+    imageUrl: "https://images.pokemontcg.io/neo1/9_hires.png",
   },
   {
     id: "2",
-    name: "Pikachu Illustrator",
-    setName: "Promo",
-    cardNumber: "—",
-    rarity: "Promo",
-    type: "graded",
-    grade: "CGC 8.5",
+    name: "Charizard",
+    setName: "Base Set",
+    cardNumber: "4/102",
+    rarity: "Holo Rare",
+    type: "raw",
     quantity: 1,
-    purchasePrice: 3100,
-    currentPrice: 3920,
-    imageBg: "from-yellow-400/40 to-amber-600/40",
-    imageInitials: "PIK",
+    purchasePrice: 5400,
+    currentPrice: 8200,
+    imageUrl: "https://images.pokemontcg.io/base1/4_hires.png",
   },
   {
     id: "3",
-    name: "Booster Box — 151",
-    setName: "Scarlet & Violet",
-    cardNumber: "Sealed",
-    rarity: "Sealed",
-    type: "sealed",
-    quantity: 4,
-    purchasePrice: 220,
-    currentPrice: 285,
-    imageBg: "from-purple-500/40 to-pink-600/40",
-    imageInitials: "151",
-  },
-  {
-    id: "4",
-    name: "Umbreon VMAX (Alt Art)",
+    name: "Umbreon VMAX",
     setName: "Evolving Skies",
     cardNumber: "215/203",
     rarity: "Secret Rare",
     type: "raw",
-    quantity: 2,
-    purchasePrice: 480,
-    currentPrice: 612,
-    imageBg: "from-slate-700/60 to-zinc-900/60",
-    imageInitials: "UMB",
+    quantity: 1,
+    purchasePrice: 3800,
+    currentPrice: 6400,
+    imageUrl: "https://images.pokemontcg.io/swsh7/215_hires.png",
+  },
+  {
+    id: "4",
+    name: "Charizard VMAX",
+    setName: "Champions Path",
+    cardNumber: "079/073",
+    rarity: "Secret Rare",
+    type: "graded",
+    grade: "PSA 10",
+    quantity: 1,
+    purchasePrice: 2200,
+    currentPrice: 4850,
+    imageUrl: "https://images.pokemontcg.io/swsh35/79_hires.png",
   },
   {
     id: "5",
-    name: "Lugia V (Alt Art)",
-    setName: "Silver Tempest",
-    cardNumber: "186/195",
-    rarity: "Ultra Rare",
-    type: "raw",
+    name: "Pikachu VMAX",
+    setName: "Vivid Voltage",
+    cardNumber: "188/185",
+    rarity: "Secret Rare",
+    type: "graded",
+    grade: "PSA 9",
     quantity: 1,
-    purchasePrice: 290,
-    currentPrice: 245,
-    imageBg: "from-sky-500/40 to-indigo-700/40",
-    imageInitials: "LUG",
+    purchasePrice: 420,
+    currentPrice: 890,
+    imageUrl: "https://images.pokemontcg.io/swsh4/188_hires.png",
   },
   {
     id: "6",
-    name: "ETB — Crown Zenith",
-    setName: "Sword & Shield",
-    cardNumber: "Sealed",
-    rarity: "Sealed",
+    name: "Pikachu",
+    setName: "Base Set",
+    cardNumber: "58/102",
+    rarity: "Common",
     type: "sealed",
-    quantity: 3,
+    quantity: 4,
     purchasePrice: 60,
     currentPrice: 95,
-    imageBg: "from-amber-400/30 to-yellow-700/40",
-    imageInitials: "CZ",
+    imageUrl: "https://images.pokemontcg.io/base1/58_hires.png",
   },
 ];
 
@@ -179,8 +186,7 @@ export interface MockListing {
   vendor: string;
   vendorVerified: boolean;
   price: number;
-  imageBg: string;
-  initials: string;
+  imageUrl: string;
   condition: string;
   set: string;
 }
@@ -188,12 +194,11 @@ export interface MockListing {
 export const mockListings: MockListing[] = [
   {
     id: "l1",
-    title: "Moonbreon (Alt Art)",
+    title: "Umbreon VMAX (Moonbreon)",
     vendor: "EdinburghCards",
     vendorVerified: true,
     price: 612,
-    imageBg: "from-slate-700/60 to-zinc-900/60",
-    initials: "UMB",
+    imageUrl: "https://images.pokemontcg.io/swsh7/215_hires.png",
     condition: "NM",
     set: "Evolving Skies",
   },
@@ -203,54 +208,49 @@ export const mockListings: MockListing[] = [
     vendor: "TCG Vault NYC",
     vendorVerified: true,
     price: 3850,
-    imageBg: "from-orange-500/40 to-red-600/40",
-    initials: "CHR",
+    imageUrl: "https://images.pokemontcg.io/base1/4_hires.png",
     condition: "PSA 9",
     set: "Base Set",
   },
   {
     id: "l3",
-    title: "Booster Box — Obsidian Flames",
+    title: "Charizard VMAX",
     vendor: "EdinburghCards",
     vendorVerified: true,
-    price: 132,
-    imageBg: "from-orange-600/40 to-red-800/40",
-    initials: "OBF",
-    condition: "Sealed",
-    set: "Scarlet & Violet",
+    price: 1320,
+    imageUrl: "https://images.pokemontcg.io/swsh35/79_hires.png",
+    condition: "PSA 10",
+    set: "Champions Path",
   },
   {
     id: "l4",
-    title: "Lugia V Alt Art",
+    title: "Lugia 9/111",
     vendor: "GradedGoodies",
     vendorVerified: false,
-    price: 268,
-    imageBg: "from-sky-500/40 to-indigo-700/40",
-    initials: "LUG",
-    condition: "NM",
-    set: "Silver Tempest",
+    price: 4800,
+    imageUrl: "https://images.pokemontcg.io/neo1/9_hires.png",
+    condition: "PSA 9",
+    set: "Neo Genesis",
   },
   {
     id: "l5",
-    title: "Pikachu Illustrator (Replica)",
+    title: "Pikachu VMAX",
     vendor: "TCG Vault NYC",
     vendorVerified: true,
-    price: 4400,
-    imageBg: "from-yellow-400/40 to-amber-600/40",
-    initials: "PIK",
-    condition: "CGC 8.5",
-    set: "Promo",
+    price: 890,
+    imageUrl: "https://images.pokemontcg.io/swsh4/188_hires.png",
+    condition: "PSA 9",
+    set: "Vivid Voltage",
   },
   {
     id: "l6",
-    title: "ETB — Crown Zenith",
+    title: "Pikachu 58/102",
     vendor: "EdinburghCards",
     vendorVerified: true,
     price: 95,
-    imageBg: "from-amber-400/30 to-yellow-700/40",
-    initials: "CZ",
-    condition: "Sealed",
-    set: "Sword & Shield",
+    imageUrl: "https://images.pokemontcg.io/base1/58_hires.png",
+    condition: "NM",
+    set: "Base Set",
   },
 ];
 
