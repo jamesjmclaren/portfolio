@@ -12,11 +12,13 @@ import { getProject, projectMeta, type Scene as SceneT } from "@/data/projects";
 import { westScenes } from "@/projects/west/scenes";
 import { prempodScenes } from "@/projects/prempod/scenes";
 import { burgerlistScenes } from "@/projects/burgerlist/scenes";
+import { categoraisScenes } from "@/projects/categorais/scenes";
 
 const scenesBySlug: Record<string, SceneT[]> = {
   "west-investments": westScenes,
   prempod: prempodScenes,
   burgerlist: burgerlistScenes,
+  categorais: categoraisScenes,
 };
 
 export function generateStaticParams() {
