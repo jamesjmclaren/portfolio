@@ -100,6 +100,29 @@ export const projectMeta: ProjectMeta[] = [
     ],
     accent: "#f97316",
   },
+  {
+    slug: "categorais",
+    title: "CategorAIs",
+    tagline:
+      "An AI-tools directory with automated discovery and a personalised recommendation wizard",
+    repo: "jamesjmclaren/categorais",
+    status: "inactive",
+    pitch:
+      "A curated directory of 350+ AI tools across 20+ categories, with a multi-agent discovery pipeline that finds, validates and enriches new entries, plus an AI wizard that recommends a personalised toolkit by role.",
+    longPitch:
+      "CategorAIs is two products in one: a public directory built around fast filtering, comparison and a recommendation wizard, and a back-of-house pipeline of TypeScript agents that scrape Brave Search, dedupe results, fetch Open Graph previews, score popularity from Tranco rank, and write through to a Supabase-backed JSON store. Below — the consumer browse experience, the wizard flow that drives recommendations, and a tool-detail modal.",
+    stack: [
+      "TypeScript",
+      "Vanilla JS",
+      "Express",
+      "Supabase",
+      "Brave Search API",
+      "Groq",
+      "Tranco",
+      "Vercel",
+    ],
+    accent: "#a855f7",
+  },
 ];
 
 export function getProject(slug: string): ProjectMeta | undefined {
