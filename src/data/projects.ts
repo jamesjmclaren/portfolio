@@ -19,6 +19,7 @@ export interface ProjectMeta {
   url?: string;
   repo: string;
   hidden?: boolean;
+  status: "active" | "inactive";
   pitch: string;
   longPitch: string;
   stack: string[];
@@ -34,6 +35,7 @@ export const projectMeta: ProjectMeta[] = [
     url: "https://west.investments",
     repo: "jamesjmclaren/pokemonAssets",
     hidden: true,
+    status: "active",
     pitch:
       "A full-stack portfolio tracker that aggregates real-time Pokémon TCG market prices across TCGPlayer, eBay and CardMarket, and visualises asset allocation through interactive charts.",
     longPitch:
@@ -57,6 +59,7 @@ export const projectMeta: ProjectMeta[] = [
       "Premier League podcast discovery, aggregated across YouTube / Spotify / TikTok / iTunes",
     url: "https://prempod.com",
     repo: "jamesjmclaren/premleaguepodcasts",
+    status: "active",
     pitch:
       "A discovery platform that pulls podcasts and video from four platforms and stitches them onto live Premier League fixtures, club pages and trending discussion threads.",
     longPitch:
@@ -79,6 +82,7 @@ export const projectMeta: ProjectMeta[] = [
     tagline:
       "Social burger discovery — rate, list and share with AI-moderated photos",
     repo: "jamesjmclaren/burgerlist",
+    status: "inactive",
     pitch:
       "A social platform for burger fans: track what you've eaten, share lists, rate spots, and discover places nearby — with AI-moderated photo uploads and Google Maps location pickers.",
     longPitch:

@@ -15,12 +15,30 @@ export default function ProjectHero({ project }: { project: ProjectMeta }) {
         }}
       />
       <div className="mx-auto w-full max-w-6xl">
-        <Link
-          href="/#projects"
-          className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent transition-colors mb-10"
-        >
-          <ArrowLeft className="size-4" /> All projects
-        </Link>
+        <div className="flex items-center gap-3 mb-10">
+          <Link
+            href="/#projects"
+            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-accent transition-colors"
+          >
+            <ArrowLeft className="size-4" /> All projects
+          </Link>
+          <span
+            className={`inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 border ${
+              project.status === "active"
+                ? "text-success border-success/40 bg-success/10"
+                : "text-text-muted border-border bg-surface-elevated"
+            }`}
+          >
+            <span
+              className={`size-1.5 rounded-full ${
+                project.status === "active"
+                  ? "bg-success animate-pulse"
+                  : "bg-text-muted"
+              }`}
+            />
+            {project.status}
+          </span>
+        </div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}

@@ -27,10 +27,26 @@ export default function ProjectsTeaser() {
               />
               <div className="p-7 md:p-9 grid md:grid-cols-[1fr_auto] gap-6 items-start">
                 <div>
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center flex-wrap gap-3 mb-3">
                     <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
                       {p.title}
                     </h3>
+                    <span
+                      className={`inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 border ${
+                        p.status === "active"
+                          ? "text-success border-success/40 bg-success/10"
+                          : "text-text-muted border-border bg-surface-elevated"
+                      }`}
+                    >
+                      <span
+                        className={`size-1.5 rounded-full ${
+                          p.status === "active"
+                            ? "bg-success animate-pulse"
+                            : "bg-text-muted"
+                        }`}
+                      />
+                      {p.status}
+                    </span>
                     {p.hidden && (
                       <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-accent border border-accent-muted bg-accent-muted/40 rounded-full px-2 py-0.5">
                         <Lock className="size-3" /> behind login
