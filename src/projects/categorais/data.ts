@@ -8,7 +8,14 @@ export type Pricing = "free" | "freemium" | "paid";
 export interface Tool {
   name: string;
   description: string;
+  /** High-resolution favicon URL — proxied through Google's favicon
+   *  service so every public domain returns at least a 32×32 icon and
+   *  most return a crisp 128×128. Hotlink-safe and CORS-friendly. */
   logo: string;
+  /** Brand colour used as the fallback avatar tile background when the
+   *  favicon hasn't loaded (or fails). Keeps the UI looking intentional
+   *  even on a network blip. */
+  color: string;
   pricing: Pricing;
   url: string;
   categories: string[];
@@ -18,11 +25,15 @@ export interface Tool {
   pricingTiers?: { name: string; price: string; features: string }[];
 }
 
+const fav = (domain: string) =>
+  `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+
 export const directoryTools: Tool[] = [
   {
     name: "ChatGPT",
     description: "Conversational AI assistant for writing, research and code.",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/2048px-ChatGPT_logo.svg.png",
+    logo: fav("chat.openai.com"),
+    color: "#10a37f",
     pricing: "freemium",
     url: "https://chat.openai.com",
     categories: ["chat", "writing"],
@@ -32,7 +43,8 @@ export const directoryTools: Tool[] = [
   {
     name: "Claude",
     description: "Anthropic's assistant — strong at long-form writing and code.",
-    logo: "https://claude.ai/images/claude_app_icon.png",
+    logo: fav("claude.ai"),
+    color: "#cc785c",
     pricing: "freemium",
     url: "https://claude.ai",
     categories: ["chat", "writing"],
@@ -42,7 +54,8 @@ export const directoryTools: Tool[] = [
   {
     name: "GitHub Copilot",
     description: "AI pair programmer that completes code as you type.",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/2048px-GitHub_Invertocat_Logo.svg.png",
+    logo: fav("github.com"),
+    color: "#24292e",
     pricing: "paid",
     url: "https://github.com/features/copilot",
     categories: ["code", "productivity"],
@@ -52,7 +65,8 @@ export const directoryTools: Tool[] = [
   {
     name: "Perplexity Pro",
     description: "AI-powered answer engine with citations and live web search.",
-    logo: "https://logo.clearbit.com/perplexity.ai",
+    logo: fav("perplexity.ai"),
+    color: "#20808d",
     pricing: "paid",
     url: "https://www.perplexity.ai",
     categories: ["research", "chat"],
@@ -62,7 +76,8 @@ export const directoryTools: Tool[] = [
   {
     name: "Midjourney",
     description: "Generative AI art with a distinctive editorial aesthetic.",
-    logo: "https://logo.clearbit.com/midjourney.com",
+    logo: fav("midjourney.com"),
+    color: "#1a1a1a",
     pricing: "paid",
     url: "https://midjourney.com",
     categories: ["image", "design"],
@@ -72,7 +87,8 @@ export const directoryTools: Tool[] = [
   {
     name: "Sora",
     description: "OpenAI's text-to-video model for realistic short clips.",
-    logo: "https://logo.clearbit.com/openai.com",
+    logo: fav("openai.com"),
+    color: "#000000",
     pricing: "paid",
     url: "https://openai.com/sora",
     categories: ["video"],
@@ -82,7 +98,8 @@ export const directoryTools: Tool[] = [
   {
     name: "ElevenLabs",
     description: "Studio-quality voice cloning and text-to-speech.",
-    logo: "https://logo.clearbit.com/elevenlabs.io",
+    logo: fav("elevenlabs.io"),
+    color: "#0e0e0e",
     pricing: "freemium",
     url: "https://elevenlabs.io",
     categories: ["audio"],
@@ -92,7 +109,8 @@ export const directoryTools: Tool[] = [
   {
     name: "Canva",
     description: "All-in-one design platform with AI image and copy tools.",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Canva_icon_2021.svg/2048px-Canva_icon_2021.svg.png",
+    logo: fav("canva.com"),
+    color: "#00c4cc",
     pricing: "freemium",
     url: "https://canva.com",
     categories: ["design", "marketing"],
@@ -102,7 +120,8 @@ export const directoryTools: Tool[] = [
   {
     name: "Gamma",
     description: "Generate slide decks, docs and websites from a prompt.",
-    logo: "https://logo.clearbit.com/gamma.app",
+    logo: fav("gamma.app"),
+    color: "#7c3aed",
     pricing: "freemium",
     url: "https://gamma.app",
     categories: ["productivity", "writing"],
@@ -211,7 +230,8 @@ export const featuredTool: Tool = {
   name: "Claude",
   description:
     "Anthropic's assistant for writing, research and code — with industry-leading long-context reasoning, file uploads, and Artifacts that render code, charts and docs inline.",
-  logo: "https://claude.ai/images/claude_app_icon.png",
+  logo: fav("claude.ai"),
+  color: "#cc785c",
   pricing: "freemium",
   url: "https://claude.ai",
   categories: ["chat", "writing", "research"],
@@ -248,7 +268,8 @@ export const similarToFeatured: Tool[] = [
   {
     name: "ChatGPT",
     description: "Conversational AI assistant for writing, research and code.",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/2048px-ChatGPT_logo.svg.png",
+    logo: fav("chat.openai.com"),
+    color: "#10a37f",
     pricing: "freemium",
     url: "https://chat.openai.com",
     categories: ["chat"],
@@ -258,7 +279,8 @@ export const similarToFeatured: Tool[] = [
   {
     name: "Perplexity Pro",
     description: "AI-powered answer engine with citations and live web search.",
-    logo: "https://logo.clearbit.com/perplexity.ai",
+    logo: fav("perplexity.ai"),
+    color: "#20808d",
     pricing: "paid",
     url: "https://www.perplexity.ai",
     categories: ["research"],
@@ -268,7 +290,8 @@ export const similarToFeatured: Tool[] = [
   {
     name: "Mistral AI",
     description: "European AI lab with strong open-weights chat models.",
-    logo: "https://logo.clearbit.com/mistral.ai",
+    logo: fav("mistral.ai"),
+    color: "#fa520f",
     pricing: "freemium",
     url: "https://mistral.ai",
     categories: ["chat", "code"],

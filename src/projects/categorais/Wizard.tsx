@@ -9,6 +9,7 @@ import {
   type Recommendation,
   type Tool,
 } from "./data";
+import ToolAvatar from "./ToolAvatar";
 
 type Step = "role" | "task" | "results";
 
@@ -172,15 +173,12 @@ export default function CategorAisWizard() {
                       className="rounded-xl border border-white/10 bg-white/[0.03] p-4 flex items-start gap-4"
                     >
                       <div className="shrink-0 relative">
-                        <div className="size-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={tool.logo}
-                            alt={`${tool.name} logo`}
-                            loading="lazy"
-                            className="size-9 object-contain"
-                          />
-                        </div>
+                        <ToolAvatar
+                          name={tool.name}
+                          logo={tool.logo}
+                          color={tool.color}
+                          size={48}
+                        />
                         <span
                           className="absolute -bottom-1.5 -right-1.5 size-6 rounded-full text-[10px] font-bold flex items-center justify-center text-white"
                           style={{
