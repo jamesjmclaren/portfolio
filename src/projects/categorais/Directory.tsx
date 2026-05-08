@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Search, Bell, Sparkles, Star, Scale } from "lucide-react";
 import { directoryTools, type Pricing } from "./data";
+import ToolAvatar from "./ToolAvatar";
 
 const categories = [
   "all",
@@ -167,13 +168,12 @@ export default function CategorAisDirectory() {
               >
                 {t.pricing}
               </span>
-              <div className="mt-3 size-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={t.logo}
-                  alt={`${t.name} logo`}
-                  loading="lazy"
-                  className="size-9 object-contain"
+              <div className="mt-3">
+                <ToolAvatar
+                  name={t.name}
+                  logo={t.logo}
+                  color={t.color}
+                  size={48}
                 />
               </div>
               <h3 className="mt-3 font-bold tracking-tight">{t.name}</h3>

@@ -13,7 +13,7 @@ export const categoraisScenes: Scene[] = [
     features: [
       "Category chip rail with live filtering",
       "Pricing filter (Free / Freemium / Paid)",
-      "Real logos via clearbit.com / Wikimedia",
+      "Real logos via Google's favicon API with branded fallbacks",
       "Favorites and compare actions per card",
       "Dark theme with cyan / purple / pink gradient accents",
     ],
