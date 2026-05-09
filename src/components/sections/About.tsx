@@ -1,62 +1,71 @@
-import Section from "../Section";
-import ScrollReveal from "../ScrollReveal";
-
 export default function About() {
   return (
-    <Section id="about" eyebrow="About" title="A leader who ships.">
-      <div className="grid md:grid-cols-3 gap-10 md:gap-14">
-        <ScrollReveal className="md:col-span-2 space-y-6 text-lg text-text-secondary leading-relaxed">
-          <p>
-            I'm James — a quality engineering leader with{" "}
-            <span className="text-text-primary">13+ years</span> building QA
-            functions and driving delivery across complex technical environments.
-            Currently <span className="text-text-primary">Head of QA at io.finnet</span>,
-            where I built the team from zero to four engineers and established
-            automation frameworks achieving 80%+ test coverage across the core
-            product line.
+    <section
+      id="about"
+      className="snap-section h-screen flex items-center px-6 md:px-10 pt-14"
+    >
+      <div className="mx-auto w-full max-w-6xl grid lg:grid-cols-2 gap-12 lg:gap-24">
+        {/* Left — broad description */}
+        <div>
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-accent mb-4">
+            02 / 07 · About
           </p>
-          <p>
-            I've led testing for 10+ major releases spanning{" "}
-            <span className="text-text-primary">MPC technology</span>, smart
-            contracts, 20+ blockchain networks (Ethereum, Bitcoin, Solana, Tron,
-            Ripple), exchange integrations (Bitfinex, Kiln, WalletConnect), and
-            banking partnerships running on private EVM networks. Previously at{" "}
-            <span className="text-text-primary">YouView</span>, I led 11 QA
-            Engineers across 5 SCRUM teams, delivering QA for the HTML5 UI
-            migration to 2 million customers, the UK's first Netflix integration
-            in connected TV, and the 4K set-top box launch with BT.
-          </p>
-          <p>
-            Outside of work I build products end-to-end — design, code, deploy,
-            iterate. My recent personal projects all use Next.js, React,
-            TypeScript and Tailwind, and all were built with{" "}
-            <span className="text-accent">Claude Code</span> as the primary coding
-            partner. This site itself is built that way — scroll a project page
-            and you'll see the actual code from the repo, not screenshots.
-          </p>
-        </ScrollReveal>
-
-        <ScrollReveal delay={0.1} className="space-y-6">
-          <div className="rounded-xl border border-border bg-surface p-5">
-            <p className="text-xs uppercase tracking-wider text-text-muted mb-2">
-              Currently
+          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight mb-8">
+            A leader who ships.
+          </h2>
+          <div className="space-y-5 text-lg text-text-secondary leading-relaxed">
+            <p>
+              I build and lead quality engineering functions from scratch —
+              assembling teams, defining strategy, and putting in place the
+              automation infrastructure that lets product move fast without
+              breaking things.
             </p>
+            <p>
+              My work spans the full stack of modern delivery:{" "}
+              <span className="text-text-primary">CI/CD pipelines</span>,{" "}
+              <span className="text-text-primary">cloud backends</span>,{" "}
+              <span className="text-text-primary">frontends</span>,{" "}
+              <span className="text-text-primary">mobile</span> and{" "}
+              <span className="text-text-primary">TV operating systems</span>.
+              Industries covered include{" "}
+              <span className="text-text-primary">fintech</span>,{" "}
+              <span className="text-text-primary">blockchain & MPC</span>, and{" "}
+              <span className="text-text-primary">connected TV</span>.
+            </p>
+            <p>
+              Tools of choice:{" "}
+              <span className="text-text-primary">Playwright</span>,{" "}
+              <span className="text-text-primary">GitHub Actions</span>, and
+              increasingly,{" "}
+              <span className="text-accent">Claude Code</span>{" "}
+              — now my daily driver for shipping side projects and tooling.
+            </p>
+          </div>
+        </div>
+
+        {/* Right — clean stats */}
+        <div className="flex flex-col justify-center gap-4">
+          <div className="rounded-xl border border-border bg-surface p-6">
+            <p className="text-5xl font-semibold text-accent mb-1">13+</p>
+            <p className="text-text-muted">years in quality engineering &amp; delivery</p>
+          </div>
+
+          <div className="rounded-xl border border-border bg-surface p-4 flex justify-between items-center">
+            <p className="text-xs uppercase tracking-wider text-text-muted">Currently</p>
             <p className="text-text-primary font-medium">Head of QA, io.finnet</p>
           </div>
-          <div className="rounded-xl border border-border bg-surface p-5">
-            <p className="text-xs uppercase tracking-wider text-text-muted mb-2">
-              Based
-            </p>
-            <p className="text-text-primary font-medium">Greater Edinburgh Area</p>
+
+          <div className="rounded-xl border border-border bg-surface p-4 flex justify-between items-center">
+            <p className="text-xs uppercase tracking-wider text-text-muted">Location</p>
+            <p className="text-text-primary font-medium">Edinburgh — remote</p>
           </div>
-          <div className="rounded-xl border border-accent-muted bg-accent-muted/30 p-5">
-            <p className="text-xs uppercase tracking-wider text-accent mb-2">
-              Working with
-            </p>
+
+          <div className="rounded-xl border border-accent-muted bg-accent-muted/30 p-4 flex justify-between items-center">
+            <p className="text-xs uppercase tracking-wider text-accent">Building with</p>
             <p className="text-text-primary font-medium">Claude Code, daily</p>
           </div>
-        </ScrollReveal>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

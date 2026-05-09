@@ -9,7 +9,7 @@ export const prempodScenes: Scene[] = [
     eyebrow: "Discover",
     title: "Hot podcasts, surfaced.",
     blurb:
-      "Trending feed across all leagues and platforms — YouTube, Spotify, TikTok, iTunes. Filter by competition, club or topic.",
+      "The trending feed across all four platforms in one view — filter by competition, club or topic and every card carries its platform badge and play count.",
     features: [
       "Cross-platform podcast aggregation",
       "Trending sort with play counts",
@@ -25,7 +25,7 @@ export const prempodScenes: Scene[] = [
     eyebrow: "Club page",
     title: "Every club, every channel.",
     blurb:
-      "Each club gets a hub — channels list, AI-generated intro, official badges, live-stream indicators, and the next fixture wired in.",
+      "Each club's hub: every channel with platform, subscriber count and latest video, an AI-generated intro via Groq, live-stream badges, and the next fixture pinned at the top.",
     features: [
       "Channel cards with platform + subs + latest video",
       "Official / promoted / live-stream badges",
@@ -41,7 +41,7 @@ export const prempodScenes: Scene[] = [
     eyebrow: "Admin",
     title: "Sync status at a glance.",
     blurb:
-      "Behind the scenes: a sync dashboard tracking every channel across YouTube (RSS + Data), Spotify, TikTok and iTunes — with quota cost and error surfacing.",
+      "The back-of-house sync dashboard — per-channel status across all four platforms, YouTube quota tracking with an RSS-first cost strategy, and error surfacing with manual-review hooks.",
     features: [
       "Per-channel sync status with retry",
       "YouTube quota meter (RSS-first strategy)",

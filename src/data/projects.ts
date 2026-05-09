@@ -31,15 +31,15 @@ export const projectMeta: ProjectMeta[] = [
     slug: "west-investments",
     title: "West Investments",
     tagline:
-      "Pokémon TCG portfolio tracker — fintech-grade UX for collectors",
+      "Alternative asset portfolio tracker for a select group of investors — real-time market prices, trend analysis and tax reporting, starting with Pokémon TCG",
     url: "https://west.investments",
     repo: "jamesjmclaren/pokemonAssets",
     hidden: true,
     status: "active",
     pitch:
-      "A full-stack portfolio tracker that aggregates real-time Pokémon TCG market prices across TCGPlayer, eBay and CardMarket, and visualises asset allocation through interactive charts.",
+      "Started as a personal tool for tracking Pokémon card investments at live market price. Now evolving into a closed-access platform — a curated group of members pay a monthly fee to track their portfolios, monitor price trends across TCGPlayer, eBay and CardMarket, pull performance reports and generate tax summaries.",
     longPitch:
-      "West Investments is sat behind a Clerk auth wall, so screenshots tell only half the story. Below is a working demo of the actual UI — sidebar, dashboard, charts, marketplace and the add-asset flow — running on mock data inside this page. Click around, toggle the chart series, step through the form.",
+      "West Investments sits behind a Clerk auth wall, so screenshots tell only half the story. The vision is simple: alternative assets like Pokémon cards deserve the same portfolio tooling as stocks — real-time pricing, allocation breakdowns, historical trends and exportable tax reports. Below is a working demo of the actual UI — sidebar, dashboard, charts, marketplace and the add-asset flow — running on mock data inside this page. Click around, toggle the chart series, step through the form.",
     stack: [
       "Next.js 15",
       "React 19",
@@ -56,14 +56,14 @@ export const projectMeta: ProjectMeta[] = [
     slug: "prempod",
     title: "Prempod",
     tagline:
-      "Premier League podcast discovery, aggregated across YouTube / Spotify / TikTok / iTunes",
+      "Community-driven hub for finding football content creators — TikTok, Spotify and YouTube channels for your club, all in one place",
     url: "https://prempod.com",
     repo: "jamesjmclaren/premleaguepodcasts",
     status: "active",
     pitch:
-      "A discovery platform that pulls podcasts and video from four platforms and stitches them onto live Premier League fixtures, club pages and trending discussion threads.",
+      "As an Arsenal fan there's no easy way to find the best Arsenal content creators across every platform. Prempod fixes that — a community-built directory where fans add the creators they love, others discover them, and everyone clicks through to the content they actually want. Built for every club, every league.",
     longPitch:
-      "The hard part isn't the UI — it's the four-API choreography behind it. YouTube quotas, Spotify token rotation, TikTok blob storage, iTunes RSS. Below: working demos of the home discovery feed, a club page with channels and live fixtures, and the admin sync dashboard.",
+      "The idea is straightforward: pick your club, find the creators covering it — whether that's a long-running YouTube channel, a Spotify podcast or a TikTok account doing match-day breakdowns. Fans add creators they rate, the community surfaces the best ones, and you click straight through to their pages. It could work for every club in every league in the world — for now, it starts with the Premier League. The engineering challenge is the four-platform API choreography behind it: YouTube quotas, Spotify token rotation, TikTok blob storage, live fixture data. Below: working demos of the discovery feed, a club hub, and the admin sync dashboard.",
     stack: [
       "Next.js 16",
       "React 19",
@@ -80,13 +80,13 @@ export const projectMeta: ProjectMeta[] = [
     slug: "burgerlist",
     title: "Burgerlist",
     tagline:
-      "Social burger discovery — rate, list and share with AI-moderated photos",
+      "Build ranked lists of your favourite restaurants, add photos and ratings, then share them in one link — your top 10 Italian spots in London, ready to send",
     repo: "jamesjmclaren/burgerlist",
     status: "inactive",
     pitch:
-      "A social platform for burger fans: track what you've eaten, share lists, rate spots, and discover places nearby — with AI-moderated photo uploads and Google Maps location pickers.",
+      "Not a review site — a list-making tool. Pick a theme, add the restaurants you know, rank them, rate them, upload photos, and share the whole thing as a single link. Your top 10 Italian restaurants in London. The best curry houses in Edinburgh. Hand it to a friend in one tap.",
     longPitch:
-      "Burgerlist is the playground project for trying new patterns: NextAuth with Google + Apple + credentials side-by-side, AWS-Rekognition-backed photo moderation through Cloudinary, and a clean ui/* component layer that keeps forms consistent. Demo views below.",
+      "The fun part of Burgerlist is the sharing mechanic — build a curated, opinionated list and get it into someone's hands instantly, without an app download or a login. Under the hood it was a playground for trying patterns I hadn't used together before: NextAuth with Google, Apple and credentials auth side-by-side, AWS Rekognition-backed photo moderation piped through Cloudinary, and a Google Maps location picker for every venue. Demo views below.",
     stack: [
       "Next.js 16",
       "React 19",
@@ -104,13 +104,13 @@ export const projectMeta: ProjectMeta[] = [
     slug: "categorais",
     title: "CategorAIs",
     tagline:
-      "An AI-tools directory with automated discovery and a personalised recommendation wizard",
+      "Use AI to find the AI you need — a self-updating index of 350+ tools, discovered daily by agents, fully searchable by what you're actually trying to do",
     repo: "jamesjmclaren/categorais",
     status: "inactive",
     pitch:
-      "A curated directory of 350+ AI tools across 20+ categories, with a multi-agent discovery pipeline that finds, validates and enriches new entries, plus an AI wizard that recommends a personalised toolkit by role.",
+      "Everyone's building AI tools. Nobody's making it easy to find the right one. CategorAIs is a living directory where AI agents hunt for new tools daily, and an AI wizard recommends exactly what you need based on what you're trying to do — whether that's building a spreadsheet, writing code or automating a workflow.",
     longPitch:
-      "CategorAIs is two products in one: a public directory built around fast filtering, comparison and a recommendation wizard, and a back-of-house pipeline of TypeScript agents that scrape Brave Search, dedupe results, fetch Open Graph previews, score popularity from Tranco rank, and write through to a Supabase-backed JSON store. Below — the consumer browse experience, the wizard flow that drives recommendations, and a tool-detail modal.",
+      "CategorAIs is two products in one. On the surface: a public directory of 350+ AI tools across 20+ categories, with fast filtering, pricing info and a recommendation wizard that maps your role and goal to the right toolkit. Behind the scenes: a pipeline of TypeScript agents that scrape Brave Search daily, dedupe results, fetch Open Graph previews, score popularity via Tranco rank, and write everything through to a Supabase-backed store — so the index stays fresh without manual curation. Below — the browse experience, the wizard flow, and a tool-detail modal.",
     stack: [
       "TypeScript",
       "Vanilla JS",

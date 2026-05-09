@@ -10,7 +10,7 @@ export const westScenes: Scene[] = [
     eyebrow: "Portfolio",
     title: "The portfolio at a glance.",
     blurb:
-      "Stat tiles, an interactive stacked area chart and a recent-assets list. The chart series toggle, the time range filters, and the Y-axis rescales to whatever is visible.",
+      "All your cards at a glance — portfolio value, cost basis, unrealised P&L and an interactive stacked area chart. Toggle any series, shift the time range, and the Y-axis rescales in real time.",
     features: [
       "Stat tiles: portfolio value, cost basis, P&L, asset count",
       "Stacked area chart with toggleable series",
@@ -27,7 +27,7 @@ export const westScenes: Scene[] = [
     eyebrow: "Marketplace",
     title: "Verified vendors, browsable.",
     blurb:
-      "Filterable listings grid with vendor verification badges. Sidebar surfaces top vendors with ratings and locations.",
+      "Browse verified vendors for sealed product, graded slabs and raw singles. Ratings, listing counts and locations surface in the sidebar for the top-rated sellers.",
     features: [
       "Sealed / graded / raw filter chips",
       "Vendor verification badges",
@@ -43,7 +43,7 @@ export const westScenes: Scene[] = [
     eyebrow: "Add asset",
     title: "Multi-step capture flow.",
     blurb:
-      "Find the card, pick condition and grade, set quantity and cost basis, confirm. Click through it — every step is interactive.",
+      "Search the Pokémon TCG catalogue, choose condition and grade, set a cost basis, and preview live price data before submitting — end to end in four steps.",
     features: [
       "Pokémon TCG API search with results preview",
       "Raw / graded / sealed picker",
@@ -60,7 +60,7 @@ export const westScenes: Scene[] = [
     eyebrow: "Asset analytics",
     title: "Live prices across three sources.",
     blurb:
-      "Per-asset detail view aggregating TCGPlayer, eBay and CardMarket with 7-day and 30-day deltas, sales volume, and a 30-day trend sparkline.",
+      "Every card's full price history across TCGPlayer, eBay and CardMarket — 7-day and 30-day deltas, sales volume, and a 30-day trend sparkline refreshed on demand.",
     features: [
       "TCGPlayer / eBay / CardMarket aggregation",
       "7-day and 30-day price deltas",
