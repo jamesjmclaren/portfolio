@@ -9,7 +9,7 @@ export const burgerlistScenes: Scene[] = [
     eyebrow: "Feed",
     title: "Discovery feed.",
     blurb:
-      "Friends-and-follows feed of recent burgers. Photo, rating, location, tags — and an AI-moderation badge baked into every image.",
+      "Your follows' recent burgers — photo, rating, price and tags, with a Rekognition moderation badge on every image. Like, comment or save to a list without leaving the feed.",
     features: [
       "Per-entry photo, rating, price and tags",
       "AI moderation badge on every image",
@@ -25,7 +25,7 @@ export const burgerlistScenes: Scene[] = [
     eyebrow: "List detail",
     title: "Curated lists with map view.",
     blurb:
-      "Lists are first-class. Each entry gets a ranked card and a Google-Maps pin so you can plan a tour.",
+      "Lists are shareable and map-backed: each entry gets a ranking, notes and a Google Maps pin, so any list doubles as a tour route.",
     features: [
       "Ranked entries with notes",
       "Google Maps integration with custom pins",
@@ -41,7 +41,7 @@ export const burgerlistScenes: Scene[] = [
     eyebrow: "Add entry",
     title: "Logging a burger, end to end.",
     blurb:
-      "Photo upload runs through Cloudinary with optional AWS Rekognition moderation; spot autocomplete uses Google Places. Feedback is live — try clicking around.",
+      "Upload a photo through Cloudinary with live Rekognition moderation feedback, autocomplete the spot via Google Places, slide the rating, add tags — and the submit button stays locked until scanning clears.",
     features: [
       "Cloudinary upload with AWS Rekognition moderation",
       "Real-time moderation state on the photo",

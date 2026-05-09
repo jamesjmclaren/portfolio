@@ -5,7 +5,10 @@ import { ArrowDown } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-10 pt-20">
+    <section
+      id="hero"
+      className="snap-section h-screen flex flex-col justify-center px-6 md:px-10 pt-14 relative"
+    >
       <div className="mx-auto w-full max-w-6xl">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
@@ -24,9 +27,9 @@ export default function Hero() {
         >
           James McLaren.
           <br />
-          <span className="text-text-secondary">13+ years shipping products,</span>
+          <span className="text-text-secondary">13+ years of product engineering,</span>
           <br />
-          <span className="text-accent">building with Claude.</span>
+          <span className="text-accent">currently building with Claude.</span>
         </motion.h1>
 
         <motion.p
@@ -37,6 +40,15 @@ export default function Hero() {
         >
           Personal projects, work history, and the actual code behind the products —
           not just screenshots. Scroll on.
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
+          className="mt-8 text-xs font-mono uppercase tracking-[0.2em] text-text-muted"
+        >
+          01 / 07
         </motion.p>
       </div>
 

@@ -2,10 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Nav from "@/components/Nav";
-import Section from "@/components/Section";
 import ScrollReveal from "@/components/ScrollReveal";
 import ProjectHero from "@/components/project/ProjectHero";
-import StackBadges from "@/components/project/StackBadges";
 import BrowserFrame from "@/components/project/BrowserFrame";
 import Scene from "@/components/project/Scene";
 import { getProject, projectMeta, type Scene as SceneT } from "@/data/projects";
@@ -56,16 +54,25 @@ export default async function ProjectPage({
     <>
       <Nav />
       <main>
+        {/* Full-screen hero with screenshot background */}
         <ProjectHero project={project} />
 
-        <Section eyebrow="The pitch" title="What it is.">
-          <ScrollReveal>
-            <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl">
-              {project.longPitch}
-            </p>
-          </ScrollReveal>
-        </Section>
+        {/* Pitch — compact, no giant padding */}
+        <section className="px-6 md:px-10 py-12 md:py-16 border-t border-border/50">
+          <div className="mx-auto w-full max-w-6xl">
+            <ScrollReveal>
+              <p className="text-xs font-medium uppercase tracking-[0.18em] mb-4"
+                style={{ color: project.accent }}>
+                The pitch
+              </p>
+              <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl">
+                {project.longPitch}
+              </p>
+            </ScrollReveal>
+          </div>
+        </section>
 
+        {/* Demo scenes */}
         {scenes.map((s) => (
           <Scene
             key={s.number}
@@ -74,6 +81,7 @@ export default async function ProjectPage({
             title={s.title}
             blurb={s.blurb}
             features={s.features}
+            accent={project.accent}
           >
             <BrowserFrame
               url={s.url}
@@ -85,34 +93,32 @@ export default async function ProjectPage({
           </Scene>
         ))}
 
-        <Section eyebrow="Stack" title="What it runs on.">
-          <ScrollReveal>
-            <StackBadges stack={project.stack} />
-          </ScrollReveal>
-        </Section>
-
+        {/* Next project */}
         {next && (
-          <Section eyebrow="Next" title="Keep going.">
-            <ScrollReveal>
-              <Link
-                href={`/projects/${next.slug}`}
-                className="group block rounded-2xl border border-border bg-surface hover:bg-surface-hover hover:border-border-hover transition-all p-7 md:p-9"
-              >
-                <p className="text-xs uppercase tracking-wider text-text-muted mb-2">
+          <section className="px-6 md:px-10 py-12 md:py-16 border-t border-border/50">
+            <div className="mx-auto w-full max-w-6xl">
+              <ScrollReveal>
+                <p className="text-xs font-medium uppercase tracking-[0.18em] text-text-muted mb-6">
                   Next project
                 </p>
-                <div className="flex items-center justify-between gap-6">
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
-                      {next.title}
-                    </h3>
-                    <p className="text-text-secondary mt-2">{next.tagline}</p>
+                <Link
+                  href={`/projects/${next.slug}`}
+                  className="group block rounded-2xl border border-border bg-surface hover:bg-surface-hover hover:border-border-hover transition-all p-7 md:p-9"
+                >
+                  <div className="flex items-center justify-between gap-6">
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
+                        {next.title}
+                      </h3>
+                      <p className="text-text-secondary mt-2 max-w-xl">{next.tagline}</p>
+                    </div>
+                    <ArrowRight className="size-6 text-text-secondary group-hover:translate-x-1 transition-all shrink-0"
+                      style={{ color: next.accent }} />
                   </div>
-                  <ArrowRight className="size-6 text-text-secondary group-hover:text-accent group-hover:translate-x-1 transition-all" />
-                </div>
-              </Link>
-            </ScrollReveal>
-          </Section>
+                </Link>
+              </ScrollReveal>
+            </div>
+          </section>
         )}
       </main>
     </>

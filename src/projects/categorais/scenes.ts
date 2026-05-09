@@ -9,7 +9,7 @@ export const categoraisScenes: Scene[] = [
     eyebrow: "Directory",
     title: "Browse 350+ AI tools.",
     blurb:
-      "Category and pricing chips filter the grid live. Each card pulls real data — logo, description, categories and feature tags — from the same JSON store the live site renders.",
+      "Category and pricing chips filter the full grid live. Every card shows the real favicon, description and feature tags pulled from the same JSON store as the live site.",
     features: [
       "Category chip rail with live filtering",
       "Pricing filter (Free / Freemium / Paid)",
@@ -25,7 +25,7 @@ export const categoraisScenes: Scene[] = [
     eyebrow: "Wizard",
     title: "Personalised by role.",
     blurb:
-      "A three-step modal that asks for your role, lets you describe a task, then ranks the tools that fit best — driven by a role→task→category mapping shipped with the site.",
+      "Three steps: pick your role, describe a task in plain text, get a ranked shortlist with match scores and per-recommendation reasons — driven by the same dataset as the directory.",
     features: [
       "Role grid with selection state",
       "Free-text task input for context",
@@ -41,7 +41,7 @@ export const categoraisScenes: Scene[] = [
     eyebrow: "Tool detail",
     title: "Inside a tool entry.",
     blurb:
-      "Click any card and the full record opens — preview, popularity, features, pricing tiers and similar-tool suggestions sourced from the same category overlap.",
+      "The full record for any tool — hero preview, Tranco-based popularity score, feature checklist, pricing tiers, and a similar-tools rail built from category overlap.",
     features: [
       "Hero preview with gradient overlay",
       "Popularity bar from Tranco rank",

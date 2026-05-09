@@ -63,3 +63,14 @@ body::before {
   background: var(--color-accent-muted);
   color: var(--color-text-primary);
 }
+
+/* Homepage snap-scroll — on the <main> scroll container */
+.snap-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+.snap-section {
+  scroll-snap-align: start;
+}
