@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DesignSwitcher from "@/components/DesignSwitcher";
 
 const links = [
   { href: "/#about",    label: "About" },
@@ -30,6 +31,7 @@ export default function Nav() {
             </li>
           ))}
         </ul>
+        <DesignSwitcher />
       </div>
     </nav>
   );

@@ -24,6 +24,7 @@ export interface ProjectMeta {
   longPitch: string;
   stack: string[];
   accent: string;
+  features?: string[];
 }
 
 export const projectMeta: ProjectMeta[] = [
@@ -51,6 +52,22 @@ export const projectMeta: ProjectMeta[] = [
       "Stripe",
     ],
     accent: "#d4af37",
+    features: [
+      "Multi-portfolio management — create and switch between separate portfolios",
+      "Asset tracking with real-time prices via PriceCharting API",
+      "Interactive P&L chart with selectable time ranges (Recharts)",
+      "Historical price snapshots per asset to track appreciation over time",
+      "Batch price refresh — bulk-update all asset valuations in one call",
+      "Cash balance tracking alongside asset positions",
+      "Portfolio sharing — invite members via token-based links",
+      "Role-based access control (read-only vs. edit) per portfolio",
+      "Community gallery — browse other users' public portfolios",
+      "PDF export — download a full portfolio report with charts",
+      "Onboarding wizard for first-time portfolio setup",
+      "Stripe integration for premium feature upgrades",
+      "Scheduled price-sync cron job running in the background",
+      "Clerk authentication with SSO support",
+    ],
   },
   {
     slug: "prempod",
@@ -75,6 +92,21 @@ export const projectMeta: ProjectMeta[] = [
       "Groq",
     ],
     accent: "#5b8def",
+    features: [
+      "Club pages — every Premier League club with its own podcast/channel hub",
+      "Multi-platform aggregation — YouTube, Spotify, TikTok, iTunes in one feed",
+      "Live stream detection — surfaces currently-live channels in real time",
+      "Fixture sync — podcasts stitched to live PL match schedules",
+      "Community voting — upvote/downvote channels to surface quality content",
+      "Favourites — save channels with persistent per-user list",
+      "Trending feed — algorithmic ranking by clicks and vote score",
+      "Channel submission form — community can propose new podcasts for review",
+      "Admin dashboard — approve/reject submissions, bulk-import channels",
+      "AI-generated channel intros via Groq for consistent descriptions",
+      "AI channel discovery — semantic search finds related channels automatically",
+      "Click analytics — tracks and reports channel click-through rates",
+      "Resend transactional email for submission confirmations",
+    ],
   },
   {
     slug: "burgerlist",
@@ -99,6 +131,22 @@ export const projectMeta: ProjectMeta[] = [
       "Zod",
     ],
     accent: "#f97316",
+    features: [
+      "Create themed burger lists (e.g. \"Best in Edinburgh\", \"Wagyu tier list\")",
+      "Per-entry details — restaurant, burger name, star rating, price, visit date",
+      "Multi-photo upload per burger with automatic AI content moderation (Cloudinary + AWS Rekognition)",
+      "Google Maps location tagging with embedded map links",
+      "Custom tags for filtering (#vegan, #smashburger, #double-patty…)",
+      "Public list sharing via shareable links",
+      "Discover feed — browse public lists by city or cuisine type",
+      "Like / bookmark other users' lists",
+      "User profiles showing all public lists",
+      "Google OAuth + email/password sign-in (NextAuth)",
+      "Admin dashboard — view all users, lists, entries and engagement stats",
+      "Role-based access control (USER / ADMIN)",
+      "Entry reordering within a list",
+      "AI field suggestions to speed up adding new entries",
+    ],
   },
   {
     slug: "categorais",
@@ -122,6 +170,22 @@ export const projectMeta: ProjectMeta[] = [
       "Vercel",
     ],
     accent: "#a855f7",
+    features: [
+      "350+ AI tools across 20+ categories (Writing, Code, Image, Video, Chatbots…)",
+      "Full-text and semantic search — natural language queries like \"tool for writing blogs\"",
+      "Filters by pricing model (free / freemium / paid) and category",
+      "AI recommendation wizard — suggests a personalised toolkit by role and workflow",
+      "Tool detail pages with description, pricing tiers, features and community ratings",
+      "Trending tools — real-time detection of tools spiking in searches and views",
+      "Multi-agent discovery pipeline — finds, validates and enriches new tools daily via Brave Search",
+      "Parallel search queries (3× faster than sequential) with deduplication and URL validation",
+      "Popularity scoring using Tranco rank, search volume and GitHub stars",
+      "4-tier AI fallback chain — Groq → Gemini → OpenRouter → Claude",
+      "Admin approval workflow for community-submitted tools",
+      "GDPR-compliant cookie consent with consent-gated analytics",
+      "Tool history tracking — records metadata and pricing changes over time",
+      "Rate limiting with per-IP hourly and daily quotas",
+    ],
   },
 ];
 
