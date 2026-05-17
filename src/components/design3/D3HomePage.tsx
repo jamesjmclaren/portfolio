@@ -421,54 +421,65 @@ const skillGroups = [
   },
 ];
 
+function SubLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{
+      fontFamily: "system-ui, sans-serif",
+      fontSize: 11,
+      fontWeight: 700,
+      letterSpacing: 3,
+      textTransform: "uppercase" as const,
+      color: MUTED,
+      marginBottom: 20,
+    }}>
+      {children}
+    </p>
+  );
+}
+
 function D3Stack() {
   return (
     <SectionCard zIndex={4} background={CREAM}>
       <div style={{ padding: "80px clamp(20px, 5vw, 64px) 100px", maxWidth: 1200, margin: "0 auto" }}>
         <SectionHeading eyebrow="the stack" title="Tools & skills." />
 
-        {/* Claude Code callout */}
-        <Reveal delay={0.08}>
+        {/* ── Half 1: Claude Code ─────────────────────────────────────── */}
+        <Reveal delay={0.05}>
+          <SubLabel>Built with Claude Code</SubLabel>
+        </Reveal>
+
+        {/* Callout */}
+        <Reveal delay={0.1}>
           <div style={{
             borderRadius: 20,
             border: `1.5px solid ${TEAL}30`,
             background: `linear-gradient(135deg, ${TEAL}10 0%, transparent 100%)`,
-            padding: "28px 32px",
+            padding: "24px 28px",
             display: "flex",
-            gap: 20,
+            gap: 18,
             alignItems: "flex-start",
-            marginBottom: 40,
+            marginBottom: 20,
           }}>
             <div style={{
-              flexShrink: 0,
-              width: 44,
-              height: 44,
-              borderRadius: 12,
-              background: `${TEAL}18`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              flexShrink: 0, width: 40, height: 40, borderRadius: 11,
+              background: `${TEAL}18`, display: "flex", alignItems: "center", justifyContent: "center",
             }}>
-              <Zap size={20} color={TEAL} />
+              <Zap size={18} color={TEAL} />
             </div>
             <div>
-              <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase" as const, color: TEAL, marginBottom: 6 }}>
+              <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase" as const, color: TEAL, margin: "0 0 5px" }}>
                 The unfair advantage
               </p>
-              <h3 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 22, color: INK, letterSpacing: -0.5, margin: "0 0 10px" }}>
-                Built with Claude Code.
-              </h3>
-              <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 15, color: MUTED, lineHeight: 1.65, margin: 0, maxWidth: 680 }}>
-                Every project on this site — and this site itself — was spec&apos;d, scaffolded, refactored and shipped with{" "}
-                <span style={{ color: INK, fontWeight: 600 }}>Claude Code</span> as the actual workflow.
-                Not a buzzword. The output speaks for itself.
+              <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 14, color: MUTED, lineHeight: 1.65, margin: 0, maxWidth: 680 }}>
+                Every project here — and this site itself — was spec&apos;d, scaffolded, refactored and shipped with{" "}
+                <span style={{ color: INK, fontWeight: 600 }}>Claude Code</span> as the actual workflow. Not a buzzword. The output speaks for itself.
               </p>
             </div>
           </div>
         </Reveal>
 
-        {/* Tech stack pills */}
-        <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 8, marginBottom: 56 }}>
+        {/* Tech pills */}
+        <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 8 }}>
           {techStack.map((t, i) => (
             <motion.div key={t.name}
               initial={{ opacity: 0, scale: 0.65, y: 12 }}
@@ -480,9 +491,7 @@ function D3Stack() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`https://cdn.simpleicons.org/${t.icon}/${INK_HEX}`}
-                alt=""
-                width={14}
-                height={14}
+                alt="" width={14} height={14}
                 style={{ display: "block", flexShrink: 0 }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
               />
@@ -491,7 +500,16 @@ function D3Stack() {
           ))}
         </div>
 
-        {/* Skills grid */}
+        {/* ── Divider ─────────────────────────────────────────────────── */}
+        <Reveal delay={0}>
+          <div style={{ margin: "56px 0 44px", height: 1, background: "rgba(26,37,53,0.09)" }} />
+        </Reveal>
+
+        {/* ── Half 2: Professional skills ─────────────────────────────── */}
+        <Reveal delay={0.05}>
+          <SubLabel>Professional expertise</SubLabel>
+        </Reveal>
+
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {skillGroups.map((g, i) => (
             <motion.div key={g.title}
@@ -499,9 +517,9 @@ function D3Stack() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.55, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-              style={{ background: WHITE, borderRadius: 20, padding: "24px 24px", border: "1px solid rgba(26,37,53,0.07)", boxShadow: "0 2px 12px rgba(26,37,53,0.05)" }}
+              style={{ background: WHITE, borderRadius: 20, padding: "22px 24px", border: "1px solid rgba(26,37,53,0.07)", boxShadow: "0 2px 12px rgba(26,37,53,0.05)" }}
             >
-              <h4 style={{ fontFamily: "system-ui, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase" as const, color: MUTED, marginBottom: 16, margin: "0 0 16px" }}>
+              <h4 style={{ fontFamily: "system-ui, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase" as const, color: MUTED, margin: "0 0 14px" }}>
                 {g.title}
               </h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
