@@ -31,7 +31,7 @@ export default function DesignSwitcher({ variant = "dark" }: Props) {
       >
         Design
       </span>
-      {([1, 2] as Design[]).map((d) => {
+      {([1, 2, 3] as Design[]).map((d) => {
         const active = design === d;
         return (
           <button
@@ -39,7 +39,7 @@ export default function DesignSwitcher({ variant = "dark" }: Props) {
             onClick={() => setDesign(d)}
             className="rounded-full transition-all duration-150"
             style={{
-              padding: "4px 13px",
+              padding: "4px 11px",
               fontSize: 12,
               fontWeight: 600,
               fontFamily: "ui-monospace, monospace",
@@ -56,7 +56,7 @@ export default function DesignSwitcher({ variant = "dark" }: Props) {
                 : "rgba(255,255,255,0.35)",
             }}
           >
-            {d === 1 ? "D1" : "D2"}
+            D{d}
           </button>
         );
       })}

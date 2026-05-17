@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-export type Design = 1 | 2;
+export type Design = 1 | 2 | 3;
 
 interface DesignCtx {
   design: Design;
@@ -18,6 +18,7 @@ export function DesignProvider({ children }: { children: React.ReactNode }) {
     try {
       const saved = localStorage.getItem("portfolio-design");
       if (saved === "2") setDesignState(2);
+      else if (saved === "3") setDesignState(3);
     } catch {}
   }, []);
 

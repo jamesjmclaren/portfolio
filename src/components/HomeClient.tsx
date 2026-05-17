@@ -9,11 +9,13 @@ import Work from "@/components/sections/Work";
 import Skills from "@/components/sections/Skills";
 import Contact from "@/components/sections/Contact";
 import D2HomePage from "@/components/design2/D2HomePage";
+import D3HomePage from "@/components/design3/D3HomePage";
 
 export default function HomeClient() {
   const { design } = useDesign();
 
   if (design === 2) return <D2HomePage />;
+  if (design === 3) return <D3HomePage />;
 
   return (
     <>
