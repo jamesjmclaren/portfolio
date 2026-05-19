@@ -142,8 +142,8 @@ function useCountUp(end: number, durationMs = 1400, delayMs = 900) {
   return count;
 }
 
-// ─── Particle network canvas ──────────────────────────────────────────────────
-function ParticleCanvas() {
+// ─── Dot-grid wave canvas (Option G) ─────────────────────────────────────────
+function DotGridCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -153,114 +153,113 @@ function ParticleCanvas() {
     if (!ctx) return;
 
     let animId: number;
-    const mouse = { x: -9999, y: -9999 };
-
-    const resize = () => {
-      canvas.width  = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    };
-    window.addEventListener("mousemove", onMouseMove);
-
-    // Seed particles
-    const COUNT = 72;
-    type Particle = { x: number; y: number; vx: number; vy: number; r: number; color: string };
-    let particles: Particle[] = [];
-    const seed = () => {
-      particles = Array.from({ length: COUNT }, () => ({
-        x:  Math.random() * canvas.width,
-        y:  Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
-        r:  Math.random() * 2.2 + 1.4,
-        color: Math.random() > 0.55 ? "#5BA8C4" : "#CC8858",
-      }));
-    };
-    seed();
-
-    const CONNECT = 145;
-    const MOUSE_R = 190;
+    const SPACING  = 24;
+    const AMP      = 5.5;
+    const SPEED    = 0.019;
+    const WX       = 0.017;
+    const WY       = 0.021;
+    let t = 0;
 
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const W = canvas.width, H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+      const cols = Math.ceil(W / SPACING) + 1;
+      const rows = Math.ceil(H / SPACING) + 1;
 
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-      }
-
-      for (let i = 0; i < particles.length; i++) {
-        // Particle-to-particle lines
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < CONNECT) {
-            ctx.strokeStyle = `rgba(255,255,255,${(1 - d / CONNECT) * 0.28})`;
-            ctx.lineWidth = 0.75;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-        // Mouse lines
-        const mdx = particles[i].x - mouse.x;
-        const mdy = particles[i].y - mouse.y;
-        const md = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (md < MOUSE_R) {
-          ctx.strokeStyle = `rgba(255,255,255,${(1 - md / MOUSE_R) * 0.55})`;
-          ctx.lineWidth = 1;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const bx = c * SPACING;
+          const by = r * SPACING;
+          const wave = Math.sin(bx * WX + by * WY + t);
+          const y    = by + wave * AMP;
+          const norm = (wave + 1) / 2;          // 0..1
+          const alpha  = 0.14 + norm * 0.22;
+          const radius = 1.3 + norm * 0.9;
           ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.stroke();
+          ctx.arc(bx, y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+          ctx.fill();
         }
       }
 
-      // Dots
-      for (const p of particles) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = 0.85;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      }
-
+      t += SPEED;
       animId = requestAnimationFrame(draw);
     };
     draw();
 
-    return () => {
-      cancelAnimationFrame(animId);
-      ro.disconnect();
-      window.removeEventListener("mousemove", onMouseMove);
-    };
+    return () => { cancelAnimationFrame(animId); ro.disconnect(); };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-        opacity: 0.65,
+    <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", opacity: 0.55 }} />
+  );
+}
+
+// ─── Scramble text hook (Option F) ───────────────────────────────────────────
+const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@!$%";
+
+function useScramble(finalText: string, startDelay = 300) {
+  const [display, setDisplay] = useState("");
+
+  useEffect(() => {
+    let revealed = 0;
+    let itvl: ReturnType<typeof setInterval>;
+    const timer = setTimeout(() => {
+      itvl = setInterval(() => {
+        let out = "";
+        for (let i = 0; i < finalText.length; i++) {
+          const ch = finalText[i];
+          if (ch === " " || ch === "." || ch === "," || ch === ":") { out += ch; continue; }
+          out += i < revealed ? ch : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        }
+        setDisplay(out);
+        if (Math.random() < 0.22) revealed++;
+        if (revealed >= finalText.length) { clearInterval(itvl); setDisplay(finalText); }
+      }, 42);
+    }, startDelay);
+
+    return () => { clearTimeout(timer); clearInterval(itvl); };
+  }, [finalText, startDelay]);
+
+  return display || finalText.replace(/[^\s.,: ]/g, " ");
+}
+
+// ─── Floating chip (Option D) ─────────────────────────────────────────────────
+function FloatingChip({
+  label, accent, top, left, delay = 0, rotate = 0,
+}: {
+  label: string; accent: string; top: string; left: string; delay?: number; rotate?: number;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.7, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: [0, -11, 0], rotate: [rotate - 0.6, rotate + 0.6, rotate - 0.6] }}
+      transition={{
+        opacity: { duration: 0.5, delay },
+        scale:   { duration: 0.5, delay },
+        y:       { duration: 3.6 + delay * 0.4, repeat: Infinity, ease: "easeInOut", delay },
+        rotate:  { duration: 4.2 + delay * 0.3, repeat: Infinity, ease: "easeInOut", delay },
       }}
-    />
+      style={{
+        position: "absolute", top, left,
+        background: "rgba(255,255,255,0.13)",
+        backdropFilter: "blur(14px)",
+        border: `1px solid ${accent}55`,
+        borderRadius: 100,
+        padding: "8px 16px",
+        display: "flex", alignItems: "center", gap: 7,
+        whiteSpace: "nowrap" as const,
+        pointerEvents: "none",
+      }}
+    >
+      <span style={{ width: 7, height: 7, borderRadius: "50%", background: accent, flexShrink: 0, boxShadow: `0 0 7px ${accent}` }} />
+      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 12, fontWeight: 700, color: WHITE, letterSpacing: 0.2 }}>{label}</span>
+    </motion.div>
   );
 }
 
@@ -321,6 +320,9 @@ function D3Hero() {
   const contentY = useSpring(rawY, { stiffness: 80, damping: 20 });
   const contentOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
 
+  const line1 = useScramble("Build quality.", 200);
+  const line2 = useScramble("Ship product.",  700);
+
   return (
     <section style={{
       background: GRAD,
@@ -330,55 +332,46 @@ function D3Hero() {
       zIndex: 1,
       overflow: "hidden",
     }}>
-      <ParticleCanvas />
+      {/* Dot-grid wave sits behind everything */}
+      <DotGridCanvas />
+
+      {/* Floating chips — right half */}
+      <FloatingChip label="847 tests passing" accent="#22c55e"  top="18%"  left="58%"  delay={0.6}  rotate={-1}   />
+      <FloatingChip label="100% pass rate"    accent="#4ABBD5"  top="32%"  left="68%"  delay={1.0}  rotate={1.2}  />
+      <FloatingChip label="deployed"          accent="#E08850"  top="52%"  left="62%"  delay={1.4}  rotate={-0.5} />
+      <FloatingChip label="Claude Code"       accent="#ffffff"  top="66%"  left="72%"  delay={1.8}  rotate={0.8}  />
+      <FloatingChip label="13 yrs QE"         accent="#CC8858"  top="78%"  left="56%"  delay={2.2}  rotate={-1.5} />
 
       <D3Nav />
 
-      <motion.div style={{ y: contentY, opacity: contentOpacity, padding: "60px clamp(20px, 5vw, 64px) 120px", maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", gap: 40, alignItems: "center" }}>
-        <div>
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
-            style={{ fontFamily: "system-ui, sans-serif", fontSize: 16, color: "rgba(255,255,255,0.7)", marginBottom: 16, fontWeight: 500, letterSpacing: 0.5 }}>
-            Quality Engineering · Edinburgh
-          </motion.p>
+      <motion.div style={{ y: contentY, opacity: contentOpacity, padding: "60px clamp(20px, 5vw, 64px) 120px", maxWidth: 1200, margin: "0 auto" }}>
+        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+          style={{ fontFamily: "system-ui, sans-serif", fontSize: 16, color: "rgba(255,255,255,0.7)", marginBottom: 16, fontWeight: 500, letterSpacing: 0.5 }}>
+          Quality Engineering · Edinburgh
+        </motion.p>
 
-          <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: "clamp(52px, 7vw, 96px)", lineHeight: 0.93, letterSpacing: -3, color: WHITE, margin: "0 0 24px" }}>
-            <span style={{ display: "block" }}>
-              {["Build", "quality."].map((w, i) => (
-                <motion.span key={w} initial={{ opacity: 0, y: 44 }} animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.2 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ display: "inline-block", marginRight: "0.22em" }}>{w}</motion.span>
-              ))}
-            </span>
-            <span style={{ display: "block", color: "rgba(255,255,255,0.48)" }}>
-              {["Ship", "product."].map((w, i) => (
-                <motion.span key={w} initial={{ opacity: 0, y: 44 }} animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.44 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ display: "inline-block", marginRight: "0.22em" }}>{w}</motion.span>
-              ))}
-            </span>
-          </h1>
+        <motion.h1
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }}
+          style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: "clamp(52px, 7vw, 96px)", lineHeight: 0.93, letterSpacing: -3, margin: "0 0 24px", maxWidth: 660 }}
+        >
+          <span style={{ display: "block", color: WHITE }}>{line1}</span>
+          <span style={{ display: "block", color: "rgba(255,255,255,0.42)", marginTop: "0.06em" }}>{line2}</span>
+        </motion.h1>
 
-          <motion.p initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.68 }}
-            style={{ fontFamily: "system-ui, sans-serif", fontSize: 18, color: "rgba(255,255,255,0.7)", maxWidth: 480, lineHeight: 1.6, marginBottom: 40 }}>
-            13 years leading QA at scale: pipelines, infra, teams. Nights and weekends building real products with Claude Code.
-          </motion.p>
+        <motion.p initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.68 }}
+          style={{ fontFamily: "system-ui, sans-serif", fontSize: 18, color: "rgba(255,255,255,0.7)", maxWidth: 480, lineHeight: 1.6, marginBottom: 40 }}>
+          13 years leading QA at scale: pipelines, infra, teams. Nights and weekends building real products with Claude Code.
+        </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.82 }}
-            style={{ display: "flex", gap: 12, flexWrap: "wrap" as const }}>
-            <a href="#projects" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: WHITE, color: INK, fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, textDecoration: "none" }}>
-              See my work <ArrowRight size={15} />
-            </a>
-            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.35)", color: WHITE, fontFamily: "system-ui, sans-serif", fontWeight: 600, fontSize: 15, textDecoration: "none" }}>
-              Get in touch
-            </a>
-          </motion.div>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 12, minWidth: 200 }}>
-          <StatCard num="13+" label="years in QE"        delay={0} />
-          <StatCard num="04"  label="live side projects" delay={1} />
-          <StatCard num="∞"   label="lines with Claude"  delay={2} />
-        </div>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.82 }}
+          style={{ display: "flex", gap: 12, flexWrap: "wrap" as const }}>
+          <a href="#projects" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: WHITE, color: INK, fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, textDecoration: "none" }}>
+            See my work <ArrowRight size={15} />
+          </a>
+          <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.35)", color: WHITE, fontFamily: "system-ui, sans-serif", fontWeight: 600, fontSize: 15, textDecoration: "none" }}>
+            Get in touch
+          </a>
+        </motion.div>
       </motion.div>
     </section>
   );
