@@ -525,9 +525,10 @@ function D3Projects() {
 
 // ─── Work ─────────────────────────────────────────────────────────────────────
 const workplaces = [
-  { name: "io.finnet", role: "Head of QA",    years: "2022 – present", logo: "/logos/iofinnet.svg",  url: "https://iofinnet.com"  },
-  { name: "YouView",   role: "Test Manager",      years: "2018 – 2022",   logo: "/logos/youview.svg",   url: "https://youview.com"   },
-  { name: "Accenture", role: "Software Engineer", years: "2012 – 2018",   logo: "/logos/accenture.svg", url: "https://accenture.com" },
+  { name: "io.finnet",             role: "Head of QA",               years: "2022 – present", logo: "/logos/iofinnet.svg",   url: "https://iofinnet.com"  },
+  { name: "YouView",               role: "Test Manager",              years: "2018 – 2022",    logo: "/logos/youview.svg",    url: "https://youview.com"   },
+  { name: "Accenture",             role: "Software Engineer",         years: "2012 – 2018",    logo: "/logos/accenture.svg",  url: "https://accenture.com" },
+  { name: "Mastercard (Datacash)", role: "Software Engineer Intern",  years: "Jul – Sep 2010", logo: "/logos/mastercard.svg", url: "https://mastercard.com" },
 ];
 
 function D3Work() {
@@ -535,7 +536,7 @@ function D3Work() {
     <SectionCard id="work" zIndex={3} background={GRAD} light>
       <div style={{ padding: "80px clamp(20px, 5vw, 64px)", maxWidth: 1200, margin: "0 auto" }}>
         <SectionHeading eyebrow="experience" title="Where I've worked." light />
-        <StaggerGrid columns={3} gap={20}>
+        <StaggerGrid columns={4} gap={20}>
           {workplaces.map((w) => (
             <motion.a key={w.name} href={w.url} target="_blank" rel="noreferrer"
               whileHover={{ y: -5, background: "rgba(255,255,255,0.22)" }} transition={{ duration: 0.22 }}
