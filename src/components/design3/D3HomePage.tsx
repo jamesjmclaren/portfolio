@@ -236,7 +236,7 @@ function DevIllustration() {
       initial={{ opacity: 0, y: 30, scale: 0.9 }}
       animate={{ opacity: 1, y: 0,  scale: 1 }}
       transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      style={{ width: "clamp(160px, 18vw, 260px)", pointerEvents: "none", position: "relative", zIndex: 1 }}
+      style={{ width: 260, pointerEvents: "none", position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", zIndex: 1 }}
     >
       <svg viewBox="0 0 160 240" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "auto" }}>
         {/* Shadow */}
@@ -365,73 +365,98 @@ function D3Nav() {
   );
 }
 
+// ─── Bare SVG character (no motion.div wrapper to avoid transform conflict) ────
+function DevIllustrationSVG() {
+  return (
+    <svg viewBox="0 0 160 240" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "auto" }}>
+      <ellipse cx="80" cy="220" rx="48" ry="12" fill="rgba(0,0,0,0.18)" />
+      <rect x="48" y="158" width="6" height="50" rx="3" fill="rgba(255,255,255,0.2)" />
+      <rect x="106" y="158" width="6" height="50" rx="3" fill="rgba(255,255,255,0.2)" />
+      <rect x="42" y="195" width="76" height="8" rx="4" fill="rgba(255,255,255,0.2)" />
+      <rect x="45" y="150" width="70" height="8" rx="4" fill="rgba(255,255,255,0.28)" />
+      <rect x="62" y="108" width="36" height="44" rx="10" fill="rgba(255,255,255,0.88)" />
+      <rect x="44" y="112" width="20" height="10" rx="5" fill="rgba(255,255,255,0.72)" />
+      <rect x="96" y="112" width="20" height="10" rx="5" fill="rgba(255,255,255,0.72)" />
+      <ellipse cx="55" cy="146" rx="8" ry="6" fill="#f5d0b0" />
+      <ellipse cx="105" cy="146" rx="8" ry="6" fill="#f5d0b0" />
+      <rect x="48" y="140" width="64" height="40" rx="6" fill="#1a2535" />
+      <rect x="50" y="142" width="60" height="36" rx="5" fill="#0d1421" />
+      <rect x="54" y="146" width="30" height="3" rx="1.5" fill="#4A9FB5" opacity=".85" />
+      <rect x="54" y="151" width="22" height="2" rx="1" fill="#22c55e" opacity=".75" />
+      <rect x="54" y="155" width="26" height="2" rx="1" fill="#6b7280" opacity=".5" />
+      <rect x="54" y="159" width="18" height="2" rx="1" fill="#4A9FB5" opacity=".65" />
+      <rect x="54" y="163" width="28" height="2" rx="1" fill="#22c55e" opacity=".55" />
+      <rect x="42" y="178" width="76" height="5" rx="2.5" fill="#1a2535" />
+      <ellipse cx="80" cy="92" rx="22" ry="24" fill="#f5d0b0" />
+      <ellipse cx="80" cy="72" rx="22" ry="12" fill="#4a3020" />
+      <rect x="58" y="72" width="44" height="10" rx="5" fill="#4a3020" />
+      <ellipse cx="73" cy="90" rx="3" ry="3.5" fill="#2a1a0a" />
+      <ellipse cx="87" cy="90" rx="3" ry="3.5" fill="#2a1a0a" />
+      <path d="M74 100 Q80 106 86 100" stroke="#c0805a" strokeWidth="2" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function D3Hero() {
-  const { scrollY } = useScroll();
-  const rawY = useTransform(scrollY, [0, 600], [0, -80]);
-  const contentY = useSpring(rawY, { stiffness: 80, damping: 20 });
-  const contentOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
-
   const line1 = useScramble("Build quality.", 200);
   const line2 = useScramble("Ship product.",  700);
 
   return (
-    <section style={{
-      background: GRAD,
-      borderRadius: `0 0 ${R}px ${R}px`,
-      minHeight: "100vh",
-      position: "relative",
-      zIndex: 1,
-      overflow: "hidden",
-    }}>
-      {/* Dot-grid wave sits behind everything */}
+    <section style={{ background: GRAD, borderRadius: `0 0 ${R}px ${R}px`, minHeight: "100vh", position: "relative", zIndex: 1, overflow: "hidden" }}>
       <DotGridCanvas />
-
       <D3Nav />
 
-      <motion.div style={{ y: contentY, opacity: contentOpacity, padding: "40px clamp(20px, 5vw, 64px) 80px", maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", gap: 60, alignItems: "center", minHeight: "calc(100vh - 80px)" }}>
+      <div style={{ padding: "20px clamp(20px, 5vw, 64px) 0", maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 400px", gap: 40, alignItems: "center", minHeight: "calc(100vh - 80px)" }}>
 
-        {/* ── Left column: all text ── */}
-        <div>
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
-            style={{ fontFamily: "system-ui, sans-serif", fontSize: 16, color: "rgba(255,255,255,0.7)", marginBottom: 16, fontWeight: 500, letterSpacing: 0.5 }}>
+        {/* ── Left: text ── */}
+        <div style={{ paddingBottom: 60 }}>
+          <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+            style={{ fontFamily: "system-ui, sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase" as const, color: "rgba(255,255,255,0.6)", marginBottom: 18 }}>
             Quality Engineering · Edinburgh
           </motion.p>
 
-          <motion.h1
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }}
-            style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: "clamp(48px, 6vw, 88px)", lineHeight: 0.93, letterSpacing: -3, margin: "0 0 24px" }}
-          >
-            <span style={{ display: "block", color: WHITE }}>{line1}</span>
-            <span style={{ display: "block", color: "rgba(255,255,255,0.42)", marginTop: "0.06em" }}>{line2}</span>
-          </motion.h1>
+          <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: "clamp(44px, 5.5vw, 80px)", lineHeight: 0.95, letterSpacing: -2.5, margin: "0 0 28px" }}>
+            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: 0.15 }} style={{ display: "block", color: WHITE }}>{line1}</motion.span>
+            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: 0.2  }} style={{ display: "block", color: "rgba(255,255,255,0.4)" }}>{line2}</motion.span>
+          </h1>
 
-          <motion.p initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.68 }}
-            style={{ fontFamily: "system-ui, sans-serif", fontSize: 18, color: "rgba(255,255,255,0.7)", maxWidth: 480, lineHeight: 1.6, marginBottom: 40 }}>
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}
+            style={{ fontFamily: "system-ui, sans-serif", fontSize: 17, color: "rgba(255,255,255,0.65)", maxWidth: 440, lineHeight: 1.65, marginBottom: 36 }}>
             13 years leading QA at scale: pipelines, infra, teams. Nights and weekends building real products with Claude Code.
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.82 }}
-            style={{ display: "flex", gap: 12, flexWrap: "wrap" as const }}>
-            <a href="#projects" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: WHITE, color: INK, fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, textDecoration: "none" }}>
-              See my work <ArrowRight size={15} />
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }} style={{ display: "flex", gap: 12 }}>
+            <a href="#projects" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 26px", borderRadius: 100, background: WHITE, color: INK, fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 14, textDecoration: "none" }}>
+              See my work <ArrowRight size={14} />
             </a>
-            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.35)", color: WHITE, fontFamily: "system-ui, sans-serif", fontWeight: 600, fontSize: 15, textDecoration: "none" }}>
+            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 26px", borderRadius: 100, background: "rgba(255,255,255,0.14)", border: "1.5px solid rgba(255,255,255,0.3)", color: WHITE, fontFamily: "system-ui, sans-serif", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
               Get in touch
             </a>
           </motion.div>
         </div>
 
-        {/* ── Right column: character + chips ── */}
-        <div style={{ position: "relative", display: "flex", alignItems: "flex-end", justifyContent: "center", width: 300, height: 400 }}>
-          <FloatingChip label="✓ 847 tests"  accent="#22c55e" top="-10px"  left="-20px"  delay={0.7}  rotate={-1}   />
-          <FloatingChip label="100% pass"    accent="#4ABBD5" top="20px"   left="160px"  delay={1.1}  rotate={1.5}  />
-          <FloatingChip label="deployed"     accent="#E08850" top="160px"  left="-50px"  delay={1.5}  rotate={-0.8} />
-          <FloatingChip label="Claude Code"  accent="#ffffff" top="250px"  left="155px"  delay={1.9}  rotate={1.0}  />
-          <DevIllustration />
+        {/* ── Right: character + chips as one centred unit ── */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", alignSelf: "stretch" }}>
+          {/* Fixed-size box — character sits inside, chips orbit it */}
+          <div style={{ position: "relative", width: 360, height: 420, flexShrink: 0 }}>
+            {/* Character centred in the box */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              style={{ position: "absolute", bottom: 0, left: "50%", marginLeft: -130, width: 260 }}
+            >
+              <DevIllustrationSVG />
+            </motion.div>
+            {/* Chips around him */}
+            <FloatingChip label="✓ 847 tests"  accent="#22c55e" top="30px"  left="30px"  delay={0.7} rotate={-1}  />
+            <FloatingChip label="100% pass"    accent="#4ABBD5" top="10px"  left="195px" delay={1.0} rotate={1.5} />
+            <FloatingChip label="deployed"     accent="#E08850" top="195px" left="10px"  delay={1.4} rotate={-1}  />
+            <FloatingChip label="Claude Code"  accent="#ffffff" top="270px" left="195px" delay={1.8} rotate={1.0} />
+          </div>
         </div>
 
-      </motion.div>
+      </div>
     </section>
   );
 }
