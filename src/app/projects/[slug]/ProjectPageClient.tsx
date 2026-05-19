@@ -11,6 +11,7 @@ import StackBadges from "@/components/project/StackBadges";
 import BrowserFrame from "@/components/project/BrowserFrame";
 import Scene from "@/components/project/Scene";
 import D2ProjectPage from "@/components/design2/D2ProjectPage";
+import D3ProjectPage from "@/components/design3/D3ProjectPage";
 import type { ProjectMeta, Scene as SceneT } from "@/data/projects";
 
 interface Props {
@@ -105,6 +106,7 @@ function D1ProjectPage({ project, scenes, others }: Props) {
 
 export default function ProjectPageClient({ project, scenes, others }: Props) {
   const { design } = useDesign();
-  if (design === 2 || design === 3) return <D2ProjectPage project={project} scenes={scenes} others={others} />;
+  if (design === 3) return <D3ProjectPage project={project} scenes={scenes} others={others} />;
+  if (design === 2) return <D2ProjectPage project={project} scenes={scenes} others={others} />;
   return <D1ProjectPage project={project} scenes={scenes} others={others} />;
 }
