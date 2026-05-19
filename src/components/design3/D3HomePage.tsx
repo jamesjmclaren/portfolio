@@ -25,12 +25,14 @@ function SectionCard({
   background,
   children,
   light = false,
+  minHeight = "100vh",
 }: {
   id?: string;
   zIndex: number;
   background: string;
   children: React.ReactNode;
   light?: boolean;
+  minHeight?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -52,10 +54,10 @@ function SectionCard({
         position: "sticky",
         top: 0,
         zIndex,
-        minHeight: "100vh",
+        minHeight,
         background,
         borderRadius,
-        overflow: "hidden",
+        // No overflow:hidden — lets tall content breathe without clipping
       }}
     >
       <motion.div style={{ scale, transformOrigin: "top center" }}>
@@ -439,7 +441,7 @@ function SubLabel({ children }: { children: React.ReactNode }) {
 
 function D3Stack() {
   return (
-    <SectionCard zIndex={4} background={CREAM}>
+    <SectionCard zIndex={4} background={CREAM} minHeight="160vh">
       <div style={{ padding: "80px clamp(20px, 5vw, 64px) 100px", maxWidth: 1200, margin: "0 auto" }}>
         <SectionHeading eyebrow="the stack" title="Tools & skills." />
 
