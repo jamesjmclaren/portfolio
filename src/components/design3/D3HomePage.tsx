@@ -142,13 +142,124 @@ function useCountUp(end: number, durationMs = 1400, delayMs = 900) {
   return count;
 }
 
-// ─── Floating dot ─────────────────────────────────────────────────────────────
-function FloatingDot({ style, delay = 0, d = 14 }: { style: React.CSSProperties; delay?: number; d?: number }) {
+// ─── Particle network canvas ──────────────────────────────────────────────────
+function ParticleCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animId: number;
+    const mouse = { x: -9999, y: -9999 };
+
+    const resize = () => {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    };
+    window.addEventListener("mousemove", onMouseMove);
+
+    // Seed particles
+    const COUNT = 72;
+    type Particle = { x: number; y: number; vx: number; vy: number; r: number; color: string };
+    let particles: Particle[] = [];
+    const seed = () => {
+      particles = Array.from({ length: COUNT }, () => ({
+        x:  Math.random() * canvas.width,
+        y:  Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        r:  Math.random() * 2.2 + 1.4,
+        color: Math.random() > 0.55 ? "#5BA8C4" : "#CC8858",
+      }));
+    };
+    seed();
+
+    const CONNECT = 145;
+    const MOUSE_R = 190;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      }
+
+      for (let i = 0; i < particles.length; i++) {
+        // Particle-to-particle lines
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < CONNECT) {
+            ctx.strokeStyle = `rgba(255,255,255,${(1 - d / CONNECT) * 0.28})`;
+            ctx.lineWidth = 0.75;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+        // Mouse lines
+        const mdx = particles[i].x - mouse.x;
+        const mdy = particles[i].y - mouse.y;
+        const md = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (md < MOUSE_R) {
+          ctx.strokeStyle = `rgba(255,255,255,${(1 - md / MOUSE_R) * 0.55})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+
+      // Dots
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = 0.85;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+
+      animId = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      ro.disconnect();
+      window.removeEventListener("mousemove", onMouseMove);
+    };
+  }, []);
+
   return (
-    <motion.div
-      style={{ position: "absolute", borderRadius: "50%", background: WHITE, pointerEvents: "none", ...style }}
-      animate={{ y: [0, -d, 0] }}
-      transition={{ duration: 3.5 + delay * 0.6, repeat: Infinity, ease: "easeInOut", delay }}
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        opacity: 0.65,
+      }}
     />
   );
 }
@@ -219,11 +330,7 @@ function D3Hero() {
       zIndex: 1,
       overflow: "hidden",
     }}>
-      <FloatingDot style={{ top: "18%", left: "8%",  width: 8,  height: 8,  opacity: 0.22 }} delay={0}   d={16} />
-      <FloatingDot style={{ top: "40%", left: "4%",  width: 5,  height: 5,  opacity: 0.14 }} delay={1.3} d={10} />
-      <FloatingDot style={{ top: "65%", right: "6%", width: 10, height: 10, opacity: 0.18 }} delay={0.7} d={20} />
-      <FloatingDot style={{ top: "25%", right:"12%", width: 6,  height: 6,  opacity: 0.20 }} delay={1.9} d={13} />
-      <FloatingDot style={{ top: "75%", left: "15%", width: 7,  height: 7,  opacity: 0.15 }} delay={0.9} d={14} />
+      <ParticleCanvas />
 
       <D3Nav />
 
