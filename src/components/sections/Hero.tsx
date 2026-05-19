@@ -38,8 +38,8 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="mt-10 text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed"
         >
-          Personal projects, work history, and the actual code behind the products —
-          not just screenshots. Scroll on.
+          Personal projects, work history, and the actual code behind the products.
+          Not just screenshots. Scroll on.
         </motion.p>
 
         <motion.p

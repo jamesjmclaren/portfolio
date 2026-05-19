@@ -253,7 +253,7 @@ function D3Hero() {
 
           <motion.p initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.68 }}
             style={{ fontFamily: "system-ui, sans-serif", fontSize: 18, color: "rgba(255,255,255,0.7)", maxWidth: 480, lineHeight: 1.6, marginBottom: 40 }}>
-            13 years leading QA at scale — pipelines, infra, teams. Nights and weekends building real products with Claude Code.
+            13 years leading QA at scale: pipelines, infra, teams. Nights and weekends building real products with Claude Code.
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.82 }}
@@ -473,7 +473,7 @@ function D3Stack() {
                 The unfair advantage
               </p>
               <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 14, color: MUTED, lineHeight: 1.65, margin: 0, maxWidth: 680 }}>
-                Every project here — and this site itself — was spec&apos;d, scaffolded, refactored and shipped with{" "}
+                Every project here (this site included) was spec&apos;d, scaffolded, refactored and shipped with{" "}
                 <span style={{ color: INK, fontWeight: 600 }}>Claude Code</span> as the actual workflow. Not a buzzword. The output speaks for itself.
               </p>
             </div>

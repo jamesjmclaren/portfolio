@@ -102,7 +102,7 @@ function D2Hero() {
             lineHeight: 1.4,
           }}
         >
-          13 years building quality engineering — pipelines, infra, teams. Now
+          13 years building quality engineering: pipelines, infra, teams. Now
           pairing with Claude Code to ship real products on the side.
         </p>
       </div>

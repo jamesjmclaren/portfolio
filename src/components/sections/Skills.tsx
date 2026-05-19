@@ -59,7 +59,7 @@ export default function Skills() {
           What I do professionally.
         </h2>
         <p className="text-text-secondary mb-8 max-w-2xl leading-relaxed">
-          13+ years building and leading quality engineering functions — from solo
+          13+ years building and leading quality engineering functions, from solo
           contributor to multi-team QA lead, across fintech, blockchain and connected TV.
         </p>
 

@@ -15,7 +15,7 @@ export default function About() {
           </h2>
           <div className="space-y-5 text-lg text-text-secondary leading-relaxed">
             <p>
-              I build and lead quality engineering functions from scratch —
+              I build and lead quality engineering functions from scratch:
               assembling teams, defining strategy, and putting in place the
               automation infrastructure that lets product move fast without
               breaking things.
@@ -38,7 +38,7 @@ export default function About() {
               <span className="text-text-primary">GitHub Actions</span>, and
               increasingly,{" "}
               <span className="text-accent">Claude Code</span>{" "}
-              — now my daily driver for shipping side projects and tooling.
+              as my daily driver for shipping side projects and tooling.
             </p>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function About() {
 
           <div className="rounded-xl border border-border bg-surface p-4 flex justify-between items-center">
             <p className="text-xs uppercase tracking-wider text-text-muted">Location</p>
-            <p className="text-text-primary font-medium">Edinburgh — remote</p>
+            <p className="text-text-primary font-medium">Edinburgh, remote</p>
           </div>
 
           <div className="rounded-xl border border-accent-muted bg-accent-muted/30 p-4 flex justify-between items-center">
