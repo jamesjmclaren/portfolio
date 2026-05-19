@@ -1,12 +1,8 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
+import ScrollReveal from "../ScrollReveal";
+import EmailCaptcha from "../EmailCaptcha";
 
 const links = [
-  {
-    label: "Email",
-    value: "hello@example.com",
-    href: "mailto:hello@example.com",
-    icon: Mail,
-  },
   {
     label: "GitHub",
     value: "jamesjmclaren",
@@ -34,36 +30,40 @@ export default function Contact() {
         <h2 className="text-4xl md:text-6xl font-semibold tracking-tight mb-4">
           Get in touch.
         </h2>
-        <p className="text-lg text-text-secondary mb-12 max-w-xl leading-relaxed">
+        <p className="text-lg text-text-secondary mb-10 max-w-xl leading-relaxed">
           Best for a chat about product, engineering, or building things with Claude.
         </p>
 
-        <div className="space-y-3 max-w-xl">
-          {links.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              target={l.href.startsWith("http") ? "_blank" : undefined}
-              rel="noreferrer"
-              className="group flex items-center gap-4 p-5 rounded-2xl border border-border bg-surface hover:bg-surface-hover hover:border-accent-muted transition-all"
-            >
-              <div className="shrink-0 size-10 rounded-lg bg-surface-elevated flex items-center justify-center text-text-secondary group-hover:text-accent transition-colors">
-                <l.icon className="size-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs uppercase tracking-wider text-text-muted">
-                  {l.label}
-                </p>
-                <p className="text-text-primary font-medium truncate">{l.value}</p>
-              </div>
-              <span className="ml-auto text-text-muted group-hover:text-accent transition-colors">
-                ↗
-              </span>
-            </a>
+        <div className="grid sm:grid-cols-3 gap-4 max-w-3xl">
+          <ScrollReveal delay={0}>
+            <EmailCaptcha />
+          </ScrollReveal>
+          {links.map((l, i) => (
+            <ScrollReveal key={l.label} delay={(i + 1) * 0.05}>
+              <a
+                href={l.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-4 p-5 rounded-2xl border border-border bg-surface hover:bg-surface-hover hover:border-accent-muted transition-all"
+              >
+                <div className="shrink-0 size-10 rounded-lg bg-surface-elevated flex items-center justify-center text-text-secondary group-hover:text-accent transition-colors">
+                  <l.icon className="size-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs uppercase tracking-wider text-text-muted">
+                    {l.label}
+                  </p>
+                  <p className="text-text-primary font-medium truncate">{l.value}</p>
+                </div>
+                <span className="ml-auto text-text-muted group-hover:text-accent transition-colors">
+                  ↗
+                </span>
+              </a>
+            </ScrollReveal>
           ))}
         </div>
 
-        <p className="mt-12 text-xs text-text-muted">
+        <p className="mt-10 text-xs text-text-muted">
           Built with Next.js, Tailwind v4 and Claude Code.
         </p>
       </div>

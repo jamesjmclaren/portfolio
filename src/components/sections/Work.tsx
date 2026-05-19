@@ -21,8 +21,9 @@ const roles = [
       "Built the QA function from zero to four engineers",
       "Automation frameworks delivering 80%+ test coverage across the core product line",
       "Led testing for 10+ major releases spanning MPC technology and smart contracts",
-      "Coverage across 20+ blockchain networks — ETH, BTC, SOL, TRON, XRP",
-      "QA for exchange integrations (Bitfinex, Kiln, WalletConnect) and banking partnerships",
+      "Coverage across 20+ blockchain networks — Ethereum, Bitcoin, Solana, Tron, Ripple",
+      "QA for exchange integrations (Bitfinex, Kiln, WalletConnect) and banking partnerships on private EVM networks",
+      "Driving AI-assisted test strategy using Claude Code and AI agents to accelerate coverage, reduce toil, and surface regressions faster",
     ],
   },
   {
