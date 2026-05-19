@@ -236,7 +236,7 @@ function DevIllustration() {
       initial={{ opacity: 0, y: 30, scale: 0.9 }}
       animate={{ opacity: 1, y: 0,  scale: 1 }}
       transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      style={{ position: "absolute", right: "clamp(40px, 8vw, 100px)", bottom: "8%", width: "clamp(160px, 16vw, 240px)", pointerEvents: "none" }}
+      style={{ width: "clamp(160px, 18vw, 260px)", pointerEvents: "none", position: "relative", zIndex: 1 }}
     >
       <svg viewBox="0 0 160 240" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "auto" }}>
         {/* Shadow */}
@@ -387,45 +387,50 @@ function D3Hero() {
       {/* Dot-grid wave sits behind everything */}
       <DotGridCanvas />
 
-      {/* Character sits in the bottom-right */}
-      <DevIllustration />
-
-      {/* Chips clustered around the character */}
-      <FloatingChip label="✓ 847 tests"    accent="#22c55e"  top="30%"  left="55%"  delay={0.7}  rotate={-1}   />
-      <FloatingChip label="100% pass"      accent="#4ABBD5"  top="22%"  left="70%"  delay={1.1}  rotate={1.5}  />
-      <FloatingChip label="deployed"       accent="#E08850"  top="52%"  left="52%"  delay={1.5}  rotate={-0.8} />
-      <FloatingChip label="Claude Code"    accent="#ffffff"  top="62%"  left="70%"  delay={1.9}  rotate={1.0}  />
-
       <D3Nav />
 
-      <motion.div style={{ y: contentY, opacity: contentOpacity, padding: "60px clamp(20px, 5vw, 64px) 120px", maxWidth: 1200, margin: "0 auto" }}>
-        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
-          style={{ fontFamily: "system-ui, sans-serif", fontSize: 16, color: "rgba(255,255,255,0.7)", marginBottom: 16, fontWeight: 500, letterSpacing: 0.5 }}>
-          Quality Engineering · Edinburgh
-        </motion.p>
+      <motion.div style={{ y: contentY, opacity: contentOpacity, padding: "40px clamp(20px, 5vw, 64px) 80px", maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", gap: 60, alignItems: "center", minHeight: "calc(100vh - 80px)" }}>
 
-        <motion.h1
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }}
-          style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: "clamp(52px, 7vw, 96px)", lineHeight: 0.93, letterSpacing: -3, margin: "0 0 24px", maxWidth: 660 }}
-        >
-          <span style={{ display: "block", color: WHITE }}>{line1}</span>
-          <span style={{ display: "block", color: "rgba(255,255,255,0.42)", marginTop: "0.06em" }}>{line2}</span>
-        </motion.h1>
+        {/* ── Left column: all text ── */}
+        <div>
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+            style={{ fontFamily: "system-ui, sans-serif", fontSize: 16, color: "rgba(255,255,255,0.7)", marginBottom: 16, fontWeight: 500, letterSpacing: 0.5 }}>
+            Quality Engineering · Edinburgh
+          </motion.p>
 
-        <motion.p initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.68 }}
-          style={{ fontFamily: "system-ui, sans-serif", fontSize: 18, color: "rgba(255,255,255,0.7)", maxWidth: 480, lineHeight: 1.6, marginBottom: 40 }}>
-          13 years leading QA at scale: pipelines, infra, teams. Nights and weekends building real products with Claude Code.
-        </motion.p>
+          <motion.h1
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }}
+            style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: "clamp(48px, 6vw, 88px)", lineHeight: 0.93, letterSpacing: -3, margin: "0 0 24px" }}
+          >
+            <span style={{ display: "block", color: WHITE }}>{line1}</span>
+            <span style={{ display: "block", color: "rgba(255,255,255,0.42)", marginTop: "0.06em" }}>{line2}</span>
+          </motion.h1>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.82 }}
-          style={{ display: "flex", gap: 12, flexWrap: "wrap" as const }}>
-          <a href="#projects" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: WHITE, color: INK, fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, textDecoration: "none" }}>
-            See my work <ArrowRight size={15} />
-          </a>
-          <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.35)", color: WHITE, fontFamily: "system-ui, sans-serif", fontWeight: 600, fontSize: 15, textDecoration: "none" }}>
-            Get in touch
-          </a>
-        </motion.div>
+          <motion.p initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.68 }}
+            style={{ fontFamily: "system-ui, sans-serif", fontSize: 18, color: "rgba(255,255,255,0.7)", maxWidth: 480, lineHeight: 1.6, marginBottom: 40 }}>
+            13 years leading QA at scale: pipelines, infra, teams. Nights and weekends building real products with Claude Code.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.82 }}
+            style={{ display: "flex", gap: 12, flexWrap: "wrap" as const }}>
+            <a href="#projects" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: WHITE, color: INK, fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, textDecoration: "none" }}>
+              See my work <ArrowRight size={15} />
+            </a>
+            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 28px", borderRadius: 100, background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.35)", color: WHITE, fontFamily: "system-ui, sans-serif", fontWeight: 600, fontSize: 15, textDecoration: "none" }}>
+              Get in touch
+            </a>
+          </motion.div>
+        </div>
+
+        {/* ── Right column: character + chips ── */}
+        <div style={{ position: "relative", display: "flex", alignItems: "flex-end", justifyContent: "center", width: 300, height: 400 }}>
+          <FloatingChip label="✓ 847 tests"  accent="#22c55e" top="-10px"  left="-20px"  delay={0.7}  rotate={-1}   />
+          <FloatingChip label="100% pass"    accent="#4ABBD5" top="20px"   left="160px"  delay={1.1}  rotate={1.5}  />
+          <FloatingChip label="deployed"     accent="#E08850" top="160px"  left="-50px"  delay={1.5}  rotate={-0.8} />
+          <FloatingChip label="Claude Code"  accent="#ffffff" top="250px"  left="155px"  delay={1.9}  rotate={1.0}  />
+          <DevIllustration />
+        </div>
+
       </motion.div>
     </section>
   );
