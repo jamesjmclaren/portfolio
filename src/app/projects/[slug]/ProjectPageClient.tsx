@@ -105,6 +105,6 @@ function D1ProjectPage({ project, scenes, others }: Props) {
 
 export default function ProjectPageClient({ project, scenes, others }: Props) {
   const { design } = useDesign();
-  if (design === 2) return <D2ProjectPage project={project} scenes={scenes} others={others} />;
+  if (design === 2 || design === 3) return <D2ProjectPage project={project} scenes={scenes} others={others} />;
   return <D1ProjectPage project={project} scenes={scenes} others={others} />;
 }
