@@ -526,8 +526,8 @@ function D3Projects() {
 // ─── Work ─────────────────────────────────────────────────────────────────────
 const workplaces = [
   { name: "io.finnet", role: "Head of QA",    years: "2022 – present", logo: "/logos/iofinnet.svg",  url: "https://iofinnet.com"  },
-  { name: "YouView",   role: "Lead SDET",      years: "2018 – 2022",   logo: "/logos/youview.svg",   url: "https://youview.com"   },
-  { name: "Accenture", role: "Test Manager",   years: "2012 – 2018",   logo: "/logos/accenture.svg", url: "https://accenture.com" },
+  { name: "YouView",   role: "Test Manager",      years: "2018 – 2022",   logo: "/logos/youview.svg",   url: "https://youview.com"   },
+  { name: "Accenture", role: "Software Engineer", years: "2012 – 2018",   logo: "/logos/accenture.svg", url: "https://accenture.com" },
 ];
 
 function D3Work() {
