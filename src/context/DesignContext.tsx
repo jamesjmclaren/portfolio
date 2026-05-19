@@ -9,15 +9,16 @@ interface DesignCtx {
   setDesign: (d: Design) => void;
 }
 
-const DesignContext = createContext<DesignCtx>({ design: 1, setDesign: () => {} });
+const DesignContext = createContext<DesignCtx>({ design: 3, setDesign: () => {} });
 
 export function DesignProvider({ children }: { children: React.ReactNode }) {
-  const [design, setDesignState] = useState<Design>(1);
+  const [design, setDesignState] = useState<Design>(3);
 
   useEffect(() => {
     try {
       const saved = localStorage.getItem("portfolio-design");
-      if (saved === "2") setDesignState(2);
+      if (saved === "1") setDesignState(1);
+      else if (saved === "2") setDesignState(2);
       else if (saved === "3") setDesignState(3);
     } catch {}
   }, []);
