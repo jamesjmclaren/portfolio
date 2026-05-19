@@ -229,6 +229,58 @@ function useScramble(finalText: string, startDelay = 300) {
   return display || finalText.replace(/[^\s.,: ]/g, " ");
 }
 
+// ─── Developer illustration (Option D) ───────────────────────────────────────
+function DevIllustration() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0,  scale: 1 }}
+      transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      style={{ position: "absolute", right: "clamp(40px, 8vw, 100px)", bottom: "8%", width: "clamp(160px, 16vw, 240px)", pointerEvents: "none" }}
+    >
+      <svg viewBox="0 0 160 240" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "auto" }}>
+        {/* Shadow */}
+        <ellipse cx="80" cy="220" rx="48" ry="12" fill="rgba(0,0,0,0.18)" />
+        {/* Chair legs */}
+        <rect x="48" y="158" width="6" height="50" rx="3" fill="rgba(255,255,255,0.2)" />
+        <rect x="106" y="158" width="6" height="50" rx="3" fill="rgba(255,255,255,0.2)" />
+        <rect x="42" y="195" width="76" height="8" rx="4" fill="rgba(255,255,255,0.2)" />
+        {/* Chair seat */}
+        <rect x="45" y="150" width="70" height="8" rx="4" fill="rgba(255,255,255,0.28)" />
+        {/* Torso */}
+        <rect x="62" y="108" width="36" height="44" rx="10" fill="rgba(255,255,255,0.88)" />
+        {/* Arms */}
+        <rect x="44" y="112" width="20" height="10" rx="5" fill="rgba(255,255,255,0.72)" />
+        <rect x="96" y="112" width="20" height="10" rx="5" fill="rgba(255,255,255,0.72)" />
+        {/* Hands */}
+        <ellipse cx="55" cy="146" rx="8" ry="6" fill="#f5d0b0" />
+        <ellipse cx="105" cy="146" rx="8" ry="6" fill="#f5d0b0" />
+        {/* Laptop body */}
+        <rect x="48" y="140" width="64" height="40" rx="6" fill="#1a2535" />
+        <rect x="50" y="142" width="60" height="36" rx="5" fill="#0d1421" />
+        {/* Screen code lines */}
+        <rect x="54" y="146" width="30" height="3" rx="1.5" fill="#4A9FB5" opacity=".85" />
+        <rect x="54" y="151" width="22" height="2" rx="1" fill="#22c55e" opacity=".75" />
+        <rect x="54" y="155" width="26" height="2" rx="1" fill="#6b7280" opacity=".5" />
+        <rect x="54" y="159" width="18" height="2" rx="1" fill="#4A9FB5" opacity=".65" />
+        <rect x="54" y="163" width="28" height="2" rx="1" fill="#22c55e" opacity=".55" />
+        {/* Laptop base */}
+        <rect x="42" y="178" width="76" height="5" rx="2.5" fill="#1a2535" />
+        {/* Head */}
+        <ellipse cx="80" cy="92" rx="22" ry="24" fill="#f5d0b0" />
+        {/* Hair */}
+        <ellipse cx="80" cy="72" rx="22" ry="12" fill="#4a3020" />
+        <rect x="58" y="72" width="44" height="10" rx="5" fill="#4a3020" />
+        {/* Eyes */}
+        <ellipse cx="73" cy="90" rx="3" ry="3.5" fill="#2a1a0a" />
+        <ellipse cx="87" cy="90" rx="3" ry="3.5" fill="#2a1a0a" />
+        {/* Smile */}
+        <path d="M74 100 Q80 106 86 100" stroke="#c0805a" strokeWidth="2" fill="none" strokeLinecap="round" />
+      </svg>
+    </motion.div>
+  );
+}
+
 // ─── Floating chip (Option D) ─────────────────────────────────────────────────
 function FloatingChip({
   label, accent, top, left, delay = 0, rotate = 0,
@@ -335,12 +387,14 @@ function D3Hero() {
       {/* Dot-grid wave sits behind everything */}
       <DotGridCanvas />
 
-      {/* Floating chips — right half */}
-      <FloatingChip label="847 tests passing" accent="#22c55e"  top="18%"  left="58%"  delay={0.6}  rotate={-1}   />
-      <FloatingChip label="100% pass rate"    accent="#4ABBD5"  top="32%"  left="68%"  delay={1.0}  rotate={1.2}  />
-      <FloatingChip label="deployed"          accent="#E08850"  top="52%"  left="62%"  delay={1.4}  rotate={-0.5} />
-      <FloatingChip label="Claude Code"       accent="#ffffff"  top="66%"  left="72%"  delay={1.8}  rotate={0.8}  />
-      <FloatingChip label="13 yrs QE"         accent="#CC8858"  top="78%"  left="56%"  delay={2.2}  rotate={-1.5} />
+      {/* Character sits in the bottom-right */}
+      <DevIllustration />
+
+      {/* Chips clustered around the character */}
+      <FloatingChip label="✓ 847 tests"    accent="#22c55e"  top="30%"  left="55%"  delay={0.7}  rotate={-1}   />
+      <FloatingChip label="100% pass"      accent="#4ABBD5"  top="22%"  left="70%"  delay={1.1}  rotate={1.5}  />
+      <FloatingChip label="deployed"       accent="#E08850"  top="52%"  left="52%"  delay={1.5}  rotate={-0.8} />
+      <FloatingChip label="Claude Code"    accent="#ffffff"  top="62%"  left="70%"  delay={1.9}  rotate={1.0}  />
 
       <D3Nav />
 
