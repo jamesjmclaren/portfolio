@@ -711,7 +711,15 @@ function SubLabel({ children }: { children: React.ReactNode }) {
 
 function D3Stack() {
   return (
-    <SectionCard zIndex={4} background={CREAM} minHeight="160vh">
+    <section
+      id="stack"
+      style={{
+        position: "relative",
+        zIndex: 4,
+        background: CREAM,
+        borderRadius: `${R}px ${R}px 0 0`,
+      }}
+    >
       <div style={{ padding: "80px clamp(20px, 5vw, 64px) 100px", maxWidth: 1200, margin: "0 auto" }}>
         <SectionHeading eyebrow="the stack" title="Tools & skills." />
 
@@ -806,7 +814,7 @@ function D3Stack() {
           ))}
         </div>
       </div>
-    </SectionCard>
+    </section>
   );
 }
 
