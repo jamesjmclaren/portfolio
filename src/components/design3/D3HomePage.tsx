@@ -101,15 +101,15 @@ function StaggerGrid({
   mobileColumns?: number;
   gap?: number;
 }) {
-  const isMobile = useIsMobile();
-  const cols = isMobile ? mobileColumns : columns;
   return (
     <div
+      className="d3-stagger-grid"
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${cols}, 1fr)`,
         gap,
-      }}
+        ["--d3-cols" as string]: String(columns),
+        ["--d3-cols-mobile" as string]: String(mobileColumns),
+      } as React.CSSProperties}
     >
       {children.map((child, i) => (
         <motion.div
@@ -144,18 +144,6 @@ function useCountUp(end: number, durationMs = 1400, delayMs = 900) {
     return () => { clearTimeout(t); cancelAnimationFrame(raf); };
   }, [end, durationMs, delayMs]);
   return count;
-}
-
-// ─── Mobile breakpoint hook ───────────────────────────────────────────────────
-function useIsMobile(breakpoint = 768) {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < breakpoint);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, [breakpoint]);
-  return isMobile;
 }
 
 // ─── Dot-grid wave canvas (Option G) ─────────────────────────────────────────
@@ -460,6 +448,7 @@ function D3Hero() {
     <>
       {/* CSS-based responsive rules — no JS hydration race */}
       <style dangerouslySetInnerHTML={{ __html: `
+        html, body { max-width: 100%; overflow-x: hidden; }
         .d3-nav-links { display: flex; }
         .d3-nav-mobile { display: none; }
         .d3-hero-inner {
@@ -470,6 +459,9 @@ function D3Hero() {
         .d3-hero-text { padding-bottom: 60px; }
         .d3-char-mobile { display: none; }
         .d3-char-desktop { display: flex; }
+        .d3-stagger-grid { grid-template-columns: repeat(var(--d3-cols, 2), 1fr); }
+        .d3-skills-grid { grid-template-columns: repeat(3, 1fr); }
+        .d3-footer { flex-direction: row; align-items: center; gap: 0; }
         @media (max-width: 767px) {
           .d3-nav-links { display: none !important; }
           .d3-nav-mobile { display: flex !important; }
@@ -481,6 +473,9 @@ function D3Hero() {
           .d3-hero-text { padding-bottom: 0; }
           .d3-char-mobile { display: flex !important; }
           .d3-char-desktop { display: none !important; }
+          .d3-stagger-grid { grid-template-columns: repeat(var(--d3-cols-mobile, 1), 1fr) !important; }
+          .d3-skills-grid { grid-template-columns: 1fr !important; }
+          .d3-footer { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
         }
       `}} />
 
@@ -718,7 +713,6 @@ function SubLabel({ children }: { children: React.ReactNode }) {
 }
 
 function D3Stack() {
-  const isMobile = useIsMobile();
   return (
     <SectionCard zIndex={4} background={CREAM} minHeight="160vh">
       <div style={{ padding: "80px clamp(20px, 5vw, 64px) 100px", maxWidth: 1200, margin: "0 auto" }}>
@@ -791,7 +785,7 @@ function D3Stack() {
           <SubLabel>Professional expertise</SubLabel>
         </Reveal>
 
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 16 }}>
+        <div className="d3-skills-grid" style={{ display: "grid", gap: 16 }}>
           {skillGroups.map((g, i) => (
             <motion.div key={g.title}
               initial={{ opacity: 0, y: 32 }}
@@ -844,9 +838,8 @@ function D3Contact() {
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 function D3Footer() {
-  const isMobile = useIsMobile();
   return (
-    <footer style={{ background: INK, padding: "32px clamp(20px, 5vw, 64px)", display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", gap: isMobile ? 8 : 0, position: "relative", zIndex: 6 }}>
+    <footer className="d3-footer" style={{ background: INK, padding: "32px clamp(20px, 5vw, 64px)", display: "flex", justifyContent: "space-between", position: "relative", zIndex: 6 }}>
       <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 16, color: "rgba(255,255,255,0.6)", letterSpacing: -0.5 }}>jamesmclaren.dev</span>
       <span style={{ fontFamily: "system-ui, sans-serif", fontSize: 13, color: "rgba(255,255,255,0.3)" }}>Edinburgh · QE & builder</span>
     </footer>

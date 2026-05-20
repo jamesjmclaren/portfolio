@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { DesignProvider } from "@/context/DesignContext";
 
@@ -11,6 +11,12 @@ export const metadata: Metadata = {
     description: "Personal projects, work history, and the code behind the products.",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
