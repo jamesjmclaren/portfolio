@@ -49,7 +49,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="snap-section h-screen flex items-center px-6 md:px-10 pt-14 overflow-hidden"
+      className="snap-section min-h-screen md:h-screen flex flex-col justify-start md:justify-center px-6 md:px-10 pt-20 pb-12 md:pt-14 md:pb-0"
     >
       <div className="mx-auto w-full max-w-6xl">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-accent mb-4">

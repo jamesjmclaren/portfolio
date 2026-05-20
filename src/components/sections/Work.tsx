@@ -132,7 +132,7 @@ export default function Work() {
           <div className="mx-auto w-full max-w-6xl select-none relative z-10">
             <p className="text-sm font-mono text-accent mb-4">{r.range}</p>
 
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-text-primary leading-[0.95] mb-3">
+            <h2 className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tight text-text-primary leading-[0.95] mb-3">
               {r.company}
             </h2>
 
