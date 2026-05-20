@@ -445,7 +445,7 @@ function D3Hero() {
     <>
       {/* CSS-based responsive rules — no JS hydration race */}
       <style dangerouslySetInnerHTML={{ __html: `
-        html, body { max-width: 100%; overflow-x: hidden; }
+        html, body { max-width: 100%; overflow-x: clip; }
         .d3-nav-links { display: flex; }
         .d3-nav-mobile { display: none; }
         .d3-hero-inner {
