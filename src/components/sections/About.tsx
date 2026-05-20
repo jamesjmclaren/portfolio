@@ -2,7 +2,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="snap-section h-screen flex items-center px-6 md:px-10 pt-14"
+      className="snap-section min-h-screen md:h-screen flex items-start md:items-center px-6 md:px-10 pt-20 pb-12 md:pt-14 md:pb-0"
     >
       <div className="mx-auto w-full max-w-6xl grid lg:grid-cols-2 gap-12 lg:gap-24">
         {/* Left — broad description */}
