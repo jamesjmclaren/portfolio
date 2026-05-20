@@ -5,9 +5,8 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ArrowRight, Zap, Menu, X } from "lucide-react";
 import { projectMeta } from "@/data/projects";
-import DesignSwitcher from "@/components/DesignSwitcher";
 import EmailCaptcha from "@/components/EmailCaptcha";
-import ProjectLogo from "@/components/design2/ProjectLogo";
+import ProjectLogo from "@/components/ProjectLogo";
 
 // ─── Palette ─────────────────────────────────────────────────────────────────
 const GRAD = "linear-gradient(135deg, #5BA8C4 0%, #7DBDC8 30%, #B89272 70%, #CC8858 100%)";
@@ -369,12 +368,10 @@ function D3Nav() {
           {["projects", "work", "contact"].map((t) => (
             <a key={t} href={`#${t}`} style={{ fontFamily: "system-ui, sans-serif", fontSize: 15, color: "rgba(255,255,255,0.75)", textDecoration: "none", fontWeight: 500 }}>{t}</a>
           ))}
-          <DesignSwitcher variant="dark" />
         </motion.div>
 
         {/* Mobile controls — shown via CSS below 768px */}
         <div className="d3-nav-mobile" style={{ alignItems: "center", gap: 10 }}>
-          <DesignSwitcher variant="dark" />
           <button
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}

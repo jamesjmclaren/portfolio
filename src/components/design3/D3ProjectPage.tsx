@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
-import DesignSwitcher from "@/components/DesignSwitcher";
-import ProjectLogo from "@/components/design2/ProjectLogo";
+import ProjectLogo from "@/components/ProjectLogo";
 import BrowserFrame from "@/components/project/BrowserFrame";
 import type { ProjectMeta, Scene as SceneT } from "@/data/projects";
 
@@ -35,7 +34,6 @@ function D3ProjectNav() {
       </motion.div>
       <motion.div initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45 }} style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 17, color: WHITE, letterSpacing: -0.5 }}>James McLaren</span>
-        <DesignSwitcher variant="dark" />
       </motion.div>
     </nav>
   );

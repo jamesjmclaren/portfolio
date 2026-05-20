@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { DesignProvider } from "@/context/DesignContext";
 
 export const metadata: Metadata = {
   title: "James McLaren — Portfolio",
@@ -30,11 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>
-        <DesignProvider>
-          {children}
-        </DesignProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
