@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { ArrowRight, Zap } from "lucide-react";
+import { ArrowRight, Zap, Menu, X } from "lucide-react";
 import { projectMeta } from "@/data/projects";
-import DesignSwitcher from "@/components/DesignSwitcher";
 import EmailCaptcha from "@/components/EmailCaptcha";
-import ProjectLogo from "@/components/design2/ProjectLogo";
+import ProjectLogo from "@/components/ProjectLogo";
 
 // ─── Palette ─────────────────────────────────────────────────────────────────
 const GRAD = "linear-gradient(135deg, #5BA8C4 0%, #7DBDC8 30%, #B89272 70%, #CC8858 100%)";
@@ -93,19 +92,23 @@ function Reveal({
 function StaggerGrid({
   children,
   columns = 2,
+  mobileColumns = 1,
   gap = 20,
 }: {
   children: React.ReactNode[];
   columns?: number;
+  mobileColumns?: number;
   gap?: number;
 }) {
   return (
     <div
+      className="d3-stagger-grid"
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${columns}, 1fr)`,
         gap,
-      }}
+        ["--d3-cols" as string]: String(columns),
+        ["--d3-cols-mobile" as string]: String(mobileColumns),
+      } as React.CSSProperties}
     >
       {children.map((child, i) => (
         <motion.div
@@ -342,26 +345,62 @@ function StatCard({ num, label, delay = 0 }: { num: string; label: string; delay
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 function D3Nav() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "22px clamp(20px, 5vw, 64px)", position: "relative", zIndex: 10 }}>
-      <motion.span
-        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 18, color: WHITE, letterSpacing: -0.5 }}
-      >
-        James McLaren
-      </motion.span>
-      <motion.div
-        initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        style={{ display: "flex", gap: 28, alignItems: "center" }}
-      >
-        {["projects", "work", "contact"].map((t) => (
-          <a key={t} href={`#${t}`} style={{ fontFamily: "system-ui, sans-serif", fontSize: 15, color: "rgba(255,255,255,0.75)", textDecoration: "none", fontWeight: 500 }}>{t}</a>
-        ))}
-        <DesignSwitcher variant="dark" />
-      </motion.div>
-    </nav>
+    <>
+      <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px clamp(20px, 5vw, 64px)", position: "relative", zIndex: 10 }}>
+        <motion.span
+          initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 18, color: WHITE, letterSpacing: -0.5, flexShrink: 0 }}
+        >
+          JM
+        </motion.span>
+
+        {/* Desktop links — hidden via CSS below 768px */}
+        <motion.div
+          className="d3-nav-links"
+          initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          style={{ gap: 28, alignItems: "center" }}
+        >
+          {["projects", "work", "contact"].map((t) => (
+            <a key={t} href={`#${t}`} style={{ fontFamily: "system-ui, sans-serif", fontSize: 15, color: "rgba(255,255,255,0.75)", textDecoration: "none", fontWeight: 500 }}>{t}</a>
+          ))}
+        </motion.div>
+
+        {/* Mobile controls — shown via CSS below 768px */}
+        <div className="d3-nav-mobile" style={{ alignItems: "center", gap: 10 }}>
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            style={{ width: 36, height: 36, borderRadius: 8, border: "1.5px solid rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+          >
+            {menuOpen ? <X size={16} color={WHITE} /> : <Menu size={16} color={WHITE} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile drawer */}
+      {menuOpen && (
+        <div className="d3-nav-mobile" style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(26,37,53,0.97)", backdropFilter: "blur(16px)", paddingTop: 72, paddingLeft: 32, paddingRight: 32, flexDirection: "column" }}>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+            {["projects", "work", "contact"].map((t) => (
+              <li key={t}>
+                <a
+                  href={`#${t}`}
+                  onClick={() => setMenuOpen(false)}
+                  style={{ display: "block", fontFamily: "'Archivo Black', sans-serif", fontSize: 36, color: WHITE, textDecoration: "none", padding: "16px 0", borderBottom: "1px solid rgba(255,255,255,0.1)", textTransform: "capitalize" as const }}
+                >
+                  {t}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -403,61 +442,107 @@ function D3Hero() {
   const line2 = useScramble("Ship product.",  700);
 
   return (
-    <section style={{ background: GRAD, borderRadius: `0 0 ${R}px ${R}px`, minHeight: "100vh", position: "relative", zIndex: 1, overflow: "hidden" }}>
-      <DotGridCanvas />
-      <D3Nav />
+    <>
+      {/* CSS-based responsive rules — no JS hydration race */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        html, body { max-width: 100%; overflow-x: clip; }
+        .d3-nav-links { display: flex; }
+        .d3-nav-mobile { display: none; }
+        .d3-hero-inner {
+          grid-template-columns: 1fr 400px;
+          padding: 20px clamp(20px, 5vw, 64px) 0;
+          min-height: calc(100vh - 80px);
+        }
+        .d3-hero-text { padding-bottom: 60px; }
+        .d3-char-mobile { display: none; }
+        .d3-char-desktop { display: flex; }
+        .d3-stagger-grid { grid-template-columns: repeat(var(--d3-cols, 2), 1fr); }
+        .d3-skills-grid { grid-template-columns: repeat(3, 1fr); }
+        .d3-footer { flex-direction: row; align-items: center; gap: 0; }
+        @media (max-width: 767px) {
+          .d3-nav-links { display: none !important; }
+          .d3-nav-mobile { display: flex !important; }
+          .d3-hero-inner {
+            grid-template-columns: 1fr;
+            padding: 20px 24px 48px;
+            min-height: auto;
+          }
+          .d3-hero-text { padding-bottom: 0; }
+          .d3-char-mobile { display: flex !important; }
+          .d3-char-desktop { display: none !important; }
+          .d3-stagger-grid { grid-template-columns: repeat(var(--d3-cols-mobile, 1), 1fr) !important; }
+          .d3-skills-grid { grid-template-columns: 1fr !important; }
+          .d3-footer { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
+        }
+      `}} />
 
-      <div style={{ padding: "20px clamp(20px, 5vw, 64px) 0", maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 400px", gap: 40, alignItems: "center", minHeight: "calc(100vh - 80px)" }}>
+      <section style={{ background: GRAD, borderRadius: `0 0 ${R}px ${R}px`, minHeight: "100vh", position: "relative", zIndex: 1, overflow: "hidden" }}>
+        <DotGridCanvas />
+        <D3Nav />
 
-        {/* ── Left: text ── */}
-        <div style={{ paddingBottom: 60 }}>
-          <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
-            style={{ fontFamily: "system-ui, sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase" as const, color: "rgba(255,255,255,0.6)", marginBottom: 18 }}>
-            Quality Engineering · Edinburgh
-          </motion.p>
+        <div className="d3-hero-inner" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gap: 40, alignItems: "center" }}>
 
-          <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: "clamp(44px, 5.5vw, 80px)", lineHeight: 0.95, letterSpacing: -2.5, margin: "0 0 28px" }}>
-            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: 0.15 }} style={{ display: "block", color: WHITE }}>{line1}</motion.span>
-            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: 0.2  }} style={{ display: "block", color: "rgba(255,255,255,0.4)" }}>{line2}</motion.span>
-          </h1>
+          {/* ── Left: text ── */}
+          <div className="d3-hero-text">
+            <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+              style={{ fontFamily: "system-ui, sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase" as const, color: "rgba(255,255,255,0.6)", marginBottom: 18 }}>
+              Quality Engineering · Edinburgh
+            </motion.p>
 
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}
-            style={{ fontFamily: "system-ui, sans-serif", fontSize: 17, color: "rgba(255,255,255,0.65)", maxWidth: 440, lineHeight: 1.65, marginBottom: 36 }}>
-            13 years leading QA at scale: pipelines, infra, teams. Nights and weekends building real products with Claude Code.
-          </motion.p>
+            <h1 style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: "clamp(36px, 8vw, 80px)", lineHeight: 0.95, letterSpacing: -2, margin: "0 0 28px" }}>
+              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: 0.15 }} style={{ display: "block", color: WHITE }}>{line1}</motion.span>
+              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, delay: 0.2  }} style={{ display: "block", color: "rgba(255,255,255,0.4)" }}>{line2}</motion.span>
+            </h1>
 
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }} style={{ display: "flex", gap: 12 }}>
-            <a href="#projects" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 26px", borderRadius: 100, background: WHITE, color: INK, fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 14, textDecoration: "none" }}>
-              See my work <ArrowRight size={14} />
-            </a>
-            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 26px", borderRadius: 100, background: "rgba(255,255,255,0.14)", border: "1.5px solid rgba(255,255,255,0.3)", color: WHITE, fontFamily: "system-ui, sans-serif", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
-              Get in touch
-            </a>
-          </motion.div>
-        </div>
+            <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}
+              style={{ fontFamily: "system-ui, sans-serif", fontSize: 16, color: "rgba(255,255,255,0.65)", maxWidth: 440, lineHeight: 1.65, marginBottom: 36 }}>
+              13 years leading QA at scale: pipelines, infra, teams. Nights and weekends building real products with Claude Code.
+            </motion.p>
 
-        {/* ── Right: character + chips as one centred unit ── */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", alignSelf: "stretch" }}>
-          {/* Fixed-size box — character sits inside, chips orbit it */}
-          <div style={{ position: "relative", width: 360, height: 420, flexShrink: 0 }}>
-            {/* Character centred in the box */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              style={{ position: "absolute", bottom: 0, left: "50%", marginLeft: -130, width: 260 }}
-            >
-              <DevIllustrationSVG />
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }} style={{ display: "flex", gap: 12, flexWrap: "wrap" as const }}>
+              <a href="#projects" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 26px", borderRadius: 100, background: WHITE, color: INK, fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 14, textDecoration: "none" }}>
+                See my work <ArrowRight size={14} />
+              </a>
+              <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 26px", borderRadius: 100, background: "rgba(255,255,255,0.14)", border: "1.5px solid rgba(255,255,255,0.3)", color: WHITE, fontFamily: "system-ui, sans-serif", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
+                Get in touch
+              </a>
             </motion.div>
-            {/* Chips around him */}
-            <FloatingChip label="✓ 847 tests"  accent="#22c55e" top="30px"  left="30px"  delay={0.7} rotate={-1}  />
-            <FloatingChip label="100% pass"    accent="#4ABBD5" top="10px"  left="195px" delay={1.0} rotate={1.5} />
-            <FloatingChip label="deployed"     accent="#E08850" top="195px" left="10px"  delay={1.4} rotate={-1}  />
-            <FloatingChip label="Claude Code"  accent="#ffffff" top="270px" left="195px" delay={1.8} rotate={1.0} />
           </div>
-        </div>
 
-      </div>
-    </section>
+          {/* ── Right: character ── */}
+          <div style={{ alignSelf: "stretch" }}>
+            {/* Mobile: character centred, no chips */}
+            <div className="d3-char-mobile" style={{ justifyContent: "center", alignItems: "flex-end", paddingBottom: 8 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                style={{ width: 200 }}
+              >
+                <DevIllustrationSVG />
+              </motion.div>
+            </div>
+
+            {/* Desktop: character + floating chips */}
+            <div className="d3-char-desktop" style={{ alignItems: "center", justifyContent: "center", height: "100%" }}>
+              <div style={{ position: "relative", width: 360, height: 420, flexShrink: 0 }}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ position: "absolute", bottom: 0, left: "50%", marginLeft: -130, width: 260 }}
+                >
+                  <DevIllustrationSVG />
+                </motion.div>
+                <FloatingChip label="✓ 847 tests"  accent="#22c55e" top="30px"  left="30px"  delay={0.7} rotate={-1}  />
+                <FloatingChip label="100% pass"    accent="#4ABBD5" top="10px"  left="195px" delay={1.0} rotate={1.5} />
+                <FloatingChip label="deployed"     accent="#E08850" top="195px" left="10px"  delay={1.4} rotate={-1}  />
+                <FloatingChip label="Claude Code"  accent="#ffffff" top="270px" left="195px" delay={1.8} rotate={1.0} />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -479,7 +564,7 @@ function D3Projects() {
     <SectionCard id="projects" zIndex={2} background={CREAM}>
       <div style={{ padding: "80px clamp(20px, 5vw, 64px)", maxWidth: 1200, margin: "0 auto" }}>
         <SectionHeading eyebrow="side projects" title="Built nights & weekends." />
-        <StaggerGrid columns={2} gap={20}>
+        <StaggerGrid columns={2} mobileColumns={1} gap={20}>
           {projectMeta.map((p) => (
             <Link key={p.slug} href={`/projects/${p.slug}`} style={{ textDecoration: "none", display: "block" }}>
               <motion.div
@@ -536,7 +621,7 @@ function D3Work() {
     <SectionCard id="work" zIndex={3} background={GRAD} light>
       <div style={{ padding: "80px clamp(20px, 5vw, 64px)", maxWidth: 1200, margin: "0 auto" }}>
         <SectionHeading eyebrow="experience" title="Where I've worked." light />
-        <StaggerGrid columns={4} gap={20}>
+        <StaggerGrid columns={4} mobileColumns={1} gap={20}>
           {workplaces.map((w) => (
             <motion.a key={w.name} href={w.url} target="_blank" rel="noreferrer"
               whileHover={{ y: -5, background: "rgba(255,255,255,0.22)" }} transition={{ duration: 0.22 }}
@@ -626,7 +711,15 @@ function SubLabel({ children }: { children: React.ReactNode }) {
 
 function D3Stack() {
   return (
-    <SectionCard zIndex={4} background={CREAM} minHeight="160vh">
+    <section
+      id="stack"
+      style={{
+        position: "relative",
+        zIndex: 4,
+        background: CREAM,
+        borderRadius: `${R}px ${R}px 0 0`,
+      }}
+    >
       <div style={{ padding: "80px clamp(20px, 5vw, 64px) 100px", maxWidth: 1200, margin: "0 auto" }}>
         <SectionHeading eyebrow="the stack" title="Tools & skills." />
 
@@ -697,7 +790,7 @@ function D3Stack() {
           <SubLabel>Professional expertise</SubLabel>
         </Reveal>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+        <div className="d3-skills-grid" style={{ display: "grid", gap: 16 }}>
           {skillGroups.map((g, i) => (
             <motion.div key={g.title}
               initial={{ opacity: 0, y: 32 }}
@@ -721,7 +814,7 @@ function D3Stack() {
           ))}
         </div>
       </div>
-    </SectionCard>
+    </section>
   );
 }
 
@@ -751,7 +844,7 @@ function D3Contact() {
 // ─── Footer ───────────────────────────────────────────────────────────────────
 function D3Footer() {
   return (
-    <footer style={{ background: INK, padding: "32px clamp(20px, 5vw, 64px)", display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 6 }}>
+    <footer className="d3-footer" style={{ background: INK, padding: "32px clamp(20px, 5vw, 64px)", display: "flex", justifyContent: "space-between", position: "relative", zIndex: 6 }}>
       <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 16, color: "rgba(255,255,255,0.6)", letterSpacing: -0.5 }}>jamesmclaren.dev</span>
       <span style={{ fontFamily: "system-ui, sans-serif", fontSize: 13, color: "rgba(255,255,255,0.3)" }}>Edinburgh · QE & builder</span>
     </footer>
