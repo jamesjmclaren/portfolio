@@ -284,6 +284,43 @@ function DevIllustration() {
   );
 }
 
+// ─── Hero particle (geometric — circles, plus signs, dashes, dots) ───────────
+function HeroParticle({ type, top, left, delay = 0, size = 10 }: {
+  type: "circle" | "plus" | "dot" | "dash";
+  top: string; left: string; delay?: number; size?: number;
+}) {
+  const color = "rgba(180,230,245,0.8)";
+  const dim   = "rgba(180,230,245,0.55)";
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0, 0.7, 0.7, 0], y: [0, -18, -36] }}
+      transition={{ duration: 5, repeat: Infinity, delay, ease: "easeInOut", repeatDelay: delay % 1.8 }}
+      style={{ position: "absolute", top, left, pointerEvents: "none", zIndex: 3 }}
+    >
+      {type === "circle" && (
+        <svg width={size} height={size} viewBox="0 0 10 10" fill="none">
+          <circle cx="5" cy="5" r="3.5" stroke={color} strokeWidth="1.5" />
+        </svg>
+      )}
+      {type === "plus" && (
+        <svg width={size + 2} height={size + 2} viewBox="0 0 12 12" fill="none">
+          <line x1="6" y1="1" x2="6" y2="11" stroke={dim} strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="1" y1="6" x2="11" y2="6" stroke={dim} strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      )}
+      {type === "dot" && (
+        <div style={{ width: 4, height: 4, borderRadius: "50%", background: color }} />
+      )}
+      {type === "dash" && (
+        <svg width={16} height={4} viewBox="0 0 16 4" fill="none">
+          <line x1="0" y1="2" x2="16" y2="2" stroke={dim} strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      )}
+    </motion.div>
+  );
+}
+
 // ─── Floating chip (Option D) ─────────────────────────────────────────────────
 function FloatingChip({
   label, accent, top, left, delay = 0, rotate = 0,
@@ -406,31 +443,46 @@ function D3Nav() {
 
 // ─── Bare SVG character (no motion.div wrapper to avoid transform conflict) ────
 function DevIllustrationSVG() {
+  const stroke = "rgba(180,230,245,0.7)";
+  const sw = 1.8;
   return (
     <svg viewBox="0 0 160 240" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "auto" }}>
-      <ellipse cx="80" cy="220" rx="48" ry="12" fill="rgba(0,0,0,0.18)" />
-      <rect x="48" y="158" width="6" height="50" rx="3" fill="rgba(255,255,255,0.2)" />
-      <rect x="106" y="158" width="6" height="50" rx="3" fill="rgba(255,255,255,0.2)" />
-      <rect x="42" y="195" width="76" height="8" rx="4" fill="rgba(255,255,255,0.2)" />
-      <rect x="45" y="150" width="70" height="8" rx="4" fill="rgba(255,255,255,0.28)" />
-      <rect x="62" y="108" width="36" height="44" rx="10" fill="rgba(255,255,255,0.88)" />
-      <rect x="44" y="112" width="20" height="10" rx="5" fill="rgba(255,255,255,0.72)" />
-      <rect x="96" y="112" width="20" height="10" rx="5" fill="rgba(255,255,255,0.72)" />
-      <ellipse cx="55" cy="146" rx="8" ry="6" fill="#f5d0b0" />
-      <ellipse cx="105" cy="146" rx="8" ry="6" fill="#f5d0b0" />
-      <rect x="48" y="140" width="64" height="40" rx="6" fill="#1a2535" />
+      {/* Shadow */}
+      <ellipse cx="80" cy="222" rx="44" ry="10" fill="rgba(0,0,0,0.15)" />
+      {/* Chair legs */}
+      <rect x="48" y="158" width="6" height="50" rx="3" fill="rgba(255,255,255,0.15)" stroke={stroke} strokeWidth={sw} />
+      <rect x="106" y="158" width="6" height="50" rx="3" fill="rgba(255,255,255,0.15)" stroke={stroke} strokeWidth={sw} />
+      <rect x="42" y="195" width="76" height="8" rx="4" fill="rgba(255,255,255,0.15)" stroke={stroke} strokeWidth={sw} />
+      {/* Chair seat */}
+      <rect x="45" y="150" width="70" height="8" rx="4" fill="rgba(255,255,255,0.2)" stroke={stroke} strokeWidth={sw} />
+      {/* Torso */}
+      <rect x="62" y="108" width="36" height="44" rx="10" fill="rgba(255,255,255,0.82)" stroke={stroke} strokeWidth={sw} />
+      {/* Arms */}
+      <rect x="44" y="112" width="20" height="10" rx="5" fill="rgba(255,255,255,0.65)" stroke={stroke} strokeWidth={sw} />
+      <rect x="96" y="112" width="20" height="10" rx="5" fill="rgba(255,255,255,0.65)" stroke={stroke} strokeWidth={sw} />
+      {/* Hands */}
+      <ellipse cx="55" cy="146" rx="8" ry="6" fill="#f5d0b0" stroke={stroke} strokeWidth={sw} />
+      <ellipse cx="105" cy="146" rx="8" ry="6" fill="#f5d0b0" stroke={stroke} strokeWidth={sw} />
+      {/* Laptop body */}
+      <rect x="48" y="140" width="64" height="40" rx="6" fill="#1a2535" stroke={stroke} strokeWidth={sw} />
       <rect x="50" y="142" width="60" height="36" rx="5" fill="#0d1421" />
-      <rect x="54" y="146" width="30" height="3" rx="1.5" fill="#4A9FB5" opacity=".85" />
-      <rect x="54" y="151" width="22" height="2" rx="1" fill="#22c55e" opacity=".75" />
-      <rect x="54" y="155" width="26" height="2" rx="1" fill="#6b7280" opacity=".5" />
-      <rect x="54" y="159" width="18" height="2" rx="1" fill="#4A9FB5" opacity=".65" />
-      <rect x="54" y="163" width="28" height="2" rx="1" fill="#22c55e" opacity=".55" />
-      <rect x="42" y="178" width="76" height="5" rx="2.5" fill="#1a2535" />
-      <ellipse cx="80" cy="92" rx="22" ry="24" fill="#f5d0b0" />
-      <ellipse cx="80" cy="72" rx="22" ry="12" fill="#4a3020" />
+      {/* Screen code lines */}
+      <rect x="54" y="146" width="30" height="3" rx="1.5" fill="#4A9FB5" opacity=".9" />
+      <rect x="54" y="151" width="22" height="2" rx="1" fill="#22c55e" opacity=".8" />
+      <rect x="54" y="155" width="26" height="2" rx="1" fill="rgba(180,230,245,0.4)" />
+      <rect x="54" y="159" width="18" height="2" rx="1" fill="#4A9FB5" opacity=".7" />
+      <rect x="54" y="163" width="28" height="2" rx="1" fill="#22c55e" opacity=".6" />
+      {/* Laptop base */}
+      <rect x="42" y="178" width="76" height="5" rx="2.5" fill="#1a2535" stroke={stroke} strokeWidth={sw} />
+      {/* Head */}
+      <ellipse cx="80" cy="92" rx="22" ry="24" fill="#f5d0b0" stroke={stroke} strokeWidth={sw} />
+      {/* Hair */}
+      <ellipse cx="80" cy="72" rx="22" ry="12" fill="#4a3020" stroke={stroke} strokeWidth={sw} />
       <rect x="58" y="72" width="44" height="10" rx="5" fill="#4a3020" />
+      {/* Eyes */}
       <ellipse cx="73" cy="90" rx="3" ry="3.5" fill="#2a1a0a" />
       <ellipse cx="87" cy="90" rx="3" ry="3.5" fill="#2a1a0a" />
+      {/* Smile */}
       <path d="M74 100 Q80 106 86 100" stroke="#c0805a" strokeWidth="2" fill="none" strokeLinecap="round" />
     </svg>
   );
@@ -518,20 +570,50 @@ function D3Hero() {
                 transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 style={{ width: 200 }}
               >
-                <DevIllustrationSVG />
+                <motion.div
+                  animate={{ y: [0, -10, 0], rotate: [-4, 4, -4] }}
+                  transition={{
+                    y:      { duration: 4.0, repeat: Infinity, ease: "easeInOut" },
+                    rotate: { duration: 5.5, repeat: Infinity, ease: "easeInOut" },
+                  }}
+                  style={{ transformOrigin: "50% 60%" }}
+                >
+                  <DevIllustrationSVG />
+                </motion.div>
               </motion.div>
             </div>
 
-            {/* Desktop: character + floating chips */}
+            {/* Desktop: character + floating chips + particles */}
             <div className="d3-char-desktop" style={{ alignItems: "center", justifyContent: "center", height: "100%" }}>
               <div style={{ position: "relative", width: 360, height: 420, flexShrink: 0 }}>
+                {/* Geometric particles */}
+                <HeroParticle type="circle" top="65px"  left="322px" delay={0}   size={9} />
+                <HeroParticle type="plus"   top="125px" left="14px"  delay={0.8} size={11} />
+                <HeroParticle type="dot"    top="22px"  left="328px" delay={0.3} />
+                <HeroParticle type="dash"   top="230px" left="320px" delay={1.4} />
+                <HeroParticle type="circle" top="300px" left="318px" delay={1.0} size={7} />
+                <HeroParticle type="plus"   top="360px" left="18px"  delay={1.7} size={10} />
+                <HeroParticle type="dot"    top="170px" left="330px" delay={0.5} />
+                <HeroParticle type="dash"   top="390px" left="300px" delay={1.2} />
+
+                {/* Character with float + gentle rock */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   style={{ position: "absolute", bottom: 0, left: "50%", marginLeft: -130, width: 260 }}
                 >
-                  <DevIllustrationSVG />
+                  <motion.div
+                    animate={{ y: [0, -14, 0], rotate: [-5, 5, -5] }}
+                    transition={{
+                      y:      { duration: 4.0, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { duration: 5.5, repeat: Infinity, ease: "easeInOut" },
+                    }}
+                    style={{ transformOrigin: "50% 60%" }}
+                  >
+                    <DevIllustrationSVG />
+                  </motion.div>
                 </motion.div>
+
                 <FloatingChip label="✓ 847 tests"  accent="#22c55e" top="30px"  left="30px"  delay={0.7} rotate={-1}  />
                 <FloatingChip label="100% pass"    accent="#4ABBD5" top="10px"  left="195px" delay={1.0} rotate={1.5} />
                 <FloatingChip label="deployed"     accent="#E08850" top="195px" left="10px"  delay={1.4} rotate={-1}  />
