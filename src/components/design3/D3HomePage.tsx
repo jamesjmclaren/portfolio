@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { HeroIllustrationSwitcher } from "./D3HeroIllustrations";
 import { ArrowRight, Zap, Menu, X } from "lucide-react";
 import { projectMeta } from "@/data/projects";
 import EmailCaptcha from "@/components/EmailCaptcha";
@@ -563,61 +564,42 @@ function D3Hero() {
 
           {/* ── Right: character ── */}
           <div style={{ alignSelf: "stretch" }}>
-            {/* Mobile: character centred, no chips */}
-            <div className="d3-char-mobile" style={{ justifyContent: "center", alignItems: "flex-end", paddingBottom: 8 }}>
+            {/* Mobile: switcher centred */}
+            <div className="d3-char-mobile" style={{ justifyContent: "center", alignItems: "center", paddingBottom: 8 }}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                style={{ width: 200 }}
               >
-                <motion.div
-                  animate={{ y: [0, -10, 0], rotate: [-4, 4, -4] }}
-                  transition={{
-                    y:      { duration: 4.0, repeat: Infinity, ease: "easeInOut" },
-                    rotate: { duration: 5.5, repeat: Infinity, ease: "easeInOut" },
-                  }}
-                  style={{ transformOrigin: "50% 60%" }}
-                >
-                  <DevIllustrationSVG />
-                </motion.div>
+                <HeroIllustrationSwitcher />
               </motion.div>
             </div>
 
-            {/* Desktop: character + floating chips + particles */}
+            {/* Desktop: illustration switcher + floating chips + particles */}
             <div className="d3-char-desktop" style={{ alignItems: "center", justifyContent: "center", height: "100%" }}>
-              <div style={{ position: "relative", width: 360, height: 420, flexShrink: 0 }}>
+              <div style={{ position: "relative", width: 360, height: 440, flexShrink: 0 }}>
                 {/* Geometric particles */}
                 <HeroParticle type="circle" top="65px"  left="322px" delay={0}   size={9} />
                 <HeroParticle type="plus"   top="125px" left="14px"  delay={0.8} size={11} />
                 <HeroParticle type="dot"    top="22px"  left="328px" delay={0.3} />
                 <HeroParticle type="dash"   top="230px" left="320px" delay={1.4} />
-                <HeroParticle type="circle" top="300px" left="318px" delay={1.0} size={7} />
-                <HeroParticle type="plus"   top="360px" left="18px"  delay={1.7} size={10} />
+                <HeroParticle type="circle" top="310px" left="318px" delay={1.0} size={7} />
+                <HeroParticle type="plus"   top="370px" left="18px"  delay={1.7} size={10} />
                 <HeroParticle type="dot"    top="170px" left="330px" delay={0.5} />
-                <HeroParticle type="dash"   top="390px" left="300px" delay={1.2} />
+                <HeroParticle type="dash"   top="400px" left="300px" delay={1.2} />
 
-                {/* Character with float + gentle rock */}
+                {/* Illustration switcher centred in the column */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ position: "absolute", bottom: 0, left: "50%", marginLeft: -130, width: 260 }}
+                  style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}
                 >
-                  <motion.div
-                    animate={{ y: [0, -14, 0], rotate: [-5, 5, -5] }}
-                    transition={{
-                      y:      { duration: 4.0, repeat: Infinity, ease: "easeInOut" },
-                      rotate: { duration: 5.5, repeat: Infinity, ease: "easeInOut" },
-                    }}
-                    style={{ transformOrigin: "50% 60%" }}
-                  >
-                    <DevIllustrationSVG />
-                  </motion.div>
+                  <HeroIllustrationSwitcher />
                 </motion.div>
 
                 <FloatingChip label="✓ 847 tests"  accent="#22c55e" top="30px"  left="30px"  delay={0.7} rotate={-1}  />
                 <FloatingChip label="100% pass"    accent="#4ABBD5" top="10px"  left="195px" delay={1.0} rotate={1.5} />
                 <FloatingChip label="deployed"     accent="#E08850" top="195px" left="10px"  delay={1.4} rotate={-1}  />
-                <FloatingChip label="Claude Code"  accent="#ffffff" top="270px" left="195px" delay={1.8} rotate={1.0} />
+                <FloatingChip label="Claude Code"  accent="#ffffff" top="310px" left="195px" delay={1.8} rotate={1.0} />
               </div>
             </div>
           </div>
