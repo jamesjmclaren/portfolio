@@ -106,7 +106,7 @@ function SatelliteIll() {
         style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}>
         <svg viewBox="0 0 120 80" fill="none" style={{ width:180, height:120 }}>
           <rect x="4" y="28" width="38" height="24" rx="3" fill={F} stroke={S} strokeWidth={SW} />
-          {[13,24].map(x=><line key={x} x1={x} y1="28" x2={x} y2="52" stroke={S} strokeWidth={1} key={x}/>)}
+          {[13,24].map(x=><line key={x} x1={x} y1="28" x2={x} y2="52" stroke={S} strokeWidth={1}/>)}
           <line x1="4" y1="40" x2="42" y2="40" stroke={S} strokeWidth={1} />
           <rect x="78" y="28" width="38" height="24" rx="3" fill={F} stroke={S} strokeWidth={SW} />
           {[91,102].map(x=><line key={x} x1={x} y1="28" x2={x} y2="52" stroke={S} strokeWidth={1}/>)}
