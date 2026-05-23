@@ -496,7 +496,7 @@ function D3Hero() {
 
             <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}
               style={{ fontFamily: "system-ui, sans-serif", fontSize: 16, color: "rgba(255,255,255,0.65)", maxWidth: 440, lineHeight: 1.65, marginBottom: 36 }}>
-              13 years leading QA at scale: pipelines, infra, teams. Nights and weekends building real products with Claude Code.
+              13 years leading QA at scale across pipelines, infra, and teams. Building real products with Claude Code.
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.75 }} style={{ display: "flex", gap: 12, flexWrap: "wrap" as const }}>
