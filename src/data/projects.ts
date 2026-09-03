@@ -24,6 +24,8 @@ export interface ProjectMeta {
   status: ProjectStatus;
   /** Full-width screenshot in public/screenshots, if one exists. */
   image?: string;
+  /** Shown with the image where it is not a straight capture of the live thing. */
+  imageCaption?: string;
   pitch: string;
   longPitch: string;
   stack: string[];
@@ -230,10 +232,13 @@ export const projectMeta: ProjectMeta[] = [
       "Fantasy tower defence built in Unity. Four races, an exclusive-path talent tree and a 30-level career mode — working title, still in development",
     repo: "CauliflowerMoments/UnityTest",
     status: "in-progress",
+    image: "/screenshots/mazer-td.png",
+    imageCaption:
+      "Main menu from the UI redesign handoff — the design target, not an in-game capture",
     pitch:
       "A single-player tower defence game in Unity 6. Four races with eight towers each, a talent tree that commits you to one path, a 30-level career across three difficulties, and an endless mode that scales until you lose.",
     longPitch:
-      "Requirements live in the repo and are re-checked against the build rather than kept in someone's head, covering races and talent routes, the information the HUD owes the player, save and load, challenges and scoring. The talent tree is deliberately exclusive: go down one route and the other closes, so a race plays differently depending on what you committed to. Art and level furniture start as a written handoff — a schematic authored in HTML that fixes proportion, placement and palette, alongside the exact world-space constraints it has to live inside — and end as a Blender asset with Unity placement code. Multiplayer and a marketplace sit greyed out in the main menu: planned, not built.",
+      "Requirements live in the repo and are re-checked against the build rather than kept in someone's head, covering races and talent routes, the information the HUD owes the player, save and load, challenges and scoring. The talent tree is deliberately exclusive: go down one route and the other closes, so a race plays differently depending on what you committed to. Art and level furniture start as a written handoff — a schematic authored in HTML that fixes proportion, placement and palette, alongside the exact world-space constraints it has to live inside — and end as a Blender asset with Unity placement code. The interface went through the same process: all thirteen screens redesigned in one direction against an audit of the shipped UI, handed over as a per-screen element inventory — every position, size, colour and font as authored — so the Unity build matches stated values instead of eyedropping a picture. Multiplayer and a marketplace sit greyed out in the main menu: planned, not built.",
     stack: [
       "Unity 6",
       "C#",
@@ -253,6 +258,7 @@ export const projectMeta: ProjectMeta[] = [
       "Save and load, plus challenges scored on perfect versus lossy runs",
       "Models and scenery authored in Blender, imported as Unity prefabs",
       "Written design handoffs per feature, carrying the world-space constraints the art has to fit",
+      "Thirteen game screens redesigned in one visual direction for Unity uGUI at 1920×1080",
     ],
   },
 ];
