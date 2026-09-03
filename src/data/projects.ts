@@ -26,6 +26,10 @@ export interface ProjectMeta {
   image?: string;
   /** Shown with the image where it is not a straight capture of the live thing. */
   imageCaption?: string;
+  /** Screens worth showing in full on the project page. */
+  gallery?: { src: string; title: string; caption: string }[];
+  /** One line above the gallery, for what the reader is actually looking at. */
+  galleryNote?: string;
   pitch: string;
   longPitch: string;
   stack: string[];
@@ -235,6 +239,23 @@ export const projectMeta: ProjectMeta[] = [
     image: "/screenshots/mazer-td.png",
     imageCaption:
       "Main menu from the UI redesign handoff — the design target, not an in-game capture",
+    galleryNote:
+      "Thirteen screens from the UI redesign handoff, authored at 1920×1080 and specced down to every position, colour and font for rebuilding as Unity uGUI prefabs. These are the design target rather than in-game captures, so art slots and the playfield show as placeholders.",
+    gallery: [
+      { src: "/screenshots/mazer-td/4c-main-menu.png", title: "Main menu", caption: "Entry point: continue a run or start a new one." },
+      { src: "/screenshots/mazer-td/4f-race-select.png", title: "Race select", caption: "Choose realm, mode and difficulty before a run." },
+      { src: "/screenshots/mazer-td/4i-hero-select.png", title: "Hero select", caption: "Choose a champion — the last step before the run starts." },
+      { src: "/screenshots/mazer-td/4d-hud-build.png", title: "HUD, build phase", caption: "Place and upgrade towers between waves. Shipped geometry, restyled." },
+      { src: "/screenshots/mazer-td/4o-hud-wave.png", title: "HUD, wave running", caption: "The same geometry under pressure, at three lives." },
+      { src: "/screenshots/mazer-td/4e-talents.png", title: "Talent constellation", caption: "Spend talent points across three branches; node positions match the build." },
+      { src: "/screenshots/mazer-td/4h-boon-picker.png", title: "Boon picker", caption: "Pick one of three run-long upgrades. Blocking — the run waits." },
+      { src: "/screenshots/mazer-td/4g-victory.png", title: "Victory", caption: "End-of-run result and two ways out." },
+      { src: "/screenshots/mazer-td/4k-codex.png", title: "Codex", caption: "Explains the element wheel and the resist numbers." },
+      { src: "/screenshots/mazer-td/4l-challenge-ledger.png", title: "Challenge ledger", caption: "Challenge completion tracked per realm and difficulty." },
+      { src: "/screenshots/mazer-td/4m-mp-browser.png", title: "Multiplayer browser", caption: "Find, host or join a co-op hold." },
+      { src: "/screenshots/mazer-td/4n-lobby.png", title: "Lobby", caption: "Claim a position in the chain and ready up." },
+      { src: "/screenshots/mazer-td/4j-settings.png", title: "Settings", caption: "Audio, video and control options." },
+    ],
     pitch:
       "A single-player tower defence game in Unity 6. Four races with eight towers each, a talent tree that commits you to one path, a 30-level career across three difficulties, and an endless mode that scales until you lose.",
     longPitch:

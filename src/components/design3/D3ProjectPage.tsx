@@ -180,6 +180,38 @@ export default function D3ProjectPage({ project, scenes, others }: Props) {
         </section>
       ))}
 
+      {/* ── Gallery ── */}
+      {project.gallery && project.gallery.length > 0 && (
+        <Section eyebrow="Screens" title="What it looks like.">
+          {project.galleryNote && (
+            <Reveal>
+              <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 760, margin: "-24px 0 36px" }}>
+                {project.galleryNote}
+              </p>
+            </Reveal>
+          )}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 28 }}>
+            {project.gallery.map((shot, i) => (
+              <Reveal key={shot.src} delay={Math.min(i, 4) * 0.04}>
+                <figure style={{ margin: 0 }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={shot.src}
+                    alt={shot.title}
+                    loading="lazy"
+                    style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", borderRadius: 16, display: "block", boxShadow: "0 6px 28px rgba(26,37,53,0.16)", background: INK }}
+                  />
+                  <figcaption style={{ marginTop: 12 }}>
+                    <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 15, color: INK, letterSpacing: -0.3 }}>{shot.title}</span>
+                    <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 14, color: MUTED, lineHeight: 1.5, margin: "4px 0 0" }}>{shot.caption}</p>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </Section>
+      )}
+
       {/* ── Features ── */}
       {project.features && project.features.length > 0 && (
         <Section eyebrow="Features" title="What it does.">
