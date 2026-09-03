@@ -12,6 +12,8 @@ export interface Scene {
   Component: ComponentType;
 }
 
+export type ProjectStatus = "active" | "in-progress" | "inactive";
+
 export interface ProjectMeta {
   slug: string;
   title: string;
@@ -19,7 +21,15 @@ export interface ProjectMeta {
   url?: string;
   repo: string;
   hidden?: boolean;
-  status: "active" | "inactive";
+  status: ProjectStatus;
+  /** Full-width screenshot in public/screenshots, if one exists. */
+  image?: string;
+  /** Shown with the image where it is not a straight capture of the live thing. */
+  imageCaption?: string;
+  /** Screens worth showing in full on the project page. */
+  gallery?: { src: string; title: string; caption: string }[];
+  /** One line above the gallery, for what the reader is actually looking at. */
+  galleryNote?: string;
   pitch: string;
   longPitch: string;
   stack: string[];
@@ -185,6 +195,91 @@ export const projectMeta: ProjectMeta[] = [
       "GDPR-compliant cookie consent with consent-gated analytics",
       "Tool history tracking: records metadata and pricing changes over time",
       "Rate limiting with per-IP hourly and daily quotas",
+    ],
+  },
+  {
+    slug: "sids-sleepovers",
+    title: "Sid's Sleepovers",
+    tagline:
+      "Marketing site for a dog boarding, day care and walking business covering Midlothian, Edinburgh and East Lothian",
+    url: "https://sidssleepovers.co.uk",
+    repo: "jamesjmclaren/SidsSleepovers",
+    status: "active",
+    image: "/screenshots/sids-sleepovers.png",
+    pitch:
+      "A client site, live and taking enquiries. Services, a full price list, an FAQ, an enquiry form and a live Instagram feed. Plain HTML, CSS and one JavaScript file — no framework, no build step, published from the repo root by Netlify.",
+    longPitch:
+      "Three design directions were built from the same handoff so the client could compare them live in the browser rather than in a mockup. Direction 1c was chosen and the other two removed. Every colour and type value comes from custom properties set by a single theme stylesheet, so the base stylesheet carries no colours of its own and a re-theme touches one file. Photos ship as responsive WebP with JPEG fallbacks at four widths. The gallery is a Mirror App embed on their free tier, with two deliberate changes to the vendor snippet: their bridge script is moved above the iframe whose onload calls into it, and that call is guarded, so a slow CDN or an ad blocker cannot throw on every visit.",
+    stack: [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Netlify",
+      "WebP",
+      "Mirror App",
+    ],
+    accent: "#ffc94d",
+    features: [
+      "Four service cards and a full price list for boarding, walks, day care, small furries and wedding chaperoning",
+      "Enquiry form with client-side validation; preview builds are marked and do not write real enquiries",
+      "Live @sidssleepovers1 Instagram feed via a Mirror App embed",
+      "FAQ accordion and a mobile nav drawer, both in vanilla JS",
+      "Responsive WebP images with JPEG fallbacks at 480/800/1280/1920",
+      "Theming driven entirely by CSS custom properties on :root",
+      "Cache headers and publish directory configured in netlify.toml",
+    ],
+  },
+  {
+    slug: "mazer-td",
+    title: "Mazer TD",
+    tagline:
+      "Fantasy tower defence built in Unity. Four races, an exclusive-path talent tree and a 30-level career mode — working title, still in development",
+    repo: "CauliflowerMoments/UnityTest",
+    status: "in-progress",
+    image: "/screenshots/mazer-td.png",
+    imageCaption:
+      "Main menu from the UI redesign handoff — the design target, not an in-game capture",
+    galleryNote:
+      "Thirteen screens from the UI redesign handoff, authored at 1920×1080 and specced down to every position, colour and font for rebuilding as Unity uGUI prefabs. These are the design target rather than in-game captures, so art slots and the playfield show as placeholders.",
+    gallery: [
+      { src: "/screenshots/mazer-td/4c-main-menu.png", title: "Main menu", caption: "Entry point: continue a run or start a new one." },
+      { src: "/screenshots/mazer-td/4f-race-select.png", title: "Race select", caption: "Choose realm, mode and difficulty before a run." },
+      { src: "/screenshots/mazer-td/4i-hero-select.png", title: "Hero select", caption: "Choose a champion — the last step before the run starts." },
+      { src: "/screenshots/mazer-td/4d-hud-build.png", title: "HUD, build phase", caption: "Place and upgrade towers between waves. Shipped geometry, restyled." },
+      { src: "/screenshots/mazer-td/4o-hud-wave.png", title: "HUD, wave running", caption: "The same geometry under pressure, at three lives." },
+      { src: "/screenshots/mazer-td/4e-talents.png", title: "Talent constellation", caption: "Spend talent points across three branches; node positions match the build." },
+      { src: "/screenshots/mazer-td/4h-boon-picker.png", title: "Boon picker", caption: "Pick one of three run-long upgrades. Blocking — the run waits." },
+      { src: "/screenshots/mazer-td/4g-victory.png", title: "Victory", caption: "End-of-run result and two ways out." },
+      { src: "/screenshots/mazer-td/4k-codex.png", title: "Codex", caption: "Explains the element wheel and the resist numbers." },
+      { src: "/screenshots/mazer-td/4l-challenge-ledger.png", title: "Challenge ledger", caption: "Challenge completion tracked per realm and difficulty." },
+      { src: "/screenshots/mazer-td/4m-mp-browser.png", title: "Multiplayer browser", caption: "Find, host or join a co-op hold." },
+      { src: "/screenshots/mazer-td/4n-lobby.png", title: "Lobby", caption: "Claim a position in the chain and ready up." },
+      { src: "/screenshots/mazer-td/4j-settings.png", title: "Settings", caption: "Audio, video and control options." },
+    ],
+    pitch:
+      "A single-player tower defence game in Unity 6. Four races with eight towers each, a talent tree that commits you to one path, a 30-level career across three difficulties, and an endless mode that scales until you lose.",
+    longPitch:
+      "Requirements live in the repo and are re-checked against the build rather than kept in someone's head, covering races and talent routes, the information the HUD owes the player, save and load, challenges and scoring. The talent tree is deliberately exclusive: go down one route and the other closes, so a race plays differently depending on what you committed to. Art and level furniture start as a written handoff — a schematic authored in HTML that fixes proportion, placement and palette, alongside the exact world-space constraints it has to live inside — and end as a Blender asset with Unity placement code. The interface went through the same process: all thirteen screens redesigned in one direction against an audit of the shipped UI, handed over as a per-screen element inventory — every position, size, colour and font as authored — so the Unity build matches stated values instead of eyedropping a picture. Multiplayer and a marketplace sit greyed out in the main menu: planned, not built.",
+    stack: [
+      "Unity 6",
+      "C#",
+      "URP",
+      "Shader Graph",
+      "Input System",
+      "TextMeshPro",
+      "Blender",
+    ],
+    accent: "#8b6fd4",
+    features: [
+      "Four races — Humans, Orcs, Elves and Dwarves — with eight towers each",
+      "Exclusive-path talent tree claiming up to five further towers per race",
+      "Career mode: 30 levels across Noob (50% enemy HP), Normal and Pro (200%)",
+      "Endless mode with waves that scale until you lose",
+      "Next-wave preview and per-unit strengths and weaknesses on hover",
+      "Save and load, plus challenges scored on perfect versus lossy runs",
+      "Models and scenery authored in Blender, imported as Unity prefabs",
+      "Written design handoffs per feature, carrying the world-space constraints the art has to fit",
+      "Thirteen game screens redesigned in one visual direction for Unity uGUI at 1920×1080",
     ],
   },
 ];
