@@ -7,6 +7,7 @@ import { ArrowRight, Zap, Menu, X } from "lucide-react";
 import { projectMeta } from "@/data/projects";
 import EmailCaptcha from "@/components/EmailCaptcha";
 import ProjectLogo from "@/components/ProjectLogo";
+import { STATUS_COLOR, STATUS_LABEL } from "./status";
 
 // ─── Palette ─────────────────────────────────────────────────────────────────
 const GRAD = "linear-gradient(135deg, #5BA8C4 0%, #7DBDC8 30%, #B89272 70%, #CC8858 100%)";
@@ -559,6 +560,19 @@ function SectionHeading({ eyebrow, title, light = false }: { eyebrow: string; ti
 }
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
+
+/** Slugs whose logo is a real image in public/logos rather than a drawn
+ *  ProjectLogo. Sid's is a circular badge on transparent, so it needs
+ *  containing on its own ground instead of cropping to the tile. */
+const LOGO_IMAGES: Record<
+  string,
+  { fit: "cover" | "contain"; background?: string; padding?: number }
+> = {
+  "west-investments": { fit: "cover" },
+  prempod: { fit: "cover" },
+  "sids-sleepovers": { fit: "contain", background: "#FFF6E9", padding: 6 },
+};
+
 function D3Projects() {
   return (
     <SectionCard id="projects" zIndex={2} background={CREAM}>
@@ -572,13 +586,13 @@ function D3Projects() {
                 transition={{ duration: 0.22 }}
                 style={{ background: WHITE, borderRadius: 24, padding: 28, display: "grid", gridTemplateColumns: "72px 1fr", gap: 20, alignItems: "start", boxShadow: "0 2px 20px rgba(26,37,53,0.06)", cursor: "pointer" }}
               >
-                <div style={{ width: 72, height: 72, borderRadius: 18, overflow: "hidden", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  {(p.slug === "west-investments" || p.slug === "prempod") ? (
+                <div style={{ width: 72, height: 72, borderRadius: 18, overflow: "hidden", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: LOGO_IMAGES[p.slug]?.background }}>
+                  {LOGO_IMAGES[p.slug] ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={`/logos/${p.slug}.png`}
                       alt={p.title}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      style={{ width: "100%", height: "100%", objectFit: LOGO_IMAGES[p.slug].fit, padding: LOGO_IMAGES[p.slug].padding }}
                     />
                   ) : (
                     <ProjectLogo slug={p.slug} />
@@ -587,9 +601,10 @@ function D3Projects() {
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                     <span style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: 18, color: INK, letterSpacing: -0.5 }}>{p.title}</span>
-                    {p.status === "active" && (
+                    {STATUS_COLOR[p.status] && (
                       <motion.span animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 2, repeat: Infinity }}
-                        style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", boxShadow: "0 0 6px #22c55e", display: "inline-block" }} />
+                        title={STATUS_LABEL[p.status]}
+                        style={{ width: 7, height: 7, borderRadius: "50%", background: STATUS_COLOR[p.status]!, boxShadow: `0 0 6px ${STATUS_COLOR[p.status]}`, display: "inline-block" }} />
                     )}
                   </div>
                   <p style={{ fontFamily: "system-ui, sans-serif", fontSize: 14, color: MUTED, lineHeight: 1.5, margin: "0 0 12px" }}>{p.tagline}</p>

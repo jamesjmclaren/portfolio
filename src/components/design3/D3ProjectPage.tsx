@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import ProjectLogo from "@/components/ProjectLogo";
 import BrowserFrame from "@/components/project/BrowserFrame";
 import type { ProjectMeta, Scene as SceneT } from "@/data/projects";
+import { STATUS_COLOR, STATUS_LABEL } from "./status";
 
 // ─── Palette (mirrors D3HomePage) ────────────────────────────────────────────
 const GRAD  = "linear-gradient(135deg, #5BA8C4 0%, #7DBDC8 30%, #B89272 70%, #CC8858 100%)";
@@ -102,12 +103,12 @@ export default function D3ProjectPage({ project, scenes, others }: Props) {
               <span style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
                 fontFamily: "ui-monospace, monospace", fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" as const,
-                color: project.status === "active" ? "#22c55e" : "rgba(255,255,255,0.5)",
+                color: STATUS_COLOR[project.status] ?? "rgba(255,255,255,0.5)",
                 padding: "4px 12px", borderRadius: 100,
-                border: `1.5px solid ${project.status === "active" ? "#22c55e" : "rgba(255,255,255,0.3)"}`,
+                border: `1.5px solid ${STATUS_COLOR[project.status] ?? "rgba(255,255,255,0.3)"}`,
               }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: project.status === "active" ? "#22c55e" : "rgba(255,255,255,0.4)" }} />
-                {project.status}
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: STATUS_COLOR[project.status] ?? "rgba(255,255,255,0.4)" }} />
+                {STATUS_LABEL[project.status]}
               </span>
             </motion.div>
 

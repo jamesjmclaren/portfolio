@@ -120,11 +120,48 @@ function CategoraisLogo() {
   );
 }
 
+function MazerTdLogo() {
+  return (
+    <svg viewBox="0 0 200 200" width="100%" height="100%">
+      <defs>
+        <linearGradient id="mz_bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#3a2f57" />
+          <stop offset="100%" stopColor="#1d1730" />
+        </linearGradient>
+      </defs>
+      <rect width="200" height="200" fill="url(#mz_bg)" />
+      {/* Maze path the creeps walk */}
+      <path
+        d="M18 40 H150 V80 H50 V120 H150 V160 H18"
+        fill="none"
+        stroke="#e8c46a"
+        strokeWidth={11}
+        strokeLinecap="square"
+        opacity={0.55}
+      />
+      {/* Tower guarding the last corner */}
+      <rect x="150" y="86" width="34" height="48" fill="#e8c46a" />
+      <path d="M150 86 h34 v-12 h-8 v6 h-6 v-6 h-6 v6 h-6 v-6 h-8 z" fill="#e8c46a" />
+      <text
+        x="100"
+        y="190"
+        textAnchor="middle"
+        style={{ ...archivoBlack, fontSize: 24 } as CSSProperties}
+        fill="rgba(232,196,106,0.85)"
+        letterSpacing="1"
+      >
+        MAZER TD
+      </text>
+    </svg>
+  );
+}
+
 const logoMap: Record<string, React.FC> = {
   "west-investments": WestLogo,
   prempod: PrempodLogo,
   burgerlist: BurgerlistLogo,
   categorais: CategoraisLogo,
+  "mazer-td": MazerTdLogo,
 };
 
 export default function ProjectLogo({ slug, style = {} }: ProjectLogoProps) {
