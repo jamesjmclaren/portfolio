@@ -95,7 +95,6 @@ export const projectMeta: ProjectMeta[] = [
     repo: "jamesjmclaren/premleaguepodcasts",
     status: "active",
     image: "/screenshots/prempod.png",
-    imageFit: "contain",
     pitch:
       "As an Arsenal fan there's no easy way to find the best Arsenal content creators across every platform. Prempod fixes that. A community-built directory where fans add the creators they love, others discover them, and everyone clicks through to the content they actually want. Built for every club, every league.",
     longPitch:
