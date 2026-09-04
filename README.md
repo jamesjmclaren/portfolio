@@ -12,13 +12,13 @@ Built with **Claude Code**.
 - Next.js 15 (App Router) + React 19
 - TypeScript
 - Tailwind CSS v4 (the in-page product demos) + CSS custom properties (page chrome)
-- Anthropic API (`@anthropic-ai/sdk`) for the "Ask about me" search
+- Groq or the Anthropic API for the "Ask about me" search
 
 ## Develop
 
 ```bash
 npm install
-cp .env.example .env.local   # add an ANTHROPIC_API_KEY for the ask feature
+cp .env.example .env.local   # add a GROQ_API_KEY (or ANTHROPIC_API_KEY)
 npm run dev
 ```
 
@@ -44,6 +44,13 @@ copy from the same data the page renders — so the search can never drift from 
 told to answer only from that context, in 2-4 sentences, and to point people at the email address
 when the context does not cover the question.
 
-- Model: `claude-opus-5`, overridable with `ASK_MODEL` (e.g. `claude-sonnet-5`, `claude-haiku-4-5`)
-- The key is server-side only; the browser never sees it
-- Questions are capped at 300 characters, with a per-IP hourly cap as a cost speed bump
+Either provider can power it — whichever key is set wins, and `ASK_PROVIDER` forces one:
+
+| Provider | Env var | Default model |
+| --- | --- | --- |
+| Groq (default when both are set) | `GROQ_API_KEY` | `openai/gpt-oss-120b` |
+| Anthropic | `ANTHROPIC_API_KEY` | `claude-opus-5` |
+
+`ASK_MODEL` overrides the model for whichever provider is active. Keys are server-side only; the
+browser never sees them. Questions are capped at 300 characters, with a per-IP hourly cap as a cost
+speed bump.

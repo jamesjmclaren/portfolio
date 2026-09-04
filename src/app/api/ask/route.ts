@@ -1,11 +1,30 @@
 import Anthropic from "@anthropic-ai/sdk";
+import Groq from "groq-sdk";
 import { buildAboutContext, profile } from "@/data/about";
 
-/** Server-side only — the API key never reaches the browser. */
+/** Server-side only — neither API key ever reaches the browser. */
 export const runtime = "nodejs";
 
-/** Override per environment if you want to trade cost against depth. */
-const MODEL = process.env.ASK_MODEL ?? "claude-opus-5";
+/** Whichever key is configured wins; set ASK_PROVIDER to force one. */
+type Provider = "groq" | "anthropic";
+
+const DEFAULT_MODEL: Record<Provider, string> = {
+  groq: "openai/gpt-oss-120b",
+  anthropic: "claude-opus-5",
+};
+
+function pickProvider(): Provider | null {
+  const forced = process.env.ASK_PROVIDER?.toLowerCase();
+  if (forced === "groq") return process.env.GROQ_API_KEY ? "groq" : null;
+  if (forced === "anthropic") return process.env.ANTHROPIC_API_KEY ? "anthropic" : null;
+  if (process.env.GROQ_API_KEY) return "groq";
+  if (process.env.ANTHROPIC_API_KEY) return "anthropic";
+  return null;
+}
+
+function modelFor(provider: Provider): string {
+  return process.env.ASK_MODEL ?? DEFAULT_MODEL[provider];
+}
 
 const MAX_QUESTION_CHARS = 300;
 
@@ -27,6 +46,8 @@ function overRateLimit(ip: string): boolean {
   return entry.count > RATE_LIMIT;
 }
 
+/** The CV and the project summaries, and nothing else. Assembled from the same
+ *  data the page renders, so the answers cannot drift from the site. */
 const SYSTEM_INSTRUCTION = `You answer questions about ${profile.name} — a quality engineering leader — for recruiters, hiring managers and collaborators visiting his portfolio site.
 
 Rules:
@@ -39,14 +60,54 @@ Rules:
 CONTEXT:
 ${buildAboutContext()}`;
 
+const GENERIC_ERROR = "Couldn't get an answer right now. Try again in a moment.";
+
 function clientIp(req: Request): string {
   const forwarded = req.headers.get("x-forwarded-for");
   if (forwarded) return forwarded.split(",")[0].trim();
   return req.headers.get("x-real-ip") ?? "unknown";
 }
 
+async function askGroq(question: string): Promise<string> {
+  const model = modelFor("groq");
+  const completion = await new Groq().chat.completions.create({
+    model,
+    max_completion_tokens: 500,
+    temperature: 0.3,
+    // Only the gpt-oss models take this; other Groq models reject it.
+    ...(model.includes("gpt-oss") ? { reasoning_effort: "low" as const } : {}),
+    messages: [
+      { role: "system", content: SYSTEM_INSTRUCTION },
+      { role: "user", content: question },
+    ],
+  });
+
+  return completion.choices[0]?.message?.content?.trim() ?? "";
+}
+
+async function askAnthropic(question: string): Promise<string> {
+  const response = await new Anthropic().messages.create({
+    model: modelFor("anthropic"),
+    max_tokens: 4096,
+    output_config: { effort: "low" },
+    system: [
+      { type: "text", text: SYSTEM_INSTRUCTION, cache_control: { type: "ephemeral" } },
+    ],
+    messages: [{ role: "user", content: question }],
+  });
+
+  if (response.stop_reason === "refusal") return "";
+
+  return response.content
+    .filter((block) => block.type === "text")
+    .map((block) => block.text)
+    .join("\n")
+    .trim();
+}
+
 export async function POST(req: Request) {
-  if (!process.env.ANTHROPIC_API_KEY) {
+  const provider = pickProvider();
+  if (!provider) {
     return Response.json(
       { error: "The ask feature is not configured on this deployment." },
       { status: 503 },
@@ -76,52 +137,27 @@ export async function POST(req: Request) {
     );
   }
 
-  const client = new Anthropic();
-
   try {
-    const response = await client.messages.create({
-      model: MODEL,
-      max_tokens: 4096,
-      output_config: { effort: "low" },
-      system: [
-        { type: "text", text: SYSTEM_INSTRUCTION, cache_control: { type: "ephemeral" } },
-      ],
-      messages: [{ role: "user", content: question.trim() }],
-    });
+    const answer =
+      provider === "groq"
+        ? await askGroq(question.trim())
+        : await askAnthropic(question.trim());
 
-    if (response.stop_reason === "refusal") {
-      return Response.json(
-        { error: "Couldn't answer that one. Try rephrasing, or email James directly." },
-        { status: 200 },
-      );
-    }
-
-    const answer = response.content
-      .filter((block) => block.type === "text")
-      .map((block) => block.text)
-      .join("\n")
-      .trim();
-
-    if (!answer) {
-      return Response.json(
-        { error: "Couldn't get an answer right now. Try again in a moment." },
-        { status: 502 },
-      );
-    }
+    if (!answer) return Response.json({ error: GENERIC_ERROR }, { status: 502 });
 
     return Response.json({ answer });
   } catch (error) {
-    if (error instanceof Anthropic.RateLimitError) {
+    if (error instanceof Groq.RateLimitError || error instanceof Anthropic.RateLimitError) {
       return Response.json({ error: "Busy right now — try again in a moment." }, { status: 429 });
     }
-    if (error instanceof Anthropic.AuthenticationError) {
-      console.error("/api/ask: bad ANTHROPIC_API_KEY");
+    if (
+      error instanceof Groq.AuthenticationError ||
+      error instanceof Anthropic.AuthenticationError
+    ) {
+      console.error(`/api/ask: bad API key for provider "${provider}"`);
       return Response.json({ error: "The ask feature is misconfigured." }, { status: 503 });
     }
-    console.error("/api/ask failed", error);
-    return Response.json(
-      { error: "Couldn't get an answer right now. Try again in a moment." },
-      { status: 502 },
-    );
+    console.error(`/api/ask failed (provider: ${provider})`, error);
+    return Response.json({ error: GENERIC_ERROR }, { status: 502 });
   }
 }

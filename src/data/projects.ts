@@ -52,9 +52,8 @@ export const projectMeta: ProjectMeta[] = [
     hidden: true,
     status: "active",
     image: "/screenshots/west-investments.png",
-    imageFit: "contain",
     imageCaption:
-      "The dashboard as members see it — the live product sits behind a Clerk auth wall",
+      "The dashboard UI running on mock data — the live product sits behind a Clerk auth wall",
     pitch:
       "Started as a personal tool for tracking Pokémon card investments at live market price. Now evolving into a closed-access platform where a curated group of members pay a monthly fee to track their portfolios, monitor price trends across TCGPlayer, eBay and CardMarket, pull performance reports and generate tax summaries.",
     longPitch:
