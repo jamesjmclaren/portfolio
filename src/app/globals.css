@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* The dark palette below belongs to the in-page product demos (BrowserFrame and
+   everything under src/projects/*). They render as dark app screenshots inside
+   the light page, so these token names stay as they are. */
 @theme {
   --color-background: #0a0a0b;
   --color-surface: #111114;
@@ -15,8 +18,24 @@
   --color-accent-muted: rgba(212, 175, 55, 0.15);
   --color-success: #22c55e;
   --color-danger: #ef4444;
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+/* Page palette — the site chrome itself. */
+:root {
+  --page: #f9f8f6;
+  --ink: #24262b;
+  --body-text: #3a3d44;
+  --muted: #6e7178;
+  --line: #e2e3e6;
+  --line-strong: #d7d8dc;
+  --accent: #3f7ea8;
+  --accent-soft: rgba(63, 126, 168, 0.12);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -24,53 +43,104 @@ html {
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
-  font-family: var(--font-sans);
+  margin: 0;
+  background-color: var(--page);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Subtle ambient gradient behind page */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(212, 175, 55, 0.08), transparent 60%),
-    radial-gradient(900px 500px at -10% 30%, rgba(80, 80, 120, 0.07), transparent 60%);
-  pointer-events: none;
+a {
+  color: inherit;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-surface);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 4px;
+  background: var(--line-strong);
+  border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-border-hover);
+  background: var(--muted);
 }
 
-/* Selection */
 ::selection {
-  background: var(--color-accent-muted);
-  color: var(--color-text-primary);
+  background: var(--accent-soft);
+  color: var(--ink);
 }
 
-/* Homepage snap-scroll — on the <main> scroll container */
-.snap-container {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
+/* Scroll lock while a project modal is open. */
+body.modal-open {
+  overflow: hidden;
 }
-.snap-section {
-  scroll-snap-align: start;
+
+/* ── Interaction states ────────────────────────────────────────────────────
+   Inline styles carry the layout; hover lives here. */
+.tile {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.tile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(20, 21, 24, 0.13);
+}
+.tile-img {
+  transition: transform 0.4s ease;
+}
+.tile:hover .tile-img {
+  transform: scale(1.045);
+}
+
+.job-row {
+  transition: background 0.18s ease;
+}
+.job-row:hover {
+  background: #fff;
+}
+.job-row:hover .job-role {
+  color: var(--accent);
+}
+
+.pill-link {
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+.pill-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.solid-link {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.solid-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+
+.text-link:hover {
+  color: var(--accent);
+}
+
+/* Employment rows: layout lives here so the date column can reflow on narrow
+   screens (inline styles would win over these rules). */
+.job-row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 600px) {
+  .job-row {
+    grid-template-columns: 44px 1fr;
+    gap: 14px;
+  }
+  .job-row .job-years {
+    grid-column: 2;
+    padding-top: 0;
+  }
 }

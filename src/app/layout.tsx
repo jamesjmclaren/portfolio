@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "James McLaren — Portfolio",
   description:
-    "Quality engineering leader and product builder. 13+ years across digital asset custody, connected TV and consulting. Personal projects, work history, and the code behind the products — built with Claude.",
+    "Quality engineering leader, 13+ years. Agentic QA at io.finnet. Personal projects, employment history, and an AI search that answers questions about my experience.",
   openGraph: {
     title: "James McLaren — Portfolio",
     description: "Personal projects, work history, and the code behind the products.",
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400;600;700&family=Archivo+Black&family=Patrick+Hand&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@400;600;700&family=Archivo+Black&display=swap"
           rel="stylesheet"
         />
       </head>

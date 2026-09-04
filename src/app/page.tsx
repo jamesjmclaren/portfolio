@@ -1,5 +1,5 @@
-import D3HomePage from "@/components/design3/D3HomePage";
+import HomePage from "@/components/home/HomePage";
 
-export default function HomePage() {
-  return <D3HomePage />;
+export default function Page() {
+  return <HomePage />;
 }

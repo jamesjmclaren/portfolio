@@ -1,27 +1,15 @@
 import { notFound } from "next/navigation";
-import { getProject, projectMeta, type Scene as SceneT } from "@/data/projects";
-import { westScenes } from "@/projects/west/scenes";
-import { prempodScenes } from "@/projects/prempod/scenes";
-import { burgerlistScenes } from "@/projects/burgerlist/scenes";
-import { categoraisScenes } from "@/projects/categorais/scenes";
-import ProjectPageClient from "./ProjectPageClient";
+import HomePage from "@/components/home/HomePage";
+import { getProject, projectMeta } from "@/data/projects";
 
-const scenesBySlug: Record<string, SceneT[]> = {
-  "west-investments": westScenes,
-  prempod: prempodScenes,
-  burgerlist: burgerlistScenes,
-  categorais: categoraisScenes,
-};
-
+/** Every project is still its own URL — entering here renders the one page with
+ *  that project's modal already open, so links shared before the redesign, and
+ *  links copied out of the modal, both keep working. */
 export function generateStaticParams() {
   return projectMeta.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
@@ -31,17 +19,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProjectPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = getProject(slug);
-  if (!project) notFound();
+  if (!getProject(slug)) notFound();
 
-  const scenes = scenesBySlug[slug] ?? [];
-  const others = projectMeta.filter((p) => p.slug !== slug);
-
-  return <ProjectPageClient project={project} scenes={scenes} others={others} />;
+  return <HomePage initialSlug={slug} />;
 }

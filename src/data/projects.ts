@@ -24,6 +24,10 @@ export interface ProjectMeta {
   status: ProjectStatus;
   /** Full-width screenshot in public/screenshots, if one exists. */
   image?: string;
+  /** How the modal shows the image. Portrait (phone-sized) captures are
+   *  letterboxed there — blown up to 16:9 they are an unreadable zoom. Tiles
+   *  always crop from the top, which reads as the page header at that size. */
+  imageFit?: "cover" | "contain";
   /** Shown with the image where it is not a straight capture of the live thing. */
   imageCaption?: string;
   /** Screens worth showing in full on the project page. */
@@ -47,6 +51,9 @@ export const projectMeta: ProjectMeta[] = [
     repo: "jamesjmclaren/pokemonAssets",
     hidden: true,
     status: "active",
+    image: "/screenshots/west-investments.png",
+    imageCaption:
+      "The dashboard UI running on mock data — the live product sits behind a Clerk auth wall",
     pitch:
       "Started as a personal tool for tracking Pokémon card investments at live market price. Now evolving into a closed-access platform where a curated group of members pay a monthly fee to track their portfolios, monitor price trends across TCGPlayer, eBay and CardMarket, pull performance reports and generate tax summaries.",
     longPitch:
@@ -87,6 +94,7 @@ export const projectMeta: ProjectMeta[] = [
     url: "https://prempod.com",
     repo: "jamesjmclaren/premleaguepodcasts",
     status: "active",
+    image: "/screenshots/prempod.png",
     pitch:
       "As an Arsenal fan there's no easy way to find the best Arsenal content creators across every platform. Prempod fixes that. A community-built directory where fans add the creators they love, others discover them, and everyone clicks through to the content they actually want. Built for every club, every league.",
     longPitch:
@@ -125,6 +133,7 @@ export const projectMeta: ProjectMeta[] = [
       "Build ranked lists of your favourite restaurants, add photos and ratings, then share them in one link. Your top 10 Italian spots in London, ready to send",
     repo: "jamesjmclaren/burgerlist",
     status: "inactive",
+    image: "/screenshots/burgerlist.png",
     pitch:
       "Not a review site, a list-making tool. Pick a theme, add the restaurants you know, rank them, rate them, upload photos, and share the whole thing as a single link. Your top 10 Italian restaurants in London. The best curry houses in Edinburgh. Hand it to a friend in one tap.",
     longPitch:
@@ -165,6 +174,8 @@ export const projectMeta: ProjectMeta[] = [
       "Use AI to find the AI you need. A self-updating index of 350+ tools, discovered daily by agents, fully searchable by what you're actually trying to do",
     repo: "jamesjmclaren/categorais",
     status: "inactive",
+    image: "/screenshots/categorais.png",
+    imageFit: "contain",
     pitch:
       "Everyone's building AI tools. Nobody's making it easy to find the right one. CategorAIs is a living directory where AI agents hunt for new tools daily, and an AI wizard recommends exactly what you need based on what you're trying to do: building a spreadsheet, writing code or automating a workflow.",
     longPitch:
