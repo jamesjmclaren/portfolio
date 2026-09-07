@@ -175,7 +175,6 @@ export const projectMeta: ProjectMeta[] = [
     repo: "jamesjmclaren/categorais",
     status: "inactive",
     image: "/screenshots/categorais.png",
-    imageFit: "contain",
     pitch:
       "Everyone's building AI tools. Nobody's making it easy to find the right one. CategorAIs is a living directory where AI agents hunt for new tools daily, and an AI wizard recommends exactly what you need based on what you're trying to do: building a spreadsheet, writing code or automating a workflow.",
     longPitch:
