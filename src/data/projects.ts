@@ -43,6 +43,47 @@ export interface ProjectMeta {
 
 export const projectMeta: ProjectMeta[] = [
   {
+    slug: "historoo",
+    title: "historoo",
+    tagline:
+      "Chrome extension that remembers the pictures, videos, headlines and pages you've seen, so you can find them again by describing them, and shows where your time online goes",
+    url: "https://historoo.com",
+    repo: "jamesjmclaren/betterhistory",
+    status: "active",
+    image: "/screenshots/historoo.png",
+    pitch:
+      "Chrome's history keeps titles and links, so searching \"cat\" finds nothing. historoo notes what was actually on screen, the pictures, videos and headlines, and makes it searchable by description, all on the person's own computer. Free on the Chrome Web Store, with a Pro plan for longer history, encrypted sync and searching from the web.",
+    longPitch:
+      "Everything runs in the browser. A content script notes what stayed on screen for a second (and stops on sign-in, payment and password pages), the background worker saves a small thumbnail to IndexedDB, and an offscreen document runs Google's SigLIP model through transformers.js to embed and tag each picture, so \"red sofa\" finds the sofa without anyone having labelled it. Pro adds text read from pictures with Tesseract, sync through the person's own Google Drive, encrypted with a passphrase only they hold, and a web search page that decrypts that backup in the browser. The site is static HTML on Cloudflare in seven languages, the account server is a Cloudflare Worker with Better Auth and D1, and historoo-mcp on npm lets AI apps like Claude search the history too.",
+    stack: [
+      "Chrome Extension (MV3)",
+      "JavaScript",
+      "transformers.js",
+      "SigLIP",
+      "Tesseract.js",
+      "IndexedDB",
+      "Cloudflare Workers",
+      "D1",
+      "Better Auth",
+      "Paddle",
+      "Tailwind v4",
+      "daisyUI",
+    ],
+    accent: "#035F5C",
+    features: [
+      "Saves the pictures, videos, headlines and pages that were actually on screen, skipping sign-in, payment and password pages",
+      "Search by description: picture embeddings and tags computed on the device, nothing sent anywhere",
+      "Text search across titles, headings, video transcripts and picture tags, with site: filters",
+      "Screen time by site and by day, busiest hours and an optional weekly recap",
+      "Regulars: the pages you keep going back to, and closing tabs without losing them",
+      "Collections, More like this, search with a picture, and On this day",
+      "Pro: text read from pictures and encrypted sync through your own Google Drive",
+      "A web search page that decrypts the Drive backup in the browser, under a strict CSP",
+      "historoo-mcp: an MCP server on npm so AI apps can search your history",
+      "Site and extension in seven languages: English, German, Spanish, French, Japanese, Portuguese and Chinese",
+    ],
+  },
+  {
     slug: "west-investments",
     title: "West Investments",
     tagline:

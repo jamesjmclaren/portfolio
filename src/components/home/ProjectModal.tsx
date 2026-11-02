@@ -37,6 +37,7 @@ const LOGO_IMAGES: Record<string, { fit: "cover" | "contain"; background?: strin
   "west-investments": { fit: "contain", background: "#111114", padding: 6 },
   prempod: { fit: "contain", background: "#0E1116", padding: 6 },
   "sids-sleepovers": { fit: "contain", background: "#FFF6E9", padding: 6 },
+  historoo: { fit: "cover", background: "#15171C" },
 };
 
 function useScenes(slug: string): Scene[] {
