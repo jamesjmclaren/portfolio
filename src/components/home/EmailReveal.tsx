@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { profile } from "@/data/about";
-import { ACCENT, DANGER, INK, LINE, MONO, MUTED, WHITE } from "./theme";
+import { ACCENT, DANGER, INK, LINE, MONO, MUTED, ON_ACCENT, SURFACE } from "./theme";
 
 function makeChallenge() {
   const a = Math.floor(Math.random() * 9) + 1;
@@ -58,7 +58,7 @@ export default function EmailReveal() {
           gap: 10,
           padding: "12px 20px",
           borderRadius: 12,
-          background: WHITE,
+          background: SURFACE,
           border: `1px solid ${LINE}`,
           textDecoration: "none",
           fontFamily: MONO,
@@ -81,7 +81,7 @@ export default function EmailReveal() {
         gap: 10,
         padding: "10px 16px",
         borderRadius: 12,
-        background: WHITE,
+        background: SURFACE,
         border: `1px solid ${LINE}`,
         fontFamily: MONO,
         fontSize: 13,
@@ -109,20 +109,20 @@ export default function EmailReveal() {
           padding: "4px 6px",
           borderRadius: 6,
           border: `1px solid ${error ? DANGER : LINE}`,
-          background: "#F7F6F4",
+          background: "#101214",
           fontFamily: MONO,
           fontSize: 13,
           textAlign: "center",
-          outline: "none",
           color: INK,
         }}
       />
       <button
+        type="button"
         onClick={attempt}
         style={{
           border: "none",
           background: ACCENT,
-          color: WHITE,
+          color: ON_ACCENT,
           borderRadius: 6,
           padding: "5px 10px",
           fontFamily: MONO,

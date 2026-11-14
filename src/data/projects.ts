@@ -22,6 +22,11 @@ export interface ProjectMeta {
   repo: string;
   hidden?: boolean;
   status: ProjectStatus;
+  /** When the repo was created (YYYY-MM-DD). Orders the deck, newest first.
+   *  Required for every project that isn't hidden. */
+  started?: string;
+  /** One or two words for what kind of thing it is, shown on the deck. */
+  kind: string;
   /** Full-width screenshot in public/screenshots, if one exists. */
   image?: string;
   /** How the modal shows the image. Portrait (phone-sized) captures are
@@ -50,6 +55,8 @@ export const projectMeta: ProjectMeta[] = [
     url: "https://historoo.com",
     repo: "jamesjmclaren/betterhistory",
     status: "active",
+    started: "2026-09-27",
+    kind: "Chrome extension",
     image: "/screenshots/historoo.png",
     pitch:
       "Chrome's history keeps titles and links, so searching \"cat\" finds nothing. historoo notes what was actually on screen, the pictures, videos and headlines, and makes it searchable by description, all on the person's own computer. Free on the Chrome Web Store, with a Pro plan for longer history, encrypted sync and searching from the web.",
@@ -92,6 +99,7 @@ export const projectMeta: ProjectMeta[] = [
     repo: "jamesjmclaren/pokemonAssets",
     hidden: true,
     status: "active",
+    kind: "Client site",
     image: "/screenshots/west-investments.png",
     imageCaption:
       "The dashboard UI running on mock data — the live product sits behind a Clerk auth wall",
@@ -135,6 +143,8 @@ export const projectMeta: ProjectMeta[] = [
     url: "https://prempod.com",
     repo: "jamesjmclaren/premleaguepodcasts",
     status: "active",
+    started: "2026-01-06",
+    kind: "Web app",
     image: "/screenshots/prempod.png",
     pitch:
       "As an Arsenal fan there's no easy way to find the best Arsenal content creators across every platform. Prempod fixes that. A community-built directory where fans add the creators they love, others discover them, and everyone clicks through to the content they actually want. Built for every club, every league.",
@@ -174,6 +184,8 @@ export const projectMeta: ProjectMeta[] = [
       "Build ranked lists of your favourite restaurants, add photos and ratings, then share them in one link. Your top 10 Italian spots in London, ready to send",
     repo: "jamesjmclaren/burgerlist",
     status: "inactive",
+    started: "2025-12-26",
+    kind: "Web app",
     image: "/screenshots/burgerlist.png",
     pitch:
       "Not a review site, a list-making tool. Pick a theme, add the restaurants you know, rank them, rate them, upload photos, and share the whole thing as a single link. Your top 10 Italian restaurants in London. The best curry houses in Edinburgh. Hand it to a friend in one tap.",
@@ -215,6 +227,8 @@ export const projectMeta: ProjectMeta[] = [
       "Use AI to find the AI you need. A self-updating index of 350+ tools, discovered daily by agents, fully searchable by what you're actually trying to do",
     repo: "jamesjmclaren/categorais",
     status: "inactive",
+    started: "2025-11-03",
+    kind: "AI directory",
     image: "/screenshots/categorais.png",
     pitch:
       "Everyone's building AI tools. Nobody's making it easy to find the right one. CategorAIs is a living directory where AI agents hunt for new tools daily, and an AI wizard recommends exactly what you need based on what you're trying to do: building a spreadsheet, writing code or automating a workflow.",
@@ -256,6 +270,8 @@ export const projectMeta: ProjectMeta[] = [
     url: "https://sidssleepovers.co.uk",
     repo: "jamesjmclaren/SidsSleepovers",
     status: "active",
+    started: "2026-08-30",
+    kind: "Client site",
     image: "/screenshots/sids-sleepovers.png",
     pitch:
       "A client site, live and taking enquiries. Services, a full price list, an FAQ, an enquiry form and a live Instagram feed. Plain HTML, CSS and one JavaScript file — no framework, no build step, published from the repo root by Netlify.",
@@ -287,6 +303,8 @@ export const projectMeta: ProjectMeta[] = [
       "Fantasy tower defence built in Unity. Four races, an exclusive-path talent tree and a 30-level career mode — working title, still in development",
     repo: "CauliflowerMoments/UnityTest",
     status: "in-progress",
+    started: "2026-02-03",
+    kind: "Game",
     image: "/screenshots/mazer-td.png",
     imageCaption:
       "Main menu from the UI redesign handoff — the design target, not an in-game capture",

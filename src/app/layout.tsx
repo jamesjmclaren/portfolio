@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { archivoBlack, caveat, figtree, jetbrainsMono } from "./fonts";
+import { profile } from "@/data/about";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,20 +18,33 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  themeColor: "#101214",
+  colorScheme: "dark",
+};
+
+/** Person schema — every field here is also visible on the page (hero, links
+ *  row and the employment list), so the structured data matches the content. */
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: "Lead Software Quality Assurance Engineer",
+  worksFor: { "@type": "Organization", name: "io.finnet", url: "https://iofinnet.com" },
+  address: { "@type": "PostalAddress", addressLocality: "Edinburgh", addressCountry: "GB" },
+  sameAs: [profile.github, profile.linkedin],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const fontVars = [figtree.variable, jetbrainsMono.variable, archivoBlack.variable, caveat.variable].join(" ");
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@400;600;700&family=Archivo+Black&display=swap"
-          rel="stylesheet"
+    <html lang="en-GB" className={fontVars}>
+      <body>
+        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd).replace(/</g, "\\u003c") }}
         />
-      </head>
-      <body>{children}</body>
+      </body>
     </html>
   );
 }
