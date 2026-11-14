@@ -1,18 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  ACCENT,
-  BODY,
-  DANGER,
-  eyebrow,
-  LINE,
-  LINE_STRONG,
-  MONO,
-  MUTED,
-  SANS,
-  WHITE,
-} from "./theme";
+import { ACCENT, BODY, DANGER, eyebrow, INK, LINE, LINE_STRONG, MONO, MUTED, SANS, SURFACE, ON_ACCENT } from "./theme";
 
 const SUGGESTIONS = [
   "Can you work with GitHub Actions?",
@@ -54,39 +43,68 @@ export default function AskAboutMe() {
   }
 
   return (
-    <section style={{ maxWidth: 880, margin: "0 auto", padding: "0 clamp(20px, 5vw, 32px) 96px" }}>
+    <section
+      id="ask"
+      aria-labelledby="ask-heading"
+      style={{ maxWidth: 880, margin: "0 auto", padding: "0 clamp(20px, 5vw, 32px) 96px" }}
+    >
       <p style={{ ...eyebrow, marginBottom: 12 }}>Ask about me</p>
+      <h2
+        id="ask-heading"
+        style={{
+          fontFamily: SANS,
+          fontWeight: 760,
+          fontSize: "clamp(26px, 3.6vw, 38px)",
+          letterSpacing: -1,
+          margin: "0 0 20px",
+          color: INK,
+        }}
+      >
+        Ask anything about my experience
+      </h2>
 
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+      <form
+        role="search"
+        onSubmit={(e) => {
+          e.preventDefault();
+          ask(query);
+        }}
+        style={{ display: "flex", gap: 10, flexWrap: "wrap" }}
+      >
+        <label htmlFor="ask-input" style={{ flexBasis: "100%", fontFamily: SANS, fontSize: 14, color: BODY }}>
+          Your question
+        </label>
         <input
+          id="ask-input"
+          name="question"
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && ask(query)}
           placeholder="e.g. Can you work with GitHub Actions?"
           maxLength={300}
-          aria-label="Ask a question about James"
+          autoComplete="off"
+          aria-describedby="ask-privacy"
           style={{
             flex: "1 1 240px",
             minWidth: 0,
             padding: "14px 18px",
             borderRadius: 100,
             border: `1px solid ${LINE_STRONG}`,
-            background: WHITE,
+            background: SURFACE,
+            color: INK,
             fontFamily: SANS,
             fontSize: 15,
-            outline: "none",
           }}
         />
         <button
-          onClick={() => ask(query)}
+          type="submit"
           disabled={loading}
           style={{
             border: "none",
             borderRadius: 100,
             padding: "14px 26px",
             background: ACCENT,
-            color: WHITE,
+            color: ON_ACCENT,
             fontFamily: MONO,
             fontSize: 13,
             fontWeight: 600,
@@ -96,13 +114,21 @@ export default function AskAboutMe() {
         >
           {loading ? "Asking…" : "Ask"}
         </button>
-      </div>
+        <p
+          id="ask-privacy"
+          style={{ flexBasis: "100%", margin: "2px 0 0", fontFamily: SANS, fontSize: 12.5, color: MUTED }}
+        >
+          Your question is sent to an AI model to write the answer from my CV. It isn&apos;t saved, and there&apos;s no
+          need to include personal details.
+        </p>
+      </form>
 
       {!answer && !error && !loading && (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 14 }}>
           {SUGGESTIONS.map((s) => (
             <button
               key={s}
+              type="button"
               onClick={() => {
                 setQuery(s);
                 ask(s);
@@ -124,28 +150,32 @@ export default function AskAboutMe() {
         </div>
       )}
 
-      {answer && (
-        <div
-          style={{
-            marginTop: 18,
-            padding: "20px 24px",
-            borderRadius: 16,
-            background: WHITE,
-            border: `1px solid ${LINE}`,
-            fontFamily: SANS,
-            fontSize: 15,
-            lineHeight: 1.65,
-            color: BODY,
-            whiteSpace: "pre-wrap",
-          }}
-        >
-          {answer}
-        </div>
-      )}
+      <div aria-live="polite">
+        {answer && (
+          <div
+            style={{
+              marginTop: 18,
+              padding: "20px 24px",
+              borderRadius: 16,
+              background: SURFACE,
+              border: `1px solid ${LINE}`,
+              fontFamily: SANS,
+              fontSize: 15,
+              lineHeight: 1.65,
+              color: BODY,
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {answer}
+          </div>
+        )}
 
-      {error && (
-        <p style={{ marginTop: 14, fontFamily: SANS, fontSize: 13, color: DANGER }}>{error}</p>
-      )}
+        {error && (
+          <p role="alert" style={{ marginTop: 14, fontFamily: SANS, fontSize: 13, color: DANGER }}>
+            {error}
+          </p>
+        )}
+      </div>
     </section>
   );
 }

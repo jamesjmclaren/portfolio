@@ -1,11 +1,11 @@
 import { CSSProperties } from "react";
 
 const archivoBlack: CSSProperties = {
-  fontFamily: "'Archivo Black', 'Inter', sans-serif",
+  fontFamily: "var(--font-archivo-black), sans-serif",
   fontWeight: 900,
 };
 const caveat: CSSProperties = {
-  fontFamily: "'Caveat', 'Patrick Hand', cursive",
+  fontFamily: "var(--font-caveat), cursive",
 };
 
 interface ProjectLogoProps {

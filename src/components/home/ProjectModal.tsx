@@ -20,7 +20,8 @@ import {
   PAGE,
   SANS,
   tagPill,
-  WHITE,
+  SURFACE,
+  ON_ACCENT,
 } from "./theme";
 
 /** Interactive demos are the heaviest thing on the site, so each project's
@@ -154,7 +155,7 @@ export default function ProjectModal({ project, onClose }: Props) {
             width: 36,
             height: 36,
             borderRadius: "50%",
-            background: WHITE,
+            background: SURFACE,
             border: `1px solid ${LINE}`,
             display: "flex",
             alignItems: "center",
@@ -211,7 +212,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                 overflow: "hidden",
                 flexShrink: 0,
                 border: `1px solid ${LINE}`,
-                background: logo?.background ?? WHITE,
+                background: logo?.background ?? "#FFFFFF",
               }}
             >
               {logo ? (
@@ -279,7 +280,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                   padding: "10px 20px",
                   borderRadius: 100,
                   background: ACCENT,
-                  color: WHITE,
+                  color: ON_ACCENT,
                   fontFamily: MONO,
                   fontSize: 13,
                   fontWeight: 600,
@@ -296,7 +297,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                 textDecoration: "none",
                 padding: "10px 20px",
                 borderRadius: 100,
-                background: WHITE,
+                background: SURFACE,
                 border: `1px solid ${LINE_STRONG}`,
                 color: INK,
                 fontFamily: MONO,

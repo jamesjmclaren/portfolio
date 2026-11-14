@@ -3,24 +3,16 @@
 import { useCallback, useEffect, useState } from "react";
 import { jobs, profile } from "@/data/about";
 import { getProject, projectMeta } from "@/data/projects";
-import { STATUS_COLOR } from "@/components/design3/status";
 import AskAboutMe from "./AskAboutMe";
 import EmailReveal from "./EmailReveal";
+import Deck from "./Deck";
 import ProjectModal from "./ProjectModal";
-import {
-  ACCENT,
-  BODY,
-  DISPLAY,
-  eyebrow,
-  IMAGE_BG,
-  INK,
-  LINE,
-  MONO,
-  MUTED,
-  SANS,
-  tagPill,
-  WHITE,
-} from "./theme";
+import { ACCENT, BODY, DISPLAY, eyebrow, INK, LINE, MONO, MUTED, ON_ACCENT, SANS, SURFACE, tagPill } from "./theme";
+
+/** Projects on the deck: everything not hidden, newest first. */
+const deckProjects = projectMeta
+  .filter((p) => !p.hidden)
+  .sort((a, b) => (b.started ?? "").localeCompare(a.started ?? ""));
 
 function GithubIcon() {
   return (
@@ -40,7 +32,16 @@ function LinkedInIcon() {
 
 function DownloadIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden style={{ flexShrink: 0 }}>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      aria-hidden
+      style={{ flexShrink: 0 }}
+    >
       <path d="M12 3v12" />
       <path d="M7 10l5 5 5-5" />
       <path d="M4 20h16" />
@@ -54,7 +55,7 @@ const pillStyle = {
   gap: 10,
   padding: "12px 20px",
   borderRadius: 12,
-  background: WHITE,
+  background: SURFACE,
   border: `1px solid ${LINE}`,
   textDecoration: "none",
   fontFamily: MONO,
@@ -96,246 +97,208 @@ export default function HomePage({ initialSlug }: Props) {
   const orderedJobs = order === "newest" ? jobs : [...jobs].reverse();
 
   return (
-    <main>
-      {/* ── Who am I ────────────────────────────────────────────────────── */}
-      <section style={{ maxWidth: 880, margin: "0 auto", padding: "clamp(64px, 10vw, 120px) clamp(20px, 5vw, 32px) 96px" }}>
-        <p style={{ ...eyebrow, marginBottom: 18 }}>{profile.eyebrow}</p>
-        <h1
-          style={{
-            fontFamily: DISPLAY,
-            fontWeight: 700,
-            fontSize: "clamp(38px, 6vw, 64px)",
-            lineHeight: 1.02,
-            letterSpacing: -1.5,
-            margin: "0 0 28px",
-            color: INK,
-          }}
-        >
+    <>
+      <header className="site-bar">
+        <a href="/" aria-label={`${profile.name}, home`}>
           {profile.name}
-        </h1>
-        <p style={{ fontFamily: SANS, fontSize: 19, lineHeight: 1.65, color: BODY, maxWidth: 640, margin: "0 0 20px" }}>
-          {profile.blurb}
-        </p>
-        <p
-          style={{
-            fontFamily: MONO,
-            fontSize: 13,
-            letterSpacing: 0.5,
-            color: MUTED,
-            margin: "0 0 36px",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-          }}
+        </a>
+        <nav aria-label="Sections">
+          <ul>
+            <li>
+              <a href="#projects">Projects</a>
+            </li>
+            <li>
+              <a href="#experience">Experience</a>
+            </li>
+            <li>
+              <a href="#ask">Ask</a>
+            </li>
+            <li>
+              <a href={profile.cv} download>
+                CV
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <Deck projects={deckProjects} onOpen={openProject} paused={!!activeProject} />
+
+        {/* ── Who am I ────────────────────────────────────────────────────── */}
+        <section
+          id="about"
+          aria-labelledby="about-heading"
+          style={{ maxWidth: 880, margin: "0 auto", padding: "0 clamp(20px, 5vw, 32px) 96px" }}
         >
-          <span style={{ width: 6, height: 6, borderRadius: "50%", background: ACCENT, display: "inline-block" }} />
-          {profile.location}
-        </p>
+          <p style={{ ...eyebrow, marginBottom: 12 }}>{profile.eyebrow}</p>
+          <h2
+            id="about-heading"
+            style={{
+              fontFamily: DISPLAY,
+              fontWeight: 760,
+              fontSize: "clamp(26px, 3.6vw, 38px)",
+              lineHeight: 1.05,
+              letterSpacing: -1,
+              margin: "0 0 20px",
+              color: INK,
+            }}
+          >
+            {profile.name}
+          </h2>
+          <p
+            style={{ fontFamily: SANS, fontSize: 18, lineHeight: 1.65, color: BODY, maxWidth: 660, margin: "0 0 18px" }}
+          >
+            {profile.blurb}
+          </p>
+          <p
+            style={{
+              fontFamily: MONO,
+              fontSize: 13,
+              letterSpacing: 0.5,
+              color: MUTED,
+              margin: "0 0 32px",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <span
+              aria-hidden="true"
+              style={{ width: 6, height: 6, borderRadius: "50%", background: ACCENT, display: "inline-block" }}
+            />
+            {profile.location}
+          </p>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "stretch" }}>
-          <a className="solid-link" href={profile.cv} download style={{ ...pillStyle, background: ACCENT, color: WHITE, border: "none", fontWeight: 600 }}>
-            <DownloadIcon />
-            Download CV
-          </a>
-          <a className="pill-link" href={profile.github} target="_blank" rel="noreferrer" style={pillStyle}>
-            <GithubIcon />
-            GitHub
-          </a>
-          <a className="pill-link" href={profile.linkedin} target="_blank" rel="noreferrer" style={pillStyle}>
-            <LinkedInIcon />
-            LinkedIn
-          </a>
-          <EmailReveal />
-        </div>
-      </section>
-
-      {/* ── Ask about me ────────────────────────────────────────────────── */}
-      <AskAboutMe />
-
-      {/* ── Personal projects ───────────────────────────────────────────── */}
-      <section id="projects" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 32px) 96px" }}>
-        <p style={{ ...eyebrow, marginBottom: 12 }}>Side projects</p>
-        <h2
-          style={{
-            fontFamily: DISPLAY,
-            fontWeight: 700,
-            fontSize: "clamp(28px, 4vw, 42px)",
-            letterSpacing: -1,
-            margin: "0 0 40px",
-            color: INK,
-          }}
-        >
-          Personal projects
-        </h2>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-          {projectMeta.map((p) => (
-            <button
-              key={p.slug}
-              className="tile"
-              onClick={() => openProject(p.slug)}
-              aria-label={`Open ${p.title}`}
-              style={{
-                textAlign: "left",
-                font: "inherit",
-                padding: 0,
-                cursor: "pointer",
-                background: WHITE,
-                borderRadius: 18,
-                overflow: "hidden",
-                border: `1px solid ${LINE}`,
-              }}
-            >
-              <div style={{ position: "relative", aspectRatio: "16 / 10", overflow: "hidden", background: IMAGE_BG }}>
-                {p.image && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    className="tile-img"
-                    src={p.image}
-                    alt=""
-                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                  />
-                )}
-                {STATUS_COLOR[p.status] && (
-                  <span
-                    title={p.status}
-                    style={{
-                      position: "absolute",
-                      top: 12,
-                      right: 12,
-                      width: 9,
-                      height: 9,
-                      borderRadius: "50%",
-                      background: STATUS_COLOR[p.status]!,
-                      boxShadow: `0 0 8px ${STATUS_COLOR[p.status]}`,
-                      border: "2px solid white",
-                    }}
-                  />
-                )}
-              </div>
-              <div style={{ padding: "18px 20px 20px" }}>
-                <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: 18, letterSpacing: -0.3, marginBottom: 6, color: INK }}>
-                  {p.title}
-                </div>
-                <p
-                  style={{
-                    fontFamily: SANS,
-                    fontSize: 13.5,
-                    lineHeight: 1.5,
-                    color: MUTED,
-                    margin: "0 0 12px",
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                >
-                  {p.tagline}
-                </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                  {p.stack.slice(0, 3).map((s) => (
-                    <span key={s} style={tagPill()}>
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Employment history ──────────────────────────────────────────── */}
-      <section id="work" style={{ maxWidth: 880, margin: "0 auto", padding: "0 clamp(20px, 5vw, 32px) 120px" }}>
-        <p style={{ ...eyebrow, marginBottom: 12 }}>Experience</p>
-        <h2
-          style={{
-            fontFamily: DISPLAY,
-            fontWeight: 700,
-            fontSize: "clamp(28px, 4vw, 42px)",
-            letterSpacing: -1,
-            margin: "0 0 8px",
-            color: INK,
-          }}
-        >
-          Employment history
-        </h2>
-        <button
-          onClick={() => setOrder((o) => (o === "newest" ? "oldest" : "newest"))}
-          className="text-link"
-          style={{
-            fontFamily: MONO,
-            fontSize: 12,
-            color: MUTED,
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: 0,
-            marginBottom: 32,
-            textDecoration: "underline",
-          }}
-        >
-          sort: {order} first
-        </button>
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {orderedJobs.map((j) => (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "stretch" }}>
             <a
-              key={`${j.company}-${j.role}`}
-              className="job-row"
-              href={j.url}
-              target="_blank"
-              rel="noreferrer"
-              title={`${j.company} — opens ${new URL(j.url).hostname}`}
-              style={{
-                padding: "20px 16px",
-                margin: "0 -16px",
-                borderBottom: `1px solid ${LINE}`,
-                borderRadius: 12,
-                textDecoration: "none",
-                color: INK,
-              }}
+              className="solid-link"
+              href={profile.cv}
+              download
+              style={{ ...pillStyle, background: ACCENT, color: ON_ACCENT, border: "none", fontWeight: 600 }}
             >
-              <div
+              <DownloadIcon />
+              Download CV
+            </a>
+            <a className="pill-link" href={profile.github} target="_blank" rel="noreferrer" style={pillStyle}>
+              <GithubIcon />
+              GitHub
+            </a>
+            <a className="pill-link" href={profile.linkedin} target="_blank" rel="noreferrer" style={pillStyle}>
+              <LinkedInIcon />
+              LinkedIn
+            </a>
+            <EmailReveal />
+          </div>
+        </section>
+
+        {/* ── Ask about me ────────────────────────────────────────────────── */}
+        <AskAboutMe />
+
+        {/* ── Employment history ──────────────────────────────────────────── */}
+        <section
+          id="experience"
+          aria-labelledby="experience-heading"
+          style={{ maxWidth: 880, margin: "0 auto", padding: "0 clamp(20px, 5vw, 32px) 120px" }}
+        >
+          <p style={{ ...eyebrow, marginBottom: 12 }}>Experience</p>
+          <h2
+            id="experience-heading"
+            style={{
+              fontFamily: DISPLAY,
+              fontWeight: 760,
+              fontSize: "clamp(26px, 3.6vw, 38px)",
+              letterSpacing: -1,
+              margin: "0 0 8px",
+              color: INK,
+            }}
+          >
+            Employment history
+          </h2>
+          <button
+            type="button"
+            onClick={() => setOrder((o) => (o === "newest" ? "oldest" : "newest"))}
+            className="text-link"
+            style={{
+              fontFamily: MONO,
+              fontSize: 12,
+              color: MUTED,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              marginBottom: 32,
+              textDecoration: "underline",
+            }}
+          >
+            sort: {order} first
+          </button>
+
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {orderedJobs.map((j) => (
+              <a
+                key={`${j.company}-${j.role}`}
+                className="job-row"
+                href={j.url}
+                target="_blank"
+                rel="noreferrer"
+                title={`${j.company} — opens ${new URL(j.url).hostname}`}
                 style={{
-                  width: 56,
-                  height: 56,
+                  padding: "20px 16px",
+                  margin: "0 -16px",
+                  borderBottom: `1px solid ${LINE}`,
                   borderRadius: 12,
-                  background: j.darkChip ? "#1A2535" : WHITE,
-                  border: `1px solid ${LINE}`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: 10,
+                  textDecoration: "none",
+                  color: INK,
                 }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={j.logo} alt={j.company} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-              </div>
+                <div
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: 12,
+                    background: j.darkChip ? "#1A2535" : "#FFFFFF",
+                    border: `1px solid ${LINE}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 10,
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={j.logo} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                </div>
 
-              <div style={{ minWidth: 0 }}>
-                <div className="job-role" style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: 16, marginBottom: 3 }}>
-                  {j.role}
+                <div style={{ minWidth: 0 }}>
+                  <div
+                    className="job-role"
+                    style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: 16, marginBottom: 3 }}
+                  >
+                    {j.role}
+                  </div>
+                  <div style={{ fontFamily: SANS, fontSize: 14, color: MUTED, marginBottom: 12 }}>
+                    {j.company} <span aria-hidden="true">↗</span>
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {j.skills.map((s) => (
+                      <span key={s} style={tagPill()}>
+                        {s}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div style={{ fontFamily: SANS, fontSize: 14, color: MUTED, marginBottom: 12 }}>
-                  {j.company} ↗
-                </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                  {j.skills.map((s) => (
-                    <span key={s} style={tagPill()}>
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
 
-              <div className="job-years" style={{ fontFamily: MONO, fontSize: 13, color: MUTED, whiteSpace: "nowrap", paddingTop: 2 }}>
-                {j.years}
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
+                <div
+                  className="job-years"
+                  style={{ fontFamily: MONO, fontSize: 13, color: MUTED, whiteSpace: "nowrap", paddingTop: 2 }}
+                >
+                  {j.years}
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      </main>
 
       <footer
         style={{
@@ -347,10 +310,21 @@ export default function HomePage({ initialSlug }: Props) {
           color: MUTED,
         }}
       >
-        Built with Claude Code · {profile.name}
+        Designed and built by {profile.name}, with Claude Code ·{" "}
+        <a href="#projects" className="text-link">
+          Projects
+        </a>{" "}
+        ·{" "}
+        <a href="#experience" className="text-link">
+          Experience
+        </a>{" "}
+        ·{" "}
+        <a href={profile.github} className="text-link" target="_blank" rel="noreferrer">
+          GitHub
+        </a>
       </footer>
 
       {activeProject && <ProjectModal project={activeProject} onClose={closeProject} />}
-    </main>
+    </>
   );
 }
